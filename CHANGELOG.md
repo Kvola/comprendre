@@ -6,6 +6,8 @@
   (lire, comprendre, vérifier) ; distincte de l'icône du Quiz Biblique (livre ouvert).
   Icône redessinée, plus lisible en petit ; logos FR/EN (horizontal et vertical) dans `assets/branding/`,
   générés par `scripts/branding.py` ; symbole affiché sur l'accueil et dans « À propos ».
+- **APK signés avec la clé définitive** (SHA-256 `87:0C:92:26:…:71:43`) : une version antérieure (clé de développement)
+  doit être désinstallée avant d'installer celle-ci.
 
 ## 1.0.0 — 2026-11-08
 

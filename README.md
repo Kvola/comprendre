@@ -57,5 +57,7 @@ Signature : `android/key.properties` (jamais versionné) ; sans ce fichier,
 clé de développement (avertissement). Les règles R8 de `android/app/proguard-rules.pro`
 sont indispensables au scanner de documents et à l'OCR en version finale.
 
+**La clé définitive existe depuis le 8 novembre 2026** (version 1.0.1) : `~/comprendre-cles/` sur le Mac de développement, alias `comprendre`, RSA 4096, valable environ 27 ans ; mots de passe dans `android/key.properties` (ignoré par Git) et dans ce dossier. Empreinte SHA-256 du certificat : `87:0C:92:26:EE:CC:D1:5A:B5:3F:5A:07:60:A2:1A:A8:BF:A5:3E:A3:65:B3:82:50:82:5B:4E:AD:06:88:71:43`. Les APK antérieurs, signés avec la clé de développement, doivent être désinstallés avant d'installer la 1.0.1 (Android refuse la mise à jour) ; ensuite les mises à jour s'installent normalement.
+
 Le scanner de documents utilise un module des services Google Play,
 téléchargé par le téléphone au premier usage.
