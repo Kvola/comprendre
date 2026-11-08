@@ -34,7 +34,7 @@ lib/remote/    ai_client (JSON-RPC vers /comprendre/api/v1)
 lib/data/      database (Drift : textes, quiz, essais, réglages)
 lib/app/       providers (Riverpod), quiz_service (IA puis repli hors ligne), settings, version
 lib/ui/        écrans : bibliothèque, saisie, texte, quiz, lecture surlignée, réglages
-scripts/       gen_arb.py (textes FR/EN), svg2png.swift (icônes), build_release_apk.sh
+scripts/       gen_arb.py (textes FR/EN), branding.py + svg2png.swift (icône, logos, icône du module), build_release_apk.sh
 ```
 
 ## Développement

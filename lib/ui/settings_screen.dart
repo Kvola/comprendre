@@ -80,6 +80,17 @@ class SettingsScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.asset('assets/branding/icon-full.png', width: 48, height: 48, excludeFromSemantics: true),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(child: Text(l.appTitle, style: theme.textTheme.titleLarge)),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
                   Text(l.aboutBody, style: theme.textTheme.bodyMedium),
                   const SizedBox(height: 16),
                   Text(l.privacyTitle, style: theme.textTheme.titleSmall),

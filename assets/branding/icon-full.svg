@@ -1,16 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024"><rect width="1024" height="1024" fill="#0E5E6F"/><g transform="translate(512 512) scale(1.0) translate(-512 -436)">
-  <path d="M512 742 C 420 690, 300 680, 214 702 L 214 430 C 300 408, 420 418, 512 470 Z" fill="#FFFFFF"/>
-  <path d="M512 742 C 604 690, 724 680, 810 702 L 810 430 C 724 408, 604 418, 512 470 Z" fill="#E8F3F5"/>
-  <path d="M512 470 L 512 742" stroke="#0E5E6F" stroke-width="10"/>
-  <g fill="none" stroke="#0E5E6F" stroke-width="14" stroke-linecap="round" opacity="0.55">
-    <path d="M270 500 C 330 488, 400 492, 460 518"/><path d="M270 560 C 330 548, 400 552, 460 578"/>
-    <path d="M270 620 C 330 608, 400 612, 460 638"/>
-    <path d="M564 518 C 624 492, 694 488, 754 500"/><path d="M564 578 C 624 552, 694 548, 754 560"/>
-  </g>
-  <circle cx="512" cy="300" r="78" fill="#F2A541"/>
-  <g stroke="#F2A541" stroke-width="22" stroke-linecap="round">
-    <path d="M512 168 L 512 130"/><path d="M400 214 L 374 188"/><path d="M624 214 L 650 188"/>
-    <path d="M362 300 L 326 300"/><path d="M662 300 L 698 300"/>
-  </g>
-  <path d="M478 302 L 504 328 L 552 276" fill="none" stroke="#0E5E6F" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
-</g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024"><rect width="1024" height="1024" rx="0" fill="#0E5E6F"/><g transform="translate(512 512) scale(0.86) translate(-559 -472)">
+  <g>
+    <!-- La page -->
+    <rect x="212" y="236" width="470" height="600" rx="48" fill="#FFFFFF"/>
+    <!-- Le passage surligné -->
+    <rect x="258" y="550" width="372" height="96" rx="22" fill="#F8C77A"/>
+    <!-- Lignes de texte -->
+    <g stroke="#0E5E6F" stroke-width="30" stroke-linecap="round">
+      <path d="M290 382 H 470" opacity="0.45"/>
+      <path d="M290 466 H 590" opacity="0.45"/>
+      <path d="M298 598 H 560"/>
+      <path d="M290 730 H 520" opacity="0.45"/>
+    </g>
+    <!-- Rayons de l'idée -->
+    <g stroke="#F2A541" stroke-width="34" stroke-linecap="round">
+      <path d="M690 108 L690 150"/>
+      <path d="M842 170 L812 200"/>
+      <path d="M906 318 L864 318"/>
+    </g>
+    <!-- L'idée, qui porte la coche (cerclée de la couleur du fond pour se détacher de la page) -->
+    <circle cx="690" cy="318" r="140" fill="#F2A541" stroke="#0E5E6F" stroke-width="28"/>
+    <path d="M626 322 L672 368 L758 278" fill="none" stroke="#0E5E6F" stroke-width="42"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </g></g></svg>

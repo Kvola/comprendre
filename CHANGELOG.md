@@ -1,5 +1,12 @@
 # Journal des versions
 
+## 1.0.1 — 2026-11-08
+
+- Nouvelle identité visuelle : une page dont un passage est surligné, éclairée par une idée qui porte une coche
+  (lire, comprendre, vérifier) ; distincte de l'icône du Quiz Biblique (livre ouvert).
+  Icône redessinée, plus lisible en petit ; logos FR/EN (horizontal et vertical) dans `assets/branding/`,
+  générés par `scripts/branding.py` ; symbole affiché sur l'accueil et dans « À propos ».
+
 ## 1.0.0 — 2026-11-08
 
 Première version.

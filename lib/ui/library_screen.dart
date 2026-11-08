@@ -94,7 +94,13 @@ class _EmptyLibrary extends StatelessWidget {
       padding: scrollPadding(context),
       children: [
         const SizedBox(height: 12),
-        Icon(Icons.lightbulb_outline, size: 64, color: theme.colorScheme.primary),
+        // Le symbole de l'application (livre éclairé par une idée).
+        Center(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(24),
+            child: Image.asset('assets/branding/icon-full.png', width: 104, height: 104, excludeFromSemantics: true),
+          ),
+        ),
         const SizedBox(height: 16),
         Text(l.emptyTitle, style: theme.textTheme.headlineSmall, textAlign: TextAlign.center),
         const SizedBox(height: 12),

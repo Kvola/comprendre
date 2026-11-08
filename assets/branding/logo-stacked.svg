@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="760" viewBox="0 0 1000 760"><g transform="translate(300 0)"><rect x="0" y="0" width="400" height="400" rx="92" fill="#0E5E6F"/><g transform="translate(200 200) scale(0.36) translate(-559 -472)">
+  <g>
+    <!-- La page -->
+    <rect x="212" y="236" width="470" height="600" rx="48" fill="#FFFFFF"/>
+    <!-- Le passage surligné -->
+    <rect x="258" y="550" width="372" height="96" rx="22" fill="#F8C77A"/>
+    <!-- Lignes de texte -->
+    <g stroke="#0E5E6F" stroke-width="30" stroke-linecap="round">
+      <path d="M290 382 H 470" opacity="0.45"/>
+      <path d="M290 466 H 590" opacity="0.45"/>
+      <path d="M298 598 H 560"/>
+      <path d="M290 730 H 520" opacity="0.45"/>
+    </g>
+    <!-- Rayons de l'idée -->
+    <g stroke="#F2A541" stroke-width="34" stroke-linecap="round">
+      <path d="M690 108 L690 150"/>
+      <path d="M842 170 L812 200"/>
+      <path d="M906 318 L864 318"/>
+    </g>
+    <!-- L'idée, qui porte la coche (cerclée de la couleur du fond pour se détacher de la page) -->
+    <circle cx="690" cy="318" r="140" fill="#F2A541" stroke="#0E5E6F" stroke-width="28"/>
+    <path d="M626 322 L672 368 L758 278" fill="none" stroke="#0E5E6F" stroke-width="42"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </g></g></g><text x="500" y="560" font-family="Avenir Next, Helvetica Neue, Arial" font-weight="500" font-size="128" fill="#16323A" text-anchor="middle">Comprendre</text><text x="500" y="650" font-family="Avenir Next, Helvetica Neue, Helvetica, Arial" font-size="46" fill="#0E5E6F" text-anchor="middle">Un quiz pour comprendre tout texte</text></svg>
