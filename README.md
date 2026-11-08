@@ -1,0 +1,61 @@
+# Comprendre (Understand)
+
+Application mobile (Flutter) qui aide à **comprendre un texte** en posant des
+questions dessus. Le texte peut être saisi ou collé, scanné (une ou plusieurs
+pages), lu sur une photo, ou importé d'un fichier : PDF (y compris scanné),
+Word (.docx), PowerPoint (.pptx), Excel (.xlsx, texte des cellules),
+OpenDocument (.odt, .odp), EPUB, RTF, HTML, texte, Markdown.
+
+Chaque réponse est expliquée et renvoie au **passage du texte** qui la
+justifie (surligné dans le texte).
+
+## Deux moteurs
+
+| | Hors ligne (par défaut, toujours disponible) | IA (facultatif, avec connexion) |
+|---|---|---|
+| Où | sur le téléphone | serveur Odoo `comprendre_backend` → Claude (Anthropic) |
+| Questions | thème, texte à trous, chiffres et dates, vrai/faux, « laquelle figure dans le texte », ordre des idées | idée principale, détails, causes et conséquences, sens des mots, déductions, résumé |
+| Justesse | par construction (tout est tiré du texte) | chaque citation est vérifiée dans le texte par le serveur ; sinon la question est écartée |
+| Données | rien n'est envoyé | le texte est envoyé pour créer le quiz, non conservé ; identifiant d'appareil aléatoire (quota) |
+
+L'IA n'est utilisée qu'après accord explicite (demandé au premier quiz,
+modifiable dans les réglages). En cas d'échec, quel qu'il soit (pas de
+réseau, quota du jour atteint, texte trop long, service indisponible…), le
+quiz est créé hors ligne et l'application dit pourquoi.
+
+La clé de l'API Claude reste sur le serveur ; l'application n'en contient aucune.
+
+## Organisation
+
+```
+lib/engine/    text_tools (normalisation, phrases, langue, citations), offline_quiz, quiz_model — Dart pur, testé
+lib/extract/   extractors (formats bureautiques, Dart pur, testé), pdf_extract (pdfrx + OCR), ocr (ML Kit)
+lib/remote/    ai_client (JSON-RPC vers /comprendre/api/v1)
+lib/data/      database (Drift : textes, quiz, essais, réglages)
+lib/app/       providers (Riverpod), quiz_service (IA puis repli hors ligne), settings, version
+lib/ui/        écrans : bibliothèque, saisie, texte, quiz, lecture surlignée, réglages
+scripts/       gen_arb.py (textes FR/EN), svg2png.swift (icônes), build_release_apk.sh
+```
+
+## Développement
+
+```bash
+python3 scripts/gen_arb.py && flutter gen-l10n     # après une modification des textes
+dart run build_runner build                         # après une modification de la base
+flutter test                                        # 61 tests
+# Serveur local (odoo_dev, port 8096) depuis l'émulateur :
+flutter run --dart-define=COMPRENDRE_SERVER=http://10.0.2.2:8096
+```
+
+## Version finale
+
+```bash
+./scripts/build_release_apk.sh      # tests, puis dist/Comprendre-<version>.apk (+ -ancien.apk, .sha256)
+```
+
+Signature : `android/key.properties` (jamais versionné) ; sans ce fichier,
+clé de développement (avertissement). Les règles R8 de `android/app/proguard-rules.pro`
+sont indispensables au scanner de documents et à l'OCR en version finale.
+
+Le scanner de documents utilise un module des services Google Play,
+téléchargé par le téléphone au premier usage.

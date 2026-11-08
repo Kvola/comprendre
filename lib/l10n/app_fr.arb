@@ -1,0 +1,264 @@
+{
+  "@@locale": "fr",
+  "appTitle": "Comprendre",
+  "tagline": "Un quiz pour comprendre n’importe quel texte",
+  "close": "Fermer",
+  "cancel": "Annuler",
+  "delete": "Supprimer",
+  "save": "Enregistrer",
+  "edit": "Modifier",
+  "share": "Partager",
+  "retry": "Réessayer",
+  "continueLabel": "Continuer",
+  "undo": "Annuler",
+  "questionsCount": "{count, plural, =1{1 question} other{{count} questions}}",
+  "@questionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quizzesCount": "{count, plural, =0{Aucun quiz} =1{1 quiz} other{{count} quiz}}",
+  "@quizzesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "charsCount": "{count} caractères",
+  "@charsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "libraryTitle": "Mes textes",
+  "emptyTitle": "Comprenez ce que vous lisez",
+  "emptyBody": "Écrivez ou collez un texte, scannez une page ou importez un fichier (PDF, Word, PowerPoint…). Comprendre en tire un quiz pour vérifier et approfondir votre compréhension.",
+  "newText": "Nouveau texte",
+  "sourceTyped": "Écrire ou coller",
+  "sourceTypedHint": "Saisissez le texte, ou collez-le",
+  "sourceScan": "Scanner un document",
+  "sourceScanHint": "Une ou plusieurs pages, avec l’appareil photo",
+  "sourcePhoto": "Texte d’une photo",
+  "sourcePhotoHint": "Une image de votre galerie",
+  "sourceFile": "Importer un fichier",
+  "sourceFileHint": "PDF, Word, PowerPoint, OpenDocument, EPUB, texte…",
+  "deleteTextTitle": "Supprimer ce texte ?",
+  "deleteTextBody": "Le texte et ses quiz seront supprimés de ce téléphone.",
+  "textDeleted": "Texte supprimé",
+  "editorTitle": "Votre texte",
+  "titleLabel": "Titre (facultatif)",
+  "textLabel": "Texte",
+  "textHint": "Collez ou écrivez ici le texte à comprendre…",
+  "paste": "Coller",
+  "clipboardEmpty": "Le presse-papiers ne contient pas de texte.",
+  "reviewExtracted": "Vérifiez le texte : vous pouvez le corriger ou en retirer des parties avant de créer le quiz.",
+  "textTooShort": "Ajoutez un peu de texte : {count} caractères au moins.",
+  "@textTooShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "languageOfText": "Langue du texte",
+  "langFr": "Français",
+  "langEn": "Anglais",
+  "createQuiz": "Créer le quiz",
+  "saveText": "Enregistrer le texte",
+  "discardTitle": "Abandonner ce texte ?",
+  "discardBody": "Ce que vous avez saisi sera perdu.",
+  "discard": "Abandonner",
+  "reading": "Lecture du fichier…",
+  "readingPages": "Lecture : page {done} sur {total}",
+  "@readingPages": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "recognizing": "Reconnaissance du texte…",
+  "errUnsupported": "Ce type de fichier n’est pas pris en charge.",
+  "errLegacyOffice": "Ancien format Office (.doc, .ppt) : enregistrez-le en .docx, .pptx ou PDF, puis importez-le.",
+  "errEmpty": "Aucun texte n’a été trouvé dans ce document.",
+  "errCorrupt": "Ce fichier est illisible ou endommagé.",
+  "errEncrypted": "Ce fichier est protégé par un mot de passe.",
+  "errTooLarge": "Ce fichier est trop volumineux (40 Mo au plus).",
+  "errOcr": "La reconnaissance du texte a échoué. Essayez une photo plus nette et bien éclairée.",
+  "errNoTextInImage": "Aucun texte n’a été reconnu sur cette image.",
+  "errScanner": "Le scanner de documents n’est pas disponible sur cet appareil.",
+  "readText": "Lire le texte",
+  "hideText": "Masquer le texte",
+  "quizzesTitle": "Quiz",
+  "noQuizYet": "Pas encore de quiz pour ce texte.",
+  "newQuiz": "Nouveau quiz",
+  "anotherQuiz": "Un autre quiz",
+  "bestScore": "Meilleur score : {score}/{total}",
+  "@bestScore": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "notTried": "Pas encore fait",
+  "engineAi": "Quiz IA",
+  "engineOffline": "Quiz hors ligne",
+  "deleteQuizTitle": "Supprimer ce quiz ?",
+  "summaryTitle": "En bref",
+  "creatingQuiz": "Création du quiz…",
+  "creatingAi": "L’IA lit votre texte et prépare des questions de compréhension. Cela peut prendre jusqu’à une minute.",
+  "creatingOffline": "Préparation des questions à partir du texte…",
+  "useOfflineNow": "Créer hors ligne maintenant",
+  "quizTooShort": "Ce texte est trop court ou trop pauvre pour un quiz. Ajoutez quelques phrases complètes.",
+  "fallbackNotice": "Quiz créé hors ligne : {reason}",
+  "@fallbackNotice": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "whyNetwork": "pas de connexion au service IA.",
+  "whyQuota": "quota IA du jour atteint.",
+  "whyTooLong": "texte trop long pour l’IA ({count} caractères au plus).",
+  "@whyTooLong": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "whyBusy": "le service IA est très demandé, réessayez plus tard.",
+  "whyUnavailable": "le service IA est momentanément indisponible.",
+  "whyRateLimited": "trop de demandes, réessayez dans {count} min.",
+  "@whyRateLimited": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "whyDisabled": "le service IA est désactivé.",
+  "whyUnverified": "les questions de l’IA n’ont pas pu être vérifiées dans le texte.",
+  "whyRefusedContent": "l’IA ne peut pas traiter ce texte.",
+  "whyOther": "le service IA n’a pas répondu correctement.",
+  "whyCancelled": "vous avez choisi de ne pas attendre.",
+  "aiConsentTitle": "Utiliser l’IA ?",
+  "aiConsentBody": "Avec une connexion Internet, Comprendre peut demander à une IA (Claude, d’Anthropic) des questions plus riches : idée principale, causes et conséquences, sens des mots, déductions.\n\nPour cela, le texte est envoyé à notre serveur puis à l’IA, seulement pour créer le quiz : il n’est pas conservé. Aucun compte, aucune donnée personnelle.\n\nSans IA, le quiz est créé sur votre téléphone, sans rien envoyer.",
+  "aiConsentYes": "Utiliser l’IA",
+  "aiConsentNo": "Rester hors ligne",
+  "aiFreePerDay": "{count, plural, =1{1 quiz IA gratuit par jour} other{{count} quiz IA gratuits par jour}}",
+  "@aiFreePerDay": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "questionOf": "Question {index} sur {total}",
+  "@questionOf": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "trueLabel": "Vrai",
+  "falseLabel": "Faux",
+  "correct": "Bonne réponse",
+  "incorrect": "Pas tout à fait",
+  "theAnswerWas": "La bonne réponse : {answer}",
+  "@theAnswerWas": {
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      }
+    }
+  },
+  "inTheText": "Dans le texte",
+  "showInText": "Voir dans le texte",
+  "next": "Suivante",
+  "seeResults": "Voir le résultat",
+  "quitQuizTitle": "Quitter le quiz ?",
+  "quitQuizBody": "Vos réponses à ce quiz ne seront pas enregistrées.",
+  "quit": "Quitter",
+  "skillMainIdea": "Idée principale",
+  "skillDetail": "Détail",
+  "skillVocabulary": "Vocabulaire",
+  "skillInference": "Déduction",
+  "skillStructure": "Structure",
+  "skillCause": "Cause et effet",
+  "resultTitle": "Résultat",
+  "scoreOutOf": "{score} sur {total}",
+  "@scoreOutOf": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "resultGreat": "Excellent : vous avez bien compris ce texte.",
+  "resultGood": "Bien : relisez les passages des questions manquées.",
+  "resultLow": "Relisez le texte tranquillement, puis réessayez : chaque explication renvoie au passage.",
+  "reviewAnswers": "Revoir les réponses",
+  "yourAnswer": "Votre réponse : {answer}",
+  "@yourAnswer": {
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      }
+    }
+  },
+  "tryAgain": "Refaire ce quiz",
+  "backToText": "Retour au texte",
+  "settings": "Réglages",
+  "appLanguage": "Langue de l’application",
+  "systemDefault": "Langue du téléphone",
+  "theme": "Thème",
+  "themeSystem": "Automatique",
+  "themeLight": "Clair",
+  "themeDark": "Sombre",
+  "questionsPerQuiz": "Questions par quiz",
+  "aiSection": "Quiz IA",
+  "aiUse": "Utiliser l’IA quand c’est possible",
+  "aiUseHint": "Le texte est envoyé à l’IA pour créer le quiz, puis oublié. Sinon, tout reste sur le téléphone.",
+  "aiRemaining": "{count, plural, =0{Plus de quiz IA aujourd’hui} =1{Encore 1 quiz IA aujourd’hui} other{Encore {count} quiz IA aujourd’hui}}",
+  "@aiRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aiQuotaUnknown": "Quota IA : connexion nécessaire",
+  "about": "À propos",
+  "aboutBody": "Comprendre vous aide à comprendre un texte en vous posant des questions dessus. Chaque réponse est justifiée par un passage du texte.",
+  "privacyTitle": "Confidentialité",
+  "privacyBody": "Vos textes et vos résultats restent sur ce téléphone. Pour un quiz IA, le texte est envoyé de façon chiffrée à notre serveur et à l’IA (Claude, d’Anthropic), qui ne le conservent pas. Un identifiant aléatoire, sans lien avec vous, sert seulement à compter le quota gratuit.",
+  "version": "Version {version}",
+  "@version": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  }
+}

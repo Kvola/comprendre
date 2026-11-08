@@ -1,0 +1,264 @@
+{
+  "@@locale": "en",
+  "appTitle": "Understand",
+  "tagline": "A quiz to understand any text",
+  "close": "Close",
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "save": "Save",
+  "edit": "Edit",
+  "share": "Share",
+  "retry": "Try again",
+  "continueLabel": "Continue",
+  "undo": "Undo",
+  "questionsCount": "{count, plural, =1{1 question} other{{count} questions}}",
+  "@questionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quizzesCount": "{count, plural, =0{No quiz yet} =1{1 quiz} other{{count} quizzes}}",
+  "@quizzesCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "charsCount": "{count} characters",
+  "@charsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "libraryTitle": "My texts",
+  "emptyTitle": "Understand what you read",
+  "emptyBody": "Type or paste a text, scan a page or import a file (PDF, Word, PowerPoint…). Understand turns it into a quiz to check and deepen your understanding.",
+  "newText": "New text",
+  "sourceTyped": "Type or paste",
+  "sourceTypedHint": "Type the text, or paste it",
+  "sourceScan": "Scan a document",
+  "sourceScanHint": "One or more pages, with the camera",
+  "sourcePhoto": "Text from a photo",
+  "sourcePhotoHint": "A picture from your gallery",
+  "sourceFile": "Import a file",
+  "sourceFileHint": "PDF, Word, PowerPoint, OpenDocument, EPUB, text…",
+  "deleteTextTitle": "Delete this text?",
+  "deleteTextBody": "The text and its quizzes will be removed from this phone.",
+  "textDeleted": "Text deleted",
+  "editorTitle": "Your text",
+  "titleLabel": "Title (optional)",
+  "textLabel": "Text",
+  "textHint": "Paste or type the text to understand here…",
+  "paste": "Paste",
+  "clipboardEmpty": "The clipboard has no text.",
+  "reviewExtracted": "Check the text: you can correct it or remove parts before creating the quiz.",
+  "textTooShort": "Add a bit more text: at least {count} characters.",
+  "@textTooShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "languageOfText": "Language of the text",
+  "langFr": "French",
+  "langEn": "English",
+  "createQuiz": "Create the quiz",
+  "saveText": "Save the text",
+  "discardTitle": "Discard this text?",
+  "discardBody": "What you typed will be lost.",
+  "discard": "Discard",
+  "reading": "Reading the file…",
+  "readingPages": "Reading: page {done} of {total}",
+  "@readingPages": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "recognizing": "Recognising the text…",
+  "errUnsupported": "This type of file is not supported.",
+  "errLegacyOffice": "Old Office format (.doc, .ppt): save it as .docx, .pptx or PDF, then import it.",
+  "errEmpty": "No text was found in this document.",
+  "errCorrupt": "This file is unreadable or damaged.",
+  "errEncrypted": "This file is password-protected.",
+  "errTooLarge": "This file is too large (40 MB max).",
+  "errOcr": "Text recognition failed. Try a sharper, well-lit picture.",
+  "errNoTextInImage": "No text was recognised in this picture.",
+  "errScanner": "The document scanner is not available on this device.",
+  "readText": "Read the text",
+  "hideText": "Hide the text",
+  "quizzesTitle": "Quizzes",
+  "noQuizYet": "No quiz for this text yet.",
+  "newQuiz": "New quiz",
+  "anotherQuiz": "Another quiz",
+  "bestScore": "Best score: {score}/{total}",
+  "@bestScore": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "notTried": "Not taken yet",
+  "engineAi": "AI quiz",
+  "engineOffline": "Offline quiz",
+  "deleteQuizTitle": "Delete this quiz?",
+  "summaryTitle": "In short",
+  "creatingQuiz": "Creating the quiz…",
+  "creatingAi": "The AI is reading your text and preparing comprehension questions. This can take up to a minute.",
+  "creatingOffline": "Preparing questions from the text…",
+  "useOfflineNow": "Create offline now",
+  "quizTooShort": "This text is too short or too thin for a quiz. Add a few complete sentences.",
+  "fallbackNotice": "Quiz created offline: {reason}",
+  "@fallbackNotice": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "whyNetwork": "no connection to the AI service.",
+  "whyQuota": "today’s AI quota is used up.",
+  "whyTooLong": "text too long for the AI ({count} characters max).",
+  "@whyTooLong": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "whyBusy": "the AI service is busy, try again later.",
+  "whyUnavailable": "the AI service is temporarily unavailable.",
+  "whyRateLimited": "too many requests, try again in {count} min.",
+  "@whyRateLimited": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "whyDisabled": "the AI service is turned off.",
+  "whyUnverified": "the AI questions could not be checked against the text.",
+  "whyRefusedContent": "the AI cannot process this text.",
+  "whyOther": "the AI service did not respond properly.",
+  "whyCancelled": "you chose not to wait.",
+  "aiConsentTitle": "Use the AI?",
+  "aiConsentBody": "With an Internet connection, Understand can ask an AI (Claude, by Anthropic) for richer questions: main idea, causes and consequences, word meaning, inferences.\n\nTo do so, the text is sent to our server and then to the AI, only to create the quiz: it is not kept. No account, no personal data.\n\nWithout the AI, the quiz is created on your phone, without sending anything.",
+  "aiConsentYes": "Use the AI",
+  "aiConsentNo": "Stay offline",
+  "aiFreePerDay": "{count, plural, =1{1 free AI quiz per day} other{{count} free AI quizzes per day}}",
+  "@aiFreePerDay": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "questionOf": "Question {index} of {total}",
+  "@questionOf": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "trueLabel": "True",
+  "falseLabel": "False",
+  "correct": "Correct",
+  "incorrect": "Not quite",
+  "theAnswerWas": "The right answer: {answer}",
+  "@theAnswerWas": {
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      }
+    }
+  },
+  "inTheText": "In the text",
+  "showInText": "Show in the text",
+  "next": "Next",
+  "seeResults": "See the result",
+  "quitQuizTitle": "Leave the quiz?",
+  "quitQuizBody": "Your answers to this quiz will not be saved.",
+  "quit": "Leave",
+  "skillMainIdea": "Main idea",
+  "skillDetail": "Detail",
+  "skillVocabulary": "Vocabulary",
+  "skillInference": "Inference",
+  "skillStructure": "Structure",
+  "skillCause": "Cause and effect",
+  "resultTitle": "Result",
+  "scoreOutOf": "{score} out of {total}",
+  "@scoreOutOf": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "resultGreat": "Excellent: you understood this text well.",
+  "resultGood": "Good: reread the passages of the missed questions.",
+  "resultLow": "Reread the text calmly, then try again: each explanation points to the passage.",
+  "reviewAnswers": "Review the answers",
+  "yourAnswer": "Your answer: {answer}",
+  "@yourAnswer": {
+    "placeholders": {
+      "answer": {
+        "type": "String"
+      }
+    }
+  },
+  "tryAgain": "Take this quiz again",
+  "backToText": "Back to the text",
+  "settings": "Settings",
+  "appLanguage": "App language",
+  "systemDefault": "Phone language",
+  "theme": "Theme",
+  "themeSystem": "Automatic",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "questionsPerQuiz": "Questions per quiz",
+  "aiSection": "AI quizzes",
+  "aiUse": "Use the AI when possible",
+  "aiUseHint": "The text is sent to the AI to create the quiz, then forgotten. Otherwise, everything stays on the phone.",
+  "aiRemaining": "{count, plural, =0{No AI quiz left today} =1{1 AI quiz left today} other{{count} AI quizzes left today}}",
+  "@aiRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aiQuotaUnknown": "AI quota: connection needed",
+  "about": "About",
+  "aboutBody": "Understand helps you understand a text by asking you questions about it. Every answer is backed by a passage of the text.",
+  "privacyTitle": "Privacy",
+  "privacyBody": "Your texts and results stay on this phone. For an AI quiz, the text is sent encrypted to our server and to the AI (Claude, by Anthropic), which do not keep it. A random identifier, unrelated to you, is used only to count the free quota.",
+  "version": "Version {version}",
+  "@version": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  }
+}
