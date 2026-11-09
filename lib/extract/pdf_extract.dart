@@ -1,5 +1,6 @@
 /// Texte d'un PDF : texte natif de chaque page ; une page sans texte (scannée,
-/// photographiée) passe par l'OCR sur l'appareil.
+/// photographiée) passe par l'OCR sur l'appareil (pas dans un navigateur : seul
+/// le texte natif y est lu).
 library;
 
 import 'dart:math';
@@ -41,7 +42,7 @@ class PdfExtractor {
       for (var i = 0; i < total; i++) {
         final page = doc.pages[i];
         var text = (await page.loadText())?.fullText ?? '';
-        if (text.trim().length < 40 && ocrDone < maxOcrPages) {
+        if (ocrSupported && text.trim().length < 40 && ocrDone < maxOcrPages) {
           ocrDone++;
           final scanned = await _ocrPage(page, i);
           if (scanned.trim().length > text.trim().length) text = scanned;

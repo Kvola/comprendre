@@ -81,6 +81,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Type or paste a text, scan a page or import a file (PDF, Word, PowerPoint…). Understand turns it into a quiz to check and deepen your understanding.';
 
   @override
+  String get emptyBodyWeb =>
+      'Type or paste a text, or import a file (PDF, Word, PowerPoint…). Understand turns it into a quiz to check and deepen your understanding.';
+
+  @override
   String get newText => 'New text';
 
   @override
@@ -512,4 +516,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get updateLater => 'Later';
+
+  @override
+  String get webInstallTitle => 'Install the Android app';
+
+  @override
+  String get webInstallBody =>
+      'Smoother every day, and your data no longer depends on the browser.';
+
+  @override
+  String get webInstallAction => 'Install';
+
+  @override
+  String get homeScreenTitle => 'Add the app to your Home Screen';
+
+  @override
+  String get homeScreenBody =>
+      'Tap Share (the square with an arrow), then “Add to Home Screen”. The app will open full screen and your data will be kept more reliably.';
+
+  @override
+  String get homeScreenDismiss => 'Got it';
 }

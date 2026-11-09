@@ -10,6 +10,10 @@
 /// Règles :
 /// - Android seulement ([appUpdateSupported]) : un APK ne veut rien dire
 ///   ailleurs.
+/// - Version web (PWA) : sur Android ou ordinateur, invitation à installer
+///   l'APK ([AppUpdateHost.webInstallUrl]) ; dans Safari sur iPhone, où un APK
+///   ne s'installe pas, conseil « Sur l'écran d'accueil » — une fois installée,
+///   l'application garde ses données et s'ouvre en plein écran.
 /// - Au plus une requête toutes les 12 h ([AppUpdateChecker.interval]) ; entre
 ///   deux, la dernière réponse est relue du stockage.
 /// - Toute erreur (hors ligne, délai dépassé, réponse inattendue) = pas de
@@ -32,6 +36,8 @@ import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'web_env.dart';
 
 /// Vrai là où un APK peut s'installer.
 bool get appUpdateSupported => !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
@@ -235,6 +241,7 @@ class AppUpdateChecker {
   static const keyCache = 'app_update.latest';
   static const keyDismissed = 'app_update.dismissed';
   static const keyWebInstallDismissed = 'app_update.web_install_dismissed';
+  static const keyHomeScreenDismissed = 'app_update.home_screen_dismissed';
 
   Uri get endpoint => Uri.parse('$server/apps/${Uri.encodeComponent(slug)}/latest');
 
@@ -331,6 +338,9 @@ class AppUpdateStrings {
     this.webInstallBody = '',
     this.webInstallAction = '',
     this.webInstallDismiss = '',
+    this.homeScreenTitle = '',
+    this.homeScreenBody = '',
+    this.homeScreenDismiss = '',
   });
 
   /// « Version 1.5.0 disponible »
@@ -345,7 +355,18 @@ class AppUpdateStrings {
   final String webInstallBody;
   final String webInstallAction;
   final String webInstallDismiss;
+
+  /// Conseil Safari/iPhone : « Installez l'application » / « Touchez Partager,
+  /// puis Sur l'écran d'accueil » / « Compris ». Titre vide = pas de conseil.
+  final String homeScreenTitle;
+  final String homeScreenBody;
+  final String homeScreenDismiss;
 }
+
+/// Faut-il conseiller l'écran d'accueil ? Dans le navigateur d'un iPhone ou
+/// d'un iPad, tant que l'application n'y est pas installée.
+bool get homeScreenHintSupported =>
+    kIsWeb && defaultTargetPlatform == TargetPlatform.iOS && !runningStandalone();
 
 /// Ouvre une adresse dans le navigateur ; faux si impossible.
 Future<bool> openExternalUrl(Uri uri) async {
@@ -364,7 +385,8 @@ Future<bool> openExternalUrl(Uri uri) async {
 ///
 /// Vérifie au démarrage et à chaque retour dans l'application. Sans [checker]
 /// (tests, web, iOS) il n'interroge rien ; avec [webInstallUrl] il invite à
-/// installer l'application Android (web).
+/// installer l'application Android (web) ; avec [homeScreenHint] il explique
+/// comment installer la version web sur l'écran d'accueil (iPhone).
 class AppUpdateHost extends StatefulWidget {
   const AppUpdateHost({
     super.key,
@@ -372,6 +394,7 @@ class AppUpdateHost extends StatefulWidget {
     required this.strings,
     this.checker,
     this.webInstallUrl,
+    this.homeScreenHint,
     this.store,
     this.launch = openExternalUrl,
   });
@@ -380,6 +403,9 @@ class AppUpdateHost extends StatefulWidget {
   final AppUpdateStrings Function(BuildContext context) strings;
   final AppUpdateChecker? checker;
   final Uri? webInstallUrl;
+
+  /// Null : décidé seul ([homeScreenHintSupported]).
+  final bool? homeScreenHint;
 
   /// Où retenir la fermeture de l'invitation web (défaut : celui du [checker],
   /// sinon les préférences).
@@ -394,6 +420,7 @@ class _AppUpdateHostState extends State<AppUpdateHost> with WidgetsBindingObserv
   final _childKey = GlobalKey(debugLabel: 'app_update_child');
   AppUpdateInfo? _update;
   bool _webInstall = false;
+  bool _homeScreen = false;
   AppUpdateStore? _webStore;
 
   @override
@@ -402,6 +429,7 @@ class _AppUpdateHostState extends State<AppUpdateHost> with WidgetsBindingObserv
     WidgetsBinding.instance.addObserver(this);
     _check();
     if (widget.webInstallUrl != null) _loadWebInstall();
+    if (widget.homeScreenHint ?? homeScreenHintSupported) _loadHomeScreen();
   }
 
   @override
@@ -424,16 +452,32 @@ class _AppUpdateHostState extends State<AppUpdateHost> with WidgetsBindingObserv
     setState(() => _update = info);
   }
 
-  Future<void> _loadWebInstall() async {
-    final store = _webStore = widget.store ?? widget.checker?.store ?? PrefsAppUpdateStore();
-    String? dismissed;
+  AppUpdateStore get _prefs => _webStore ??= widget.store ?? widget.checker?.store ?? PrefsAppUpdateStore();
+
+  /// Déjà fermé ? Une lecture impossible vaut « pas encore » : le pire est de
+  /// revoir une invitation, jamais de perdre l'application.
+  Future<bool> _dismissed(String key) async {
     try {
-      dismissed = await store.read(AppUpdateChecker.keyWebInstallDismissed);
+      return await _prefs.read(key) != null;
     } catch (_) {
-      dismissed = null;
+      return false;
     }
-    if (!mounted || dismissed != null) return;
+  }
+
+  Future<void> _remember(String key) async {
+    try {
+      await _prefs.write(key, '1');
+    } catch (_) {}
+  }
+
+  Future<void> _loadWebInstall() async {
+    if (await _dismissed(AppUpdateChecker.keyWebInstallDismissed) || !mounted) return;
     setState(() => _webInstall = true);
+  }
+
+  Future<void> _loadHomeScreen() async {
+    if (await _dismissed(AppUpdateChecker.keyHomeScreenDismissed) || !mounted) return;
+    setState(() => _homeScreen = true);
   }
 
   Future<void> _later() async {
@@ -451,9 +495,12 @@ class _AppUpdateHostState extends State<AppUpdateHost> with WidgetsBindingObserv
 
   Future<void> _dismissWebInstall() async {
     setState(() => _webInstall = false);
-    try {
-      await _webStore?.write(AppUpdateChecker.keyWebInstallDismissed, '1');
-    } catch (_) {}
+    await _remember(AppUpdateChecker.keyWebInstallDismissed);
+  }
+
+  Future<void> _dismissHomeScreen() async {
+    setState(() => _homeScreen = false);
+    await _remember(AppUpdateChecker.keyHomeScreenDismissed);
   }
 
   @override
@@ -485,6 +532,17 @@ class _AppUpdateHostState extends State<AppUpdateHost> with WidgetsBindingObserv
             onDismiss: _dismissWebInstall,
             strings: widget.strings,
           )
+        : _homeScreen && widget.strings(context).homeScreenTitle.isNotEmpty
+        ? _Banner(
+            key: const ValueKey('home_screen_banner'),
+            urgent: false,
+            icon: Icons.add_to_home_screen,
+            title: (s) => s.homeScreenTitle,
+            body: (s) => s.homeScreenBody,
+            dismiss: (s) => s.homeScreenDismiss,
+            onDismiss: _dismissHomeScreen,
+            strings: widget.strings,
+          )
         : null;
     // Même arbre avec ou sans bandeau : l'application (son Navigator) n'est
     // jamais reconstruite quand il paraît. Le bandeau prend la marge de la
@@ -509,8 +567,8 @@ class _Banner extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.body,
-    required this.action,
-    required this.onAction,
+    this.action,
+    this.onAction,
     required this.dismiss,
     required this.onDismiss,
     required this.strings,
@@ -520,8 +578,9 @@ class _Banner extends StatelessWidget {
   final IconData icon;
   final String Function(AppUpdateStrings s) title;
   final String Function(AppUpdateStrings s) body;
-  final String Function(AppUpdateStrings s) action;
-  final VoidCallback onAction;
+  /// Null : pas de bouton d'action (simple conseil, à fermer).
+  final String Function(AppUpdateStrings s)? action;
+  final VoidCallback? onAction;
   final String Function(AppUpdateStrings s)? dismiss;
   final VoidCallback onDismiss;
   final AppUpdateStrings Function(BuildContext context) strings;
@@ -568,7 +627,7 @@ class _Banner extends StatelessWidget {
                       style: TextButton.styleFrom(foregroundColor: fg),
                       child: Text(dismiss!(s)),
                     ),
-                  FilledButton(onPressed: onAction, child: Text(action(s))),
+                  if (action != null) FilledButton(onPressed: onAction, child: Text(action!(s))),
                 ],
               ),
             ],

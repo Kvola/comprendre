@@ -13,6 +13,9 @@ final databaseProvider = Provider<AppDatabase>((ref) => throw UnimplementedError
 /// Activée dans `main()` sur Android ; sans réseau, l'application n'en voit rien.
 final appUpdateCheckerProvider = Provider<AppUpdateChecker?>((ref) => null);
 
+/// Web : page de téléchargement de l'application Android à proposer (null = rien).
+final webInstallUrlProvider = Provider<Uri?>((ref) => null);
+
 /// Adresse du serveur IA (remplaçable dans les tests).
 final serverUrlProvider = Provider<String>((ref) => defaultServer);
 

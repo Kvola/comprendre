@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../app/providers.dart';
 import '../data/database.dart';
+import '../extract/ocr.dart' show ocrSupported;
 import 'common.dart';
 import 'document_screen.dart';
 import 'editor_screen.dart';
@@ -104,7 +105,7 @@ class _EmptyLibrary extends StatelessWidget {
         const SizedBox(height: 16),
         Text(l.emptyTitle, style: theme.textTheme.headlineSmall, textAlign: TextAlign.center),
         const SizedBox(height: 12),
-        Text(l.emptyBody, style: theme.textTheme.bodyLarge, textAlign: TextAlign.center),
+        Text(ocrSupported ? l.emptyBody : l.emptyBodyWeb, style: theme.textTheme.bodyLarge, textAlign: TextAlign.center),
         const SizedBox(height: 24),
         ...sourceTiles(context),
       ],
@@ -149,8 +150,11 @@ List<Widget> sourceTiles(BuildContext context, {VoidCallback? before, bool inShe
 
   return [
     tile(Icons.edit_note, l.sourceTyped, l.sourceTypedHint, (_) async => null, typed: true),
-    tile(Icons.document_scanner_outlined, l.sourceScan, l.sourceScanHint, scanDocument),
-    tile(Icons.image_outlined, l.sourcePhoto, l.sourcePhotoHint, photoText),
+    // Scanner et photo passent par l'OCR de ML Kit, absent du navigateur.
+    if (ocrSupported) ...[
+      tile(Icons.document_scanner_outlined, l.sourceScan, l.sourceScanHint, scanDocument),
+      tile(Icons.image_outlined, l.sourcePhoto, l.sourcePhotoHint, photoText),
+    ],
     tile(Icons.upload_file, l.sourceFile, l.sourceFileHint, importFile),
   ];
 }

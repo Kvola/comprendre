@@ -38,6 +38,7 @@
   "libraryTitle": "Mes textes",
   "emptyTitle": "Comprenez ce que vous lisez",
   "emptyBody": "Écrivez ou collez un texte, scannez une page ou importez un fichier (PDF, Word, PowerPoint…). Comprendre en tire un quiz pour vérifier et approfondir votre compréhension.",
+  "emptyBodyWeb": "Écrivez ou collez un texte, ou importez un fichier (PDF, Word, PowerPoint…). Comprendre en tire un quiz pour vérifier et approfondir votre compréhension.",
   "newText": "Nouveau texte",
   "sourceTyped": "Écrire ou coller",
   "sourceTypedHint": "Saisissez le texte, ou collez-le",
@@ -279,5 +280,11 @@
   },
   "updateRequiredHint": "Cette version n’est plus prise en charge : installez la nouvelle pour continuer.",
   "updateDownload": "Télécharger",
-  "updateLater": "Plus tard"
+  "updateLater": "Plus tard",
+  "webInstallTitle": "Installez l’application Android",
+  "webInstallBody": "Plus fluide au quotidien, et vos données ne dépendent plus du navigateur.",
+  "webInstallAction": "Installer",
+  "homeScreenTitle": "Ajoutez l’application à l’écran d’accueil",
+  "homeScreenBody": "Touchez Partager (le carré avec une flèche), puis « Sur l’écran d’accueil ». L’application s’ouvrira en plein écran et vos données seront mieux conservées.",
+  "homeScreenDismiss": "Compris"
 }

@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -5,6 +8,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../app/providers.dart';
 import '../core/theme.dart';
+import '../core/web_env.dart';
 import '../data/database.dart';
 import '../engine/quiz_model.dart';
 import 'common.dart';
@@ -44,6 +48,21 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
     }
   }
 
+  Future<void> _share(Document doc) async {
+    if (!kIsWeb) {
+      await SharePlus.instance.share(ShareParams(text: doc.body, subject: doc.title));
+      return;
+    }
+    // Navigateur : le partage du système quand il existe (téléphone), sinon le
+    // texte est téléchargé (.txt) plutôt qu'envoyé dans un lien `mailto:` trop long.
+    try {
+      await SharePlus.instance.share(ShareParams(text: doc.body, subject: doc.title, mailToFallbackEnabled: false));
+    } catch (_) {
+      final name = doc.title.replaceAll(RegExp(r'[\\/:*?"<>|]+'), ' ').replaceAll(RegExp(r'[.\s]+$'), '').trim();
+      downloadBytes(utf8.encode(doc.body), '${name.isEmpty ? 'texte' : name}.txt', 'text/plain;charset=utf-8');
+    }
+  }
+
   Future<void> _delete(Document doc) async {
     final l = context.l10n;
     final nav = Navigator.of(context);
@@ -77,7 +96,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
           ),
           PopupMenuButton<String>(
             onSelected: (v) {
-              if (v == 'share') SharePlus.instance.share(ShareParams(text: doc.body, subject: doc.title));
+              if (v == 'share') _share(doc);
               if (v == 'delete') _delete(doc);
             },
             itemBuilder: (_) => [

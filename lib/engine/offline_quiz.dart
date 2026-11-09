@@ -15,9 +15,9 @@
 /// garde sa phrase source (citation), pour la retrouver dans le texte.
 library;
 
-import 'dart:isolate';
 import 'dart:math';
 
+import '../core/background.dart';
 import 'quiz_model.dart';
 import 'text_tools.dart';
 
@@ -526,7 +526,8 @@ class OfflineQuizGenerator {
   }
 }
 
-/// Génère un quiz hors ligne dans un isolat (un long PDF ne fige pas l'interface).
-/// Lève [OfflineQuizException] si le texte ne suffit pas.
+/// Génère un quiz hors ligne dans un isolat (un long PDF ne fige pas l'interface ;
+/// dans un navigateur, sur le fil courant). Lève [OfflineQuizException] si le
+/// texte ne suffit pas.
 Future<Quiz> generateOfflineQuiz(String text, {String? lang, int? seed, int count = 10}) =>
-    Isolate.run(() => OfflineQuizGenerator(text, lang: lang, seed: seed).generate(count: count));
+    runInBackground(() => OfflineQuizGenerator(text, lang: lang, seed: seed).generate(count: count));

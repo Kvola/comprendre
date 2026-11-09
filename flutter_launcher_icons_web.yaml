@@ -1,0 +1,11 @@
+# Icônes de la version web uniquement :
+#   dart run flutter_launcher_icons -f flutter_launcher_icons_web.yaml
+flutter_launcher_icons:
+  android: false
+  ios: false
+  image_path: "assets/branding/icon-full.png"
+  web:
+    generate: true
+    image_path: "assets/branding/icon-full.png"
+    background_color: "#0E5E6F"
+    theme_color: "#0E5E6F"

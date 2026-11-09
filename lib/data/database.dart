@@ -8,6 +8,7 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
 import '../engine/quiz_model.dart';
+import 'web_database.dart';
 
 part 'database.g.dart';
 
@@ -59,7 +60,7 @@ class Settings extends Table {
 
 @DriftDatabase(tables: [Documents, Quizzes, Attempts, Settings])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase([QueryExecutor? executor]) : super(executor ?? driftDatabase(name: 'comprendre'));
+  AppDatabase([QueryExecutor? executor]) : super(executor ?? driftDatabase(name: 'comprendre', web: webDatabaseOptions()));
 
   @override
   int get schemaVersion => 1;

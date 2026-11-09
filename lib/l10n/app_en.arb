@@ -38,6 +38,7 @@
   "libraryTitle": "My texts",
   "emptyTitle": "Understand what you read",
   "emptyBody": "Type or paste a text, scan a page or import a file (PDF, Word, PowerPoint…). Understand turns it into a quiz to check and deepen your understanding.",
+  "emptyBodyWeb": "Type or paste a text, or import a file (PDF, Word, PowerPoint…). Understand turns it into a quiz to check and deepen your understanding.",
   "newText": "New text",
   "sourceTyped": "Type or paste",
   "sourceTypedHint": "Type the text, or paste it",
@@ -265,5 +266,11 @@
   "updateRequired": "Update required: version {version}",
   "updateRequiredHint": "This version is no longer supported: install the new one to continue.",
   "updateDownload": "Download",
-  "updateLater": "Later"
+  "updateLater": "Later",
+  "webInstallTitle": "Install the Android app",
+  "webInstallBody": "Smoother every day, and your data no longer depends on the browser.",
+  "webInstallAction": "Install",
+  "homeScreenTitle": "Add the app to your Home Screen",
+  "homeScreenBody": "Tap Share (the square with an arrow), then “Add to Home Screen”. The app will open full screen and your data will be kept more reliably.",
+  "homeScreenDismiss": "Got it"
 }
