@@ -24,6 +24,7 @@ Ce guide commence par une visite rapide, puis présente **7 exemples complets**,
    7. [Corriger, partager ou supprimer un texte](#exemple-7--corriger-partager-ou-supprimer-un-texte)
 - [Quiz hors ligne et quiz IA](#quiz-hors-ligne-et-quiz-ia)
 - [Les réglages](#les-réglages)
+- [Utiliser l'application dans le navigateur](#utiliser-lapplication-dans-le-navigateur)
 - [Questions fréquentes](#questions-fréquentes)
 
 ---
@@ -275,6 +276,46 @@ Touchez l'icône ⚙ en haut de l'écran **Mes textes**.
 | **Questions par quiz** | **5**, **10** ou **15**. |
 | **Quiz IA** | L'interrupteur **Utiliser l’IA quand c’est possible**. Quand il est activé, la ligne en dessous indique les quiz IA restants aujourd'hui ; l'icône ↻ met ce nombre à jour. Sans connexion, elle affiche *Quota IA : connexion nécessaire*. |
 | **À propos** | Une présentation de Comprendre, la **Confidentialité**, et le numéro de version. |
+
+---
+
+## Utiliser l'application dans le navigateur
+
+Comprendre existe aussi en **version web** : elle s'ouvre dans le navigateur, sans rien installer. C'est la solution pour un **iPhone**, un **iPad** ou un **ordinateur**, où l'application Android ne s'installe pas.
+
+**L'ouvrir**
+
+1. Ouvrez la page https://iyf.ebng.world/apps/comprendre dans votre navigateur (Safari, Chrome, Edge…).
+2. Touchez **Ouvrir dans le navigateur**. L'adresse directe est https://iyf.ebng.world/apps/comprendre/web/
+
+
+**La mettre sur l'écran d'accueil**
+
+Ainsi, vous la retrouvez comme une application, elle s'ouvre en plein écran, et le navigateur conserve mieux vos données.
+
+- **iPhone ou iPad (Safari)** : touchez **Partager** (le carré avec une flèche vers le haut), puis **Sur l'écran d'accueil**, puis **Ajouter**. Le bandeau **Ajoutez l'application à l'écran d'accueil** vous le rappelle ; touchez **Compris** pour le masquer.
+- **Ordinateur (Chrome ou Edge)** : cliquez sur l'icône d'installation à droite de la barre d'adresse, puis sur **Installer**.
+- **Android (Chrome)** : menu **⋮**, puis **Ajouter à l'écran d'accueil**. Sur Android, l'application à télécharger reste toutefois la plus complète.
+
+**Les mises à jour**
+
+Rien à faire : à chaque ouverture avec Internet, vous avez la dernière version.
+
+**Sans Internet**
+
+Après une première ouverture avec Internet, la version web fonctionne **sans connexion** : vos textes et les quiz hors ligne restent disponibles. Le quiz IA demande Internet, comme dans l'application.
+
+**Ce qui diffère**
+
+- **Scanner des pages** et **lire le texte d'une photo** ne sont pas proposés : cette lecture n'existe que dans l'application Android. Collez ou tapez le texte, ou importez un fichier.
+- Dans un **PDF**, seul le texte numérique est lu ; les pages scannées (des images) sont ignorées.
+- **Partager** un texte ouvre le partage du navigateur ; s'il n'en a pas, le texte est téléchargé dans un fichier `.txt`.
+
+**Vos textes**
+
+Ils sont gardés **dans ce navigateur, sur cet appareil**, et ne passent pas d'un appareil à l'autre.
+
+> **Attention (iPhone)** : si la version web n'est pas sur l'écran d'accueil et que vous ne l'ouvrez pas pendant plusieurs semaines, Safari peut effacer vos textes. Mettez-la sur l'écran d'accueil.
 
 ---
 
