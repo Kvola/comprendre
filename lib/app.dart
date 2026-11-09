@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app/providers.dart';
+import 'core/app_update.dart';
 import 'core/theme.dart';
 import 'l10n/gen/app_localizations.dart';
 import 'ui/library_screen.dart';
@@ -29,7 +30,24 @@ class ComprendreApp extends ConsumerWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       // Anglais si le téléphone est en anglais, sinon français.
       localeResolutionCallback: (device, supported) => device?.languageCode == 'en' ? const Locale('en') : const Locale('fr'),
+      // Bandeau « nouvelle version » au-dessus de tous les écrans.
+      builder: (context, child) => AppUpdateHost(
+        checker: ref.watch(appUpdateCheckerProvider),
+        strings: appUpdateStrings,
+        child: child ?? const SizedBox.shrink(),
+      ),
       home: ready ? const LibraryScreen() : const Scaffold(),
     );
   }
+}
+
+AppUpdateStrings appUpdateStrings(BuildContext context) {
+  final l = AppLocalizations.of(context);
+  return AppUpdateStrings(
+    available: l.updateAvailable,
+    required: l.updateRequired,
+    requiredHint: l.updateRequiredHint,
+    download: l.updateDownload,
+    later: l.updateLater,
+  );
 }

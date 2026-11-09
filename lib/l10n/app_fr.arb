@@ -260,5 +260,24 @@
         "type": "String"
       }
     }
-  }
+  },
+  "updateAvailable": "Version {version} disponible",
+  "@updateAvailable": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updateRequired": "Mise à jour obligatoire : version {version}",
+  "@updateRequired": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updateRequiredHint": "Cette version n’est plus prise en charge : installez la nouvelle pour continuer.",
+  "updateDownload": "Télécharger",
+  "updateLater": "Plus tard"
 }

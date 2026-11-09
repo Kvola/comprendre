@@ -919,6 +919,36 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Version {version}'**
   String version(String version);
+
+  /// No description provided for @updateAvailable.
+  ///
+  /// In fr, this message translates to:
+  /// **'Version {version} disponible'**
+  String updateAvailable(String version);
+
+  /// No description provided for @updateRequired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mise à jour obligatoire : version {version}'**
+  String updateRequired(String version);
+
+  /// No description provided for @updateRequiredHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cette version n’est plus prise en charge : installez la nouvelle pour continuer.'**
+  String get updateRequiredHint;
+
+  /// No description provided for @updateDownload.
+  ///
+  /// In fr, this message translates to:
+  /// **'Télécharger'**
+  String get updateDownload;
+
+  /// No description provided for @updateLater.
+  ///
+  /// In fr, this message translates to:
+  /// **'Plus tard'**
+  String get updateLater;
 }
 
 class _AppLocalizationsDelegate

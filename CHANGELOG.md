@@ -1,5 +1,9 @@
 # Journal des versions
 
+## 1.1.0 — 2026-11-09
+
+- **Bandeau « nouvelle version »** (Android) : quand une version plus récente est publiée sur la page de téléchargement, un bandeau propose de la télécharger (« Plus tard » le masque pour cette version). Vérification au plus toutes les 12 h, silencieuse hors connexion ; une mise à jour déclarée obligatoire par le serveur ne peut pas être masquée.
+
 ## 1.0.1 — 2026-11-08
 
 - Nouvelle identité visuelle : une page dont un passage est surligné, éclairée par une idée qui porte une coche

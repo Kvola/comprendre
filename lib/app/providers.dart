@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/app_update.dart';
 import '../data/database.dart';
 import '../remote/ai_client.dart';
 import 'quiz_service.dart';
@@ -7,6 +8,10 @@ import 'settings.dart';
 
 /// Fourni dans `main()` via `overrideWithValue`.
 final databaseProvider = Provider<AppDatabase>((ref) => throw UnimplementedError());
+
+/// Vérification des nouvelles versions : null = aucune (tests, iOS, ordinateur).
+/// Activée dans `main()` sur Android ; sans réseau, l'application n'en voit rien.
+final appUpdateCheckerProvider = Provider<AppUpdateChecker?>((ref) => null);
 
 /// Adresse du serveur IA (remplaçable dans les tests).
 final serverUrlProvider = Provider<String>((ref) => defaultServer);

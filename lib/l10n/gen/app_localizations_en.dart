@@ -492,4 +492,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String version(String version) {
     return 'Version $version';
   }
+
+  @override
+  String updateAvailable(String version) {
+    return 'Version $version available';
+  }
+
+  @override
+  String updateRequired(String version) {
+    return 'Update required: version $version';
+  }
+
+  @override
+  String get updateRequiredHint =>
+      'This version is no longer supported: install the new one to continue.';
+
+  @override
+  String get updateDownload => 'Download';
+
+  @override
+  String get updateLater => 'Later';
 }

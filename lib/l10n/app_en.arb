@@ -260,5 +260,10 @@
         "type": "String"
       }
     }
-  }
+  },
+  "updateAvailable": "Version {version} available",
+  "updateRequired": "Update required: version {version}",
+  "updateRequiredHint": "This version is no longer supported: install the new one to continue.",
+  "updateDownload": "Download",
+  "updateLater": "Later"
 }
