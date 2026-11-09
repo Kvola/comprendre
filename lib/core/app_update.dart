@@ -39,8 +39,25 @@ bool get appUpdateSupported => !kIsWeb && defaultTargetPlatform == TargetPlatfor
 /// Version installée au format du serveur : `1.4.0+5`.
 Future<String?> installedAppVersion() async {
   final p = await PackageInfo.fromPlatform();
-  if (p.version.isEmpty) return null;
-  return p.buildNumber.isEmpty ? p.version : '${p.version}+${p.buildNumber}';
+  return serverVersionOf(p.version, p.buildNumber);
+}
+
+/// `1.4.0` + `2005` → `1.4.0+5`.
+///
+/// LE NUMÉRO QU'ANDROID LIT N'EST PAS CELUI DU PUBSPEC
+///
+/// Nos APK sont construits un par processeur (`--split-per-abi`), et Flutter
+/// ajoute alors 1000 × le type de processeur au numéro de build : `+5` devient
+/// 1005 (armeabi-v7a), 2005 (arm64-v8a) ou 4005 (x86_64). C'est ce nombre que
+/// rend `PackageInfo.buildNumber`. Le serveur, lui, compare au pubspec
+/// (`1.5.0+6` → 6) : envoyé tel quel, 2005 paraîtrait toujours plus récent que
+/// 6, et **le bandeau ne s'afficherait jamais**. On retire donc le décalage.
+/// Un numéro de pubspec reste très en dessous de 1000.
+String? serverVersionOf(String version, String buildNumber) {
+  if (version.isEmpty) return null;
+  final build = int.tryParse(buildNumber);
+  if (build == null) return buildNumber.isEmpty ? version : '$version+$buildNumber';
+  return '$version+${build % 1000}';
 }
 
 /// Numéro de build d'une version (`1.4.0+5` → 5), ou null s'il n'y en a pas.

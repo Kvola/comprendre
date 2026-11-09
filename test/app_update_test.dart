@@ -374,6 +374,15 @@ void main() {
       expect(find.text('Installez l’application Android'), findsNothing);
     });
   });
+  test('le décalage par processeur des APK est retiré avant d’interroger le serveur', () {
+    expect(serverVersionOf('1.5.0', '2006'), '1.5.0+6', reason: 'arm64-v8a');
+    expect(serverVersionOf('1.5.0', '1006'), '1.5.0+6', reason: 'armeabi-v7a');
+    expect(serverVersionOf('1.5.0', '4006'), '1.5.0+6', reason: 'x86_64');
+    expect(serverVersionOf('1.5.0', '6'), '1.5.0+6', reason: 'APK universel');
+    expect(serverVersionOf('1.5.0', ''), '1.5.0');
+    expect(serverVersionOf('', '6'), isNull);
+  });
+
 }
 
 String _available(String v) => 'Version $v disponible';
