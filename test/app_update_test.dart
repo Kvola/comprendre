@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:comprendre/core/app_update.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
@@ -155,10 +156,10 @@ void main() {
       expect(checker().pageUri.toString(), 'https://iyf.ebng.world/apps/demo');
     });
 
-    test('au plus une requête toutes les 12 h, la réponse est gardée', () async {
+    test('retour dans l’application : au plus une requête par heure, la réponse est gardée', () async {
       final c = checker();
       expect(await c.check(), isNotNull);
-      now = now.add(const Duration(hours: 11, minutes: 59));
+      now = now.add(const Duration(minutes: 59));
       expect(await c.check(), isNotNull, reason: 'réponse en cache');
       expect(server.calls, 1);
       now = now.add(const Duration(minutes: 2));
@@ -166,9 +167,66 @@ void main() {
       expect(await c.check(), isNull);
       expect(server.calls, 2);
       // Survit au redémarrage (même stockage, nouveau checker).
-      now = now.add(const Duration(hours: 1));
+      now = now.add(const Duration(minutes: 30));
       expect(await checker().check(), isNull);
       expect(server.calls, 2);
+    });
+
+    test('LE SYMPTÔME : version publiée juste après un « rien de neuf », vue à l’ouverture suivante', () async {
+      // 16 h 50 : le téléphone, à jour, demande ; rien de neuf.
+      server.answer = () => rpc(payload(available: false));
+      expect(await checker().check(startup: true), isNull);
+      // 22 h : une version est publiée ; l'utilisateur rouvre l'application.
+      // Avant : réponse « rien de neuf » gardée 12 h, aucun bandeau.
+      now = now.add(const Duration(minutes: 10));
+      server.answer = () => rpc(payload());
+      expect((await checker().check(startup: true))?.latestBuild, 9);
+      expect(server.calls, 2);
+    });
+
+    test('démarrage : pas de requête en boucle si l’application redémarre aussitôt', () async {
+      await checker().check(startup: true);
+      now = now.add(const Duration(minutes: 4));
+      await checker().check(startup: true);
+      expect(server.calls, 1);
+      now = now.add(const Duration(minutes: 2));
+      await checker().check(startup: true);
+      expect(server.calls, 2);
+    });
+
+    test('502 du proxy (redémarrage d’Odoo) : rien n’est noté, on réessaie aussitôt', () async {
+      server.status = 502;
+      server.answer = () => '<html>Bad Gateway</html>';
+      expect(await checker().check(startup: true), isNull);
+      expect(await store.read(AppUpdateChecker.keyLastCheck), isNull, reason: 'aucun créneau consommé');
+      server
+        ..status = 200
+        ..answer = () => rpc(payload());
+      expect(await checker().check(), isNotNull, reason: 'pas d’attente après une erreur');
+    });
+
+    test('page HTML ou erreur JSON-RPC avec un statut 200 : pas une réponse', () async {
+      server.answer = () => '<html>portail captif</html>';
+      expect(await checker().check(), isNull);
+      server.answer = () => {'jsonrpc': '2.0', 'error': {'code': 200, 'message': 'Odoo Server Error'}};
+      expect(await checker().check(), isNull);
+      expect(await store.read(AppUpdateChecker.keyLastCheck), isNull);
+      expect(server.calls, 2);
+    });
+
+    test('une mise à jour connue reste annoncée si le réseau tombe', () async {
+      expect(await checker().check(), isNotNull);
+      now = now.add(const Duration(hours: 2));
+      final offline = MockClient((_) async => throw http.ClientException('offline'));
+      expect((await checker(client: offline).check(startup: true))?.latestBuild, 9);
+      server.status = 503;
+      expect((await checker().check(startup: true))?.latestBuild, 9);
+    });
+
+    test('réponse « application inconnue » : c’est une réponse, notée', () async {
+      server.answer = () => rpc({'status': 'error', 'error_code': 'unknown_app', 'update_available': false});
+      expect(await checker().check(), isNull);
+      expect(await store.read(AppUpdateChecker.keyLastCheck), isNotNull, reason: 'pas de requête à chaque retour');
     });
 
     test('horloge revenue en arrière : on redemande', () async {
@@ -194,12 +252,12 @@ void main() {
     test('erreur serveur, JSON invalide, status error → null', () async {
       server.status = 500;
       expect(await checker().check(), isNull);
-      now = now.add(const Duration(hours: 13));
+      now = now.add(const Duration(hours: 2));
       server
         ..status = 200
         ..answer = () => '<html>proxy</html>';
       expect(await checker().check(), isNull);
-      now = now.add(const Duration(hours: 13));
+      now = now.add(const Duration(hours: 2));
       server.answer = () => rpc({'status': 'error', 'error_code': 'unknown_app', 'update_available': false});
       expect(await checker().check(), isNull);
     });
@@ -215,7 +273,7 @@ void main() {
       final info = (await c.check())!;
       await c.dismiss(info);
       expect(await c.check(), isNull);
-      now = now.add(const Duration(hours: 13));
+      now = now.add(const Duration(hours: 2));
       server.answer = () => rpc(payload(version: '2.1.0+10'));
       expect((await c.check())?.latestBuild, 10);
     });
@@ -347,6 +405,19 @@ void main() {
       await tester.tap(find.text('Télécharger'));
       await tester.pump();
       expect(opened.map((u) => u.path), ['/apps/demo/download', '/apps/demo']);
+    });
+
+    testWidgets('barre d’état lisible sur le bandeau', (tester) async {
+      await pumpHost(tester, checker: checkerFor(payload()));
+      final region = tester.widget<AnnotatedRegion<SystemUiOverlayStyle>>(
+        find
+            .ancestor(of: find.text('Version 2.0.0 disponible'), matching: find.byType(AnnotatedRegion<SystemUiOverlayStyle>))
+            .first,
+      );
+      final context = tester.element(find.text('Version 2.0.0 disponible'));
+      final bg = Theme.of(context).colorScheme.primaryContainer;
+      final light = ThemeData.estimateBrightnessForColor(bg) == Brightness.light;
+      expect(region.value.statusBarIconBrightness, light ? Brightness.dark : Brightness.light);
     });
 
     testWidgets('obligatoire : pas de « Plus tard »', (tester) async {

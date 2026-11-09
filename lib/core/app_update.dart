@@ -14,10 +14,18 @@
 ///   l'APK ([AppUpdateHost.webInstallUrl]) ; dans Safari sur iPhone, où un APK
 ///   ne s'installe pas, conseil « Sur l'écran d'accueil » — une fois installée,
 ///   l'application garde ses données et s'ouvre en plein écran.
-/// - Au plus une requête toutes les 12 h ([AppUpdateChecker.interval]) ; entre
-///   deux, la dernière réponse est relue du stockage.
-/// - Toute erreur (hors ligne, délai dépassé, réponse inattendue) = pas de
-///   bandeau, jamais de message d'erreur : ne pas savoir n'est pas une
+/// - Au DÉMARRAGE, on demande au serveur (au plus toutes les 5 min,
+///   [AppUpdateChecker.startupInterval]) ; au RETOUR dans l'application, au
+///   plus toutes les heures ([AppUpdateChecker.interval]). Entre deux, la
+///   dernière réponse est relue du stockage. Une réponse fait ~600 octets.
+///   Avant, une réponse « rien de neuf » valait 12 h : une version publiée
+///   juste après restait invisible une demi-journée — « le bandeau ne
+///   fonctionne pas ».
+/// - Seule une VRAIE réponse du serveur (HTTP 200, JSON-RPC lisible) compte
+///   comme vérification. Hors ligne, délai dépassé, 502 du proxy pendant un
+///   redémarrage d'Odoo, page HTML… : rien n'est noté, on réessaiera, et une
+///   mise à jour déjà connue reste annoncée.
+/// - Toute erreur = jamais de message d'erreur : ne pas savoir n'est pas une
 ///   information à donner.
 /// - « Plus tard » masque le bandeau pour CE build ; une version plus récente
 ///   le fera réapparaître. Une mise à jour obligatoire ne se masque pas.
@@ -32,6 +40,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -166,11 +175,28 @@ String _httpUrl(Object? v) {
 /// jour exploitable : erreur JSON-RPC, `status: error`, champs manquants ou
 /// mal typés, aucune adresse http(s).
 AppUpdateInfo? parseAppUpdateResponse(Object? body) {
+  final payload = _serverAnswer(body);
+  if (payload == null || payload['status'] != 'success' || payload['update_available'] != true) return null;
+  return AppUpdateInfo.fromJson(payload);
+}
+
+/// Le contenu d'une vraie réponse du module, ou null si ce n'en est pas une
+/// (erreur JSON-RPC, page HTML d'un proxy, corps vide…). « Pas de mise à
+/// jour » est une réponse ; « je n'ai rien compris » n'en est pas une.
+Map<Object?, Object?>? _serverAnswer(Object? body) {
   if (body is! Map) return null;
   final payload = body.containsKey('result') ? body['result'] : (body.containsKey('error') ? null : body);
-  if (payload is! Map) return null;
-  if (payload['status'] != 'success' || payload['update_available'] != true) return null;
-  return AppUpdateInfo.fromJson(payload);
+  if (payload is! Map || payload['status'] is! String) return null;
+  return payload;
+}
+
+/// Le serveur n'a pas donné de réponse exploitable : on ne note rien.
+class _NoAnswer implements Exception {
+  const _NoAnswer(this.reason);
+  final String reason;
+
+  @override
+  String toString() => 'Pas de réponse exploitable : $reason';
 }
 
 /// Petit stockage clé → texte (préférences, ou mémoire dans les tests).
@@ -219,7 +245,8 @@ class AppUpdateChecker {
     Future<String?> Function()? currentVersion,
     this.client,
     DateTime Function()? now,
-    this.interval = const Duration(hours: 12),
+    this.interval = const Duration(hours: 1),
+    this.startupInterval = const Duration(minutes: 5),
     this.timeout = const Duration(seconds: 8),
   }) : server = server.trim().replaceAll(RegExp(r'/+$'), ''),
        _currentVersion = currentVersion ?? installedAppVersion,
@@ -228,7 +255,14 @@ class AppUpdateChecker {
   final String server;
   final String slug;
   final AppUpdateStore store;
+
+  /// Délai entre deux requêtes au retour dans l'application.
   final Duration interval;
+
+  /// Délai entre deux requêtes au démarrage : court, pour qu'une version
+  /// publiée se voie dès la prochaine ouverture ; non nul, pour qu'une
+  /// application qui redémarre en boucle n'interroge pas le serveur en boucle.
+  final Duration startupInterval;
   final Duration timeout;
   final Future<String?> Function() _currentVersion;
 
@@ -249,7 +283,12 @@ class AppUpdateChecker {
   Uri get pageUri => Uri.parse('$server/apps/${Uri.encodeComponent(slug)}');
 
   /// Version à annoncer, ou null. Ne lève jamais.
-  Future<AppUpdateInfo?> check() => _running ??= _guarded().whenComplete(() => _running = null);
+  ///
+  /// [startup] : ouverture de l'application, on se contente d'une réponse
+  /// de moins de [startupInterval] ; sinon (retour dans l'application) de
+  /// moins de [interval].
+  Future<AppUpdateInfo?> check({bool startup = false}) =>
+      _running ??= _guarded(startup ? startupInterval : interval).whenComplete(() => _running = null);
 
   /// « Plus tard » : ne plus montrer CE build (sans effet si obligatoire).
   Future<void> dismiss(AppUpdateInfo info) async {
@@ -259,36 +298,50 @@ class AppUpdateChecker {
     } catch (_) {}
   }
 
-  Future<AppUpdateInfo?> _guarded() async {
+  Future<AppUpdateInfo?> _guarded(Duration maxAge) async {
     try {
-      return await _check();
+      return await _check(maxAge);
     } catch (_) {
       return null;
     }
   }
 
-  Future<AppUpdateInfo?> _check() async {
+  Future<AppUpdateInfo?> _check(Duration maxAge) async {
     final current = await _currentVersion();
     if (current == null || current.trim().isEmpty) return null;
     final now = _now();
     final last = DateTime.tryParse(await store.read(keyLastCheck) ?? '');
     // Horloge revenue en arrière : on ne s'y fie pas, on redemande.
-    final fresh = last != null && !now.isBefore(last) && now.difference(last) < interval;
+    final fresh = last != null && !now.isBefore(last) && now.difference(last) < maxAge;
 
     AppUpdateInfo? info;
     if (fresh) {
-      final cached = await store.read(keyCache);
-      info = cached == null ? null : AppUpdateInfo.fromJson(_tryDecode(cached));
+      info = await _cached();
     } else {
-      info = await _fetch(current.trim());
+      try {
+        info = await _fetch(current.trim());
+      } catch (_) {
+        // Pas de réponse (hors ligne, délai, 502, page HTML…) : rien n'est
+        // noté, on réessaiera. Une mise à jour déjà connue reste annoncée —
+        // elle n'a pas cessé d'exister parce que le réseau est tombé.
+        info = await _cached();
+        return _toShow(info, current);
+      }
       // Le serveur a répondu (même « rien de neuf ») : on attend le prochain
-      // créneau. Hors ligne, _fetch lève et rien n'est noté : on réessaiera au
-      // prochain retour dans l'application.
+      // créneau.
       await store.write(keyLastCheck, now.toUtc().toIso8601String());
       await store.write(keyCache, info == null ? null : jsonEncode(info.toJson()));
     }
-    if (info == null) return null;
+    return _toShow(info, current);
+  }
 
+  Future<AppUpdateInfo?> _cached() async {
+    final cached = await store.read(keyCache);
+    return cached == null ? null : AppUpdateInfo.fromJson(_tryDecode(cached));
+  }
+
+  Future<AppUpdateInfo?> _toShow(AppUpdateInfo? info, String current) async {
+    if (info == null) return null;
     // Réponse en cache, mais l'application a été mise à jour depuis.
     final currentBuild = buildNumberOf(current);
     if (currentBuild != null && info.latestBuild != null && info.latestBuild! <= currentBuild) return null;
@@ -296,6 +349,9 @@ class AppUpdateChecker {
     return info;
   }
 
+  /// La réponse du serveur : une mise à jour, ou null s'il n'y en a pas.
+  /// Lève [_NoAnswer] (ou une erreur réseau) si le serveur n'a pas vraiment
+  /// répondu.
   Future<AppUpdateInfo?> _fetch(String current) async {
     final c = client ?? http.Client();
     try {
@@ -310,8 +366,10 @@ class AppUpdateChecker {
             }),
           )
           .timeout(timeout);
-      if (res.statusCode != 200) return null;
-      return parseAppUpdateResponse(_tryDecode(utf8.decode(res.bodyBytes, allowMalformed: true)));
+      if (res.statusCode != 200) throw _NoAnswer('HTTP ${res.statusCode}');
+      final body = _tryDecode(utf8.decode(res.bodyBytes, allowMalformed: true));
+      if (_serverAnswer(body) == null) throw const _NoAnswer('corps illisible');
+      return parseAppUpdateResponse(body);
     } finally {
       if (client == null) c.close();
     }
@@ -427,7 +485,7 @@ class _AppUpdateHostState extends State<AppUpdateHost> with WidgetsBindingObserv
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _check();
+    _check(startup: true);
     if (widget.webInstallUrl != null) _loadWebInstall();
     if (widget.homeScreenHint ?? homeScreenHintSupported) _loadHomeScreen();
   }
@@ -443,10 +501,10 @@ class _AppUpdateHostState extends State<AppUpdateHost> with WidgetsBindingObserv
     if (state == AppLifecycleState.resumed) _check();
   }
 
-  Future<void> _check() async {
+  Future<void> _check({bool startup = false}) async {
     final checker = widget.checker;
     if (checker == null) return;
-    final info = await checker.check();
+    final info = await checker.check(startup: startup);
     // Un échec passager n'efface pas un bandeau déjà affiché.
     if (!mounted || info == null || info == _update) return;
     setState(() => _update = info);
@@ -590,47 +648,57 @@ class _Banner extends StatelessWidget {
     final s = strings(context);
     final scheme = Theme.of(context).colorScheme;
     final fg = urgent ? scheme.onErrorContainer : scheme.onPrimaryContainer;
+    final bg = urgent ? scheme.errorContainer : scheme.primaryContainer;
     final text = body(s);
-    return Material(
-      color: urgent ? scheme.errorContainer : scheme.primaryContainer,
-      child: SafeArea(
-        bottom: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 10, 8, 4),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(padding: const EdgeInsets.only(top: 2), child: Icon(icon, color: fg)),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(title(s), style: TextStyle(color: fg, fontWeight: FontWeight.w700)),
-                        if (text.isNotEmpty)
-                          Text(text, maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(color: fg)),
-                      ],
+    // Le bandeau passe sous la barre d'état : ses icônes (heure, batterie)
+    // doivent contraster avec LUI, pas avec la barre de titre d'en dessous —
+    // sinon, icônes blanches sur fond clair, illisibles.
+    final overlay = ThemeData.estimateBrightnessForColor(bg) == Brightness.light
+        ? SystemUiOverlayStyle.dark
+        : SystemUiOverlayStyle.light;
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: overlay.copyWith(statusBarColor: Colors.transparent),
+      child: Material(
+        color: bg,
+        child: SafeArea(
+          bottom: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 10, 8, 4),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(padding: const EdgeInsets.only(top: 2), child: Icon(icon, color: fg)),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(title(s), style: TextStyle(color: fg, fontWeight: FontWeight.w700)),
+                          if (text.isNotEmpty)
+                            Text(text, maxLines: 3, overflow: TextOverflow.ellipsis, style: TextStyle(color: fg)),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              OverflowBar(
-                alignment: MainAxisAlignment.end,
-                spacing: 8,
-                children: [
-                  if (dismiss != null)
-                    TextButton(
-                      onPressed: onDismiss,
-                      style: TextButton.styleFrom(foregroundColor: fg),
-                      child: Text(dismiss!(s)),
-                    ),
-                  if (action != null) FilledButton(onPressed: onAction, child: Text(action!(s))),
-                ],
-              ),
-            ],
+                  ],
+                ),
+                OverflowBar(
+                  alignment: MainAxisAlignment.end,
+                  spacing: 8,
+                  children: [
+                    if (dismiss != null)
+                      TextButton(
+                        onPressed: onDismiss,
+                        style: TextButton.styleFrom(foregroundColor: fg),
+                        child: Text(dismiss!(s)),
+                      ),
+                    if (action != null) FilledButton(onPressed: onAction, child: Text(action!(s))),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
