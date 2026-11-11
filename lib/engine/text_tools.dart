@@ -33,7 +33,26 @@ String cleanText(String raw) {
 
 const _abbrev = {
   'm', 'mm', 'mme', 'mlle', 'dr', 'pr', 'st', 'ste', 'etc', 'cf', 'ex', 'p', 'pp', 'vol', 'chap', 'fig', 'n', 'no', //
-  'mr', 'mrs', 'ms', 'prof', 'jr', 'sr', 'vs', 'e.g', 'i.e', 'inc', 'ltd', 'av', 'apr', 'env', 'janv', 'févr', 'sept', 'oct', 'nov', 'déc',
+  'mr',
+  'mrs',
+  'ms',
+  'prof',
+  'jr',
+  'sr',
+  'vs',
+  'e.g',
+  'i.e',
+  'inc',
+  'ltd',
+  'av',
+  'apr',
+  'env',
+  'janv',
+  'févr',
+  'sept',
+  'oct',
+  'nov',
+  'déc',
 };
 
 /// Phrases d'un texte, avec leur position (caractère de début) pour les retrouver.
@@ -96,10 +115,59 @@ List<String> wordsOf(String s) =>
 
 const stopwordsFr = {
   'le', 'la', 'les', 'un', 'une', 'des', 'du', 'de', 'd', 'l', 'au', 'aux', 'et', 'ou', 'mais', 'donc', 'or', 'ni', 'car', //
-  'que', 'qui', 'quoi', 'dont', 'où', 'ce', 'cet', 'cette', 'ces', 'se', 'sa', 'son', 'ses', 'leur', 'leurs', 'mon', 'ma', 'mes', //
-  'ton', 'ta', 'tes', 'notre', 'nos', 'votre', 'vos', 'il', 'elle', 'ils', 'elles', 'on', 'nous', 'vous', 'je', 'tu', 'me', 'te', //
+  'que',
+  'qui',
+  'quoi',
+  'dont',
+  'où',
+  'ce',
+  'cet',
+  'cette',
+  'ces',
+  'se',
+  'sa',
+  'son',
+  'ses',
+  'leur',
+  'leurs',
+  'mon',
+  'ma',
+  'mes', //
+  'ton',
+  'ta',
+  'tes',
+  'notre',
+  'nos',
+  'votre',
+  'vos',
+  'il',
+  'elle',
+  'ils',
+  'elles',
+  'on',
+  'nous',
+  'vous',
+  'je',
+  'tu',
+  'me',
+  'te', //
   'lui', 'y', 'en', 'ne', 'pas', 'plus', 'moins', 'très', 'trop', 'peu', 'est', 'sont', 'était', 'étaient', 'être', 'été', //
-  'a', 'ont', 'avait', 'avaient', 'avoir', 'eu', 'fait', 'faire', 'peut', 'peuvent', 'pour', 'par', 'avec', 'sans', 'sur', 'sous', //
+  'a',
+  'ont',
+  'avait',
+  'avaient',
+  'avoir',
+  'eu',
+  'fait',
+  'faire',
+  'peut',
+  'peuvent',
+  'pour',
+  'par',
+  'avec',
+  'sans',
+  'sur',
+  'sous', //
   'dans', 'entre', 'vers', 'chez', 'depuis', 'pendant', 'avant', 'après', 'comme', 'si', 'aussi', 'ainsi', 'alors', 'tout', //
   'tous', 'toute', 'toutes', 'autre', 'autres', 'même', 'mêmes', 'bien', 'encore', 'déjà', 'toujours', 'jamais', 'cela', 'ça', //
   'ceci', 'celui', 'celle', 'ceux', 'celles', 'quand', 'lorsque', 'puis', 'enfin', 'c', 's', 'n', 'j', 'm', 't', 'qu', //
@@ -110,20 +178,77 @@ const stopwordsEn = {
   'the', 'a', 'an', 'and', 'or', 'but', 'so', 'nor', 'for', 'yet', 'of', 'to', 'in', 'on', 'at', 'by', 'with', 'from', 'as', //
   'is', 'are', 'was', 'were', 'be', 'been', 'being', 'am', 'has', 'have', 'had', 'do', 'does', 'did', 'will', 'would', 'can', //
   'could', 'should', 'may', 'might', 'must', 'shall', 'it', 'its', 'this', 'that', 'these', 'those', 'he', 'she', 'they', 'we', //
-  'you', 'i', 'him', 'her', 'them', 'us', 'me', 'his', 'their', 'our', 'your', 'my', 'not', 'no', 'more', 'most', 'less', 'very', //
+  'you',
+  'i',
+  'him',
+  'her',
+  'them',
+  'us',
+  'me',
+  'his',
+  'their',
+  'our',
+  'your',
+  'my',
+  'not',
+  'no',
+  'more',
+  'most',
+  'less',
+  'very', //
   'too', 'also', 'than', 'then', 'there', 'here', 'when', 'where', 'which', 'who', 'whom', 'whose', 'what', 'why', 'how', 'if', //
   'into', 'over', 'under', 'about', 'after', 'before', 'between', 'during', 'since', 'until', 'while', 'all', 'any', 'each', //
   'some', 'such', 'other', 'only', 'own', 'same', 'just', 's', 't', 'up', 'out', 'many', 'much', 'one', 'like', 'even', 'still',
 };
 
-/// Langue probable du texte : « fr » ou « en » (proportion de mots outils de chaque langue).
+/// Langues reconnues (saisie, IA). Le moteur hors ligne ne sait faire que [offlineLanguages].
+const textLanguages = ['fr', 'en', 'es', 'pt', 'de', 'it'];
+const offlineLanguages = {'fr', 'en'};
+
+/// Mots outils très fréquents des autres langues (assez pour reconnaître la langue,
+/// pas pour fabriquer des questions).
+const _stopwordsOther = {
+  'es': {
+    'el', 'la', 'los', 'las', 'de', 'del', 'que', 'y', 'en', 'un', 'una', 'por', 'para', 'con', 'no', 'su', 'sus', //
+    'al', 'lo', 'es', 'se', 'como', 'más', 'pero', 'este', 'esta', 'porque', 'muy', 'sin', 'sobre', 'también', 'son', //
+    'está', 'fue', 'ha', 'han', 'entre', 'cuando', 'hay', 'desde', 'todo', 'ya', 'ser', 'era', 'eso', 'hasta',
+  },
+  'pt': {
+    'o', 'os', 'a', 'as', 'de', 'do', 'da', 'dos', 'das', 'que', 'e', 'em', 'no', 'na', 'nos', 'nas', 'um', 'uma', //
+    'com', 'não', 'mais', 'ao', 'pelo', 'pela', 'é', 'foi', 'são', 'está', 'mas', 'como', 'também', 'isso', 'seu', //
+    'sua', 'já', 'muito', 'quando', 'entre', 'para', 'por', 'se', 'ser', 'tem', 'até', 'ou', 'pelos', 'pelas',
+  },
+  'de': {
+    'der', 'die', 'das', 'und', 'ist', 'nicht', 'ein', 'eine', 'zu', 'den', 'von', 'mit', 'sich', 'des', 'auf', 'für', //
+    'im', 'dem', 'auch', 'es', 'an', 'werden', 'aus', 'er', 'hat', 'dass', 'sie', 'nach', 'wird', 'bei', 'einer', //
+    'um', 'noch', 'wie', 'einem', 'über', 'so', 'zum', 'war', 'haben', 'nur', 'oder', 'aber', 'vor', 'zur', 'bis', 'durch',
+  },
+  'it': {
+    'il', 'di', 'che', 'e', 'la', 'per', 'un', 'una', 'del', 'della', 'non', 'sono', 'con', 'gli', 'le', 'si', 'da', //
+    'nel', 'nella', 'è', 'al', 'alla', 'anche', 'come', 'più', 'ma', 'dei', 'delle', 'questo', 'questa', 'ha', 'hanno', //
+    'essere', 'molto', 'tra', 'quando', 'ancora', 'lo', 'degli', 'nei', 'sul', 'sulla', 'era', 'perché', 'loro',
+  },
+};
+
+/// Langue probable du texte, parmi [textLanguages] (mots outils les plus présents ;
+/// le français l'emporte en cas de doute).
 String detectLanguage(String text) {
-  var fr = 0, en = 0;
+  final scores = {for (final l in textLanguages) l: 0};
   for (final w in wordsOf(text.toLowerCase()).take(3000)) {
-    if (stopwordsFr.contains(w)) fr++;
-    if (stopwordsEn.contains(w)) en++;
+    if (stopwordsFr.contains(w)) scores['fr'] = scores['fr']! + 1;
+    if (stopwordsEn.contains(w)) scores['en'] = scores['en']! + 1;
+    for (final MapEntry(:key, :value) in _stopwordsOther.entries) {
+      if (value.contains(w)) scores[key] = scores[key]! + 1;
+    }
   }
-  return en > fr * 1.2 ? 'en' : 'fr';
+  var best = 'fr';
+  for (final l in textLanguages) {
+    // Le français (grande liste de mots outils) part avec un avantage : une autre
+    // langue doit nettement dépasser.
+    final threshold = l == 'fr' ? 0 : scores['fr']! * 1.2;
+    if (scores[l]! > threshold && scores[l]! > scores[best]! * (best == 'fr' ? 1.2 : 1)) best = l;
+  }
+  return best;
 }
 
 /// Graine stable tirée du texte (FNV-1a) : le même texte donne le même quiz, sauf si l'on en demande un autre.
@@ -171,4 +296,15 @@ int stableSeed(String s) {
     end++;
   }
   return (origin[at], end);
+}
+
+/// Empreinte d'un texte (sa longueur et deux hachages de 31 bits, sûrs aussi
+/// dans un navigateur) : sert à savoir si un texte a changé depuis un quiz.
+String textFingerprint(String s) {
+  var h2 = 0x811c9dc5;
+  for (var i = s.length - 1; i >= 0; i--) {
+    h2 ^= s.codeUnitAt(i);
+    h2 = (h2 * 0x01000193) & 0x7fffffff;
+  }
+  return '${s.length}-${stableSeed(s).toRadixString(36)}-${h2.toRadixString(36)}';
 }

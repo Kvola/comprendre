@@ -10,21 +10,28 @@
 /// - **ordre** : laquelle de ces idées vient en premier.
 ///
 /// Pour rester grammatical sans analyseur, on n'échange que des **noms** (mot
-/// précédé d'un déterminant), de même nombre et de genre compatible, ou des
-/// noms propres entre eux (« Burkina Faso » est un seul nom). Chaque question
-/// garde sa phrase source (citation), pour la retrouver dans le texte.
+/// précédé d'un déterminant), de même nombre, de même genre et commençant par
+/// une voyelle ou une consonne comme l'original (« l'arbre », « la forêt »), ou
+/// des noms propres entre eux (« Burkina Faso » est un seul nom). Chaque
+/// question garde sa phrase source (citation), pour la retrouver dans le texte.
+///
+/// Français et anglais seulement ([offlineLanguages]) : pour une autre langue,
+/// [OfflineQuizException] (`language`) — l'IA peut alors prendre le relais.
+///
+/// Dart pur, sans Flutter (utilisable par `tool/demo_quiz.dart`) ; l'exécution
+/// hors du fil de l'interface est dans `app/offline_runner.dart`.
 library;
 
 import 'dart:math';
 
-import '../core/background.dart';
 import 'quiz_model.dart';
 import 'text_tools.dart';
 
 class OfflineQuizException implements Exception {
   OfflineQuizException(this.reason);
 
-  /// `too_short` : pas assez de matière pour un quiz utile.
+  /// `too_short` : pas assez de matière pour un quiz utile ;
+  /// `language` : langue que le moteur hors ligne ne sait pas traiter.
   final String reason;
 
   @override
@@ -73,6 +80,65 @@ class _Term {
   String? get gender => genders.length == 1 ? genders.first : null;
 }
 
+/// Déterminants français qui imposent un nom commençant par une voyelle (ou un h),
+/// ou au contraire par une consonne.
+const _detBeforeVowelFr = {'l', 'cet'};
+const _detBeforeConsonantFr = {'le', 'la', 'ce', 'du', 'au', 'ma', 'ta', 'sa'};
+
+/// Avant « le, la, les, l', leur », ces mots en font des pronoms (« qui LES revendent »,
+/// « il LA protège ») : le mot suivant est alors un verbe, pas un nom.
+const _beforeObjectPronounFr = {
+  'qui',
+  'ne',
+  'n',
+  'je',
+  'j',
+  'tu',
+  'il',
+  'elle',
+  'on',
+  'nous',
+  'vous',
+  'ils',
+  'elles',
+  'se',
+  's',
+  'me',
+  'm',
+  'te',
+  't',
+};
+const _objectPronounsFr = {'le', 'la', 'les', 'l', 'leur'};
+
+final _vowelStart = RegExp(r'^[aeiouyhâàäéèêëîïôöûùüœæ]', caseSensitive: false);
+
+/// Un nombre écrit dans le texte, avec sa façon d'être écrit (séparateur des
+/// milliers, des décimales) pour écrire les autres propositions de la même façon.
+class _Num {
+  _Num(this.raw, this.value, this.group, this.decimalSep, this.decimals);
+
+  final String raw;
+  final double value;
+  final String? group; // ' ', espace insécable, ',' (anglais) ; null : pas de groupes
+  final String decimalSep;
+  final int decimals;
+
+  String format(double v) {
+    final fixed = v.toStringAsFixed(decimals);
+    final parts = fixed.split('.');
+    var whole = parts[0];
+    if (group != null) {
+      final b = StringBuffer();
+      for (var i = 0; i < whole.length; i++) {
+        if (i > 0 && (whole.length - i) % 3 == 0) b.write(group);
+        b.write(whole[i]);
+      }
+      whole = b.toString();
+    }
+    return decimals > 0 ? '$whole$decimalSep${parts[1]}' : whole;
+  }
+}
+
 /// Un emplacement échangeable dans une phrase.
 class _Slot {
   _Slot(this.surface, this.term, this.det);
@@ -83,13 +149,17 @@ class _Slot {
 }
 
 class OfflineQuizGenerator {
-  OfflineQuizGenerator(this.text, {String? lang, int? seed})
+  /// [avoid] : citations (normalisées) des quiz déjà faits sur ce texte ; leurs
+  /// phrases ne servent qu'en dernier recours (« Un autre quiz » pose d'autres questions).
+  OfflineQuizGenerator(this.text, {String? lang, int? seed, this.avoid = const {}})
     : lang = lang ?? detectLanguage(text),
       _rnd = Random(seed ?? stableSeed(text));
 
   final String text;
   final String lang;
+  final Set<String> avoid;
   final Random _rnd;
+  int _tfTrue = 0, _tfFalse = 0;
 
   late final List<Sentence> _sentences = splitSentences(text);
   late final String _normText = normalize(text);
@@ -163,7 +233,11 @@ class OfflineQuizGenerator {
     }
     for (final t in _terms.values) {
       if (t.kind == 'noun') t.count = max(t.count, counts[t.key] ?? 0);
-      final boost = switch (t.kind) { 'proper' => 1.4, 'number' => 0.8, _ => 1.0 };
+      final boost = switch (t.kind) {
+        'proper' => 1.4,
+        'number' => 0.8,
+        _ => 1.0,
+      };
       final spread = t.sentences.length / max(1, _sentences.length);
       t.score = t.count * boost * (1 + 2 * spread) + min(t.key.length, 12) / 24;
     }
@@ -176,15 +250,27 @@ class OfflineQuizGenerator {
     // En anglais l'adjectif précède le nom : « the longest river », « fertile mud ».
     if (i + 1 >= words.length) return false;
     final next = words[i + 1];
-    return RegExp(r'^\p{Ll}', unicode: true).hasMatch(next) && next.length >= 3 && !stopwordsEn.contains(next) &&
-        !RegExp(r'(ed|ing|ly|s)$').hasMatch(next) || lower.endsWith('est');
+    return RegExp(r'^\p{Ll}', unicode: true).hasMatch(next) &&
+            next.length >= 3 &&
+            !stopwordsEn.contains(next) &&
+            !RegExp(r'(ed|ing|ly|s)$').hasMatch(next) ||
+        lower.endsWith('est');
   }
 
   String? _detBefore(List<String> words, int i) {
-    if (i > 0 && _isDet(words[i - 1])) return words[i - 1].toLowerCase();
-    if (i > 1 && _isDet(words[i - 2]) && _adjectiveBefore(words, i - 1)) return words[i - 2].toLowerCase();
+    if (i > 0 && _isDet(words[i - 1]) && !_objectPronoun(words, i - 1)) return words[i - 1].toLowerCase();
+    if (i > 1 && _isDet(words[i - 2]) && !_objectPronoun(words, i - 2) && _adjectiveBefore(words, i - 1)) {
+      return words[i - 2].toLowerCase();
+    }
     return null;
   }
+
+  /// « le, la, les, l', leur » en position [d] est-il un pronom (« qui les revendent ») ?
+  bool _objectPronoun(List<String> words, int d) =>
+      _fr &&
+      d > 0 &&
+      _objectPronounsFr.contains(words[d].toLowerCase()) &&
+      _beforeObjectPronounFr.contains(words[d - 1].toLowerCase());
 
   bool _isDet(String w) => _fr ? _detFr.containsKey(w.toLowerCase()) : _detEn.contains(w.toLowerCase());
 
@@ -195,6 +281,7 @@ class OfflineQuizGenerator {
   // Génération
   // ------------------------------------------------------------------ //
   Quiz generate({int count = 10}) {
+    if (!offlineLanguages.contains(lang)) throw OfflineQuizException('language');
     _analyse();
     final usable = _sentences.where(_sentenceOk).toList();
     final swappable = _terms.values.where((t) => t.kind != 'number').length;
@@ -210,8 +297,11 @@ class OfflineQuizGenerator {
       return true;
     }
 
-    add(_mainTopic());
-    final ordered = _spread(usable); // début, fin, puis vers le milieu
+    bool fresh(Sentence s) => !avoid.contains(normalize(s.text));
+    final topic = _mainTopic();
+    if (topic != null && !avoid.contains(normalize(topic.quote))) add(topic);
+    // Début, fin, puis vers le milieu ; les phrases des quiz précédents en dernier.
+    final ordered = [..._spread(usable.where(fresh).toList()), ..._spread(usable.where((s) => !fresh(s)).toList())];
     const plan = ['cloze', 'statement', 'number', 'truefalse', 'cloze', 'order', 'cloze', 'truefalse', 'statement', 'cloze'];
     var p = 0, cursor = 0, guard = 0;
     while (questions.length < count && guard++ < count * 15) {
@@ -277,11 +367,17 @@ class OfflineQuizGenerator {
       if (t.key == term.key || t.kind != term.kind) continue;
       String? form;
       if (t.kind == 'noun') {
-        // Forme de même nombre ; genre : jamais contraire, inconnu en dernier recours.
-        if (slotGender != null && t.gender != null && t.gender != slotGender) continue;
+        // Forme de même nombre ; genre : le même, connu (« le campagne » trahirait la mauvaise réponse).
+        if (slotGender != null && t.gender != slotGender) continue;
         final forms = t.forms.keys.where((f) => _plural(f) == wantPlural).toList();
         if (forms.isEmpty) continue;
         form = forms.first;
+        if (_fr && slot.det != null) {
+          // « l'arbre » / « la forêt » : voyelle contre voyelle, consonne contre consonne.
+          final vowel = _vowelStart.hasMatch(form);
+          if (_detBeforeVowelFr.contains(slot.det) && !vowel) continue;
+          if (_detBeforeConsonantFr.contains(slot.det) && vowel && !form.toLowerCase().startsWith('h')) continue;
+        }
         if (!_fr && (slot.det == 'a' || slot.det == 'an')) {
           final vowel = RegExp(r'^[aeiouAEIOU]').hasMatch(form);
           if (vowel != (slot.det == 'an')) continue;
@@ -295,13 +391,15 @@ class OfflineQuizGenerator {
         form = t.surface;
       }
       if (_wordRe(normalize(form)).hasMatch(ex)) continue;
-      final penalty = (term.kind == 'noun' && slotGender != null && t.gender == null) ? 0.5 : 1.0;
-      scored.add((form, t.score * penalty));
+      scored.add((form, t.score));
     }
     scored.sort((a, b) => b.$2.compareTo(a.$2));
     final top = scored.take(8).map((e) => e.$1).toList()..shuffle(_rnd);
     final seen = <String>{normalize(slot.surface)};
-    return [for (final f in top) if (seen.add(normalize(f))) f].take(n).toList();
+    return [
+      for (final f in top)
+        if (seen.add(normalize(f))) f,
+    ].take(n).toList();
   }
 
   /// Emplacements d'une phrase, les moins déjà utilisés comme réponse d'abord, puis les plus importants.
@@ -326,10 +424,7 @@ class OfflineQuizGenerator {
     // Ni un mot répété, ni un mot de la phrase qui présente le thème (« le baobab est un ARBRE ») :
     // ce serait une réponse à moitié juste.
     final first = top.sentences.reduce(min);
-    final rare = candidates
-        .skip(1)
-        .where((t) => t.sentences.length == 1 && t.count == 1 && !t.sentences.contains(first))
-        .toList()
+    final rare = candidates.skip(1).where((t) => t.sentences.length == 1 && t.count == 1 && !t.sentences.contains(first)).toList()
       ..shuffle(_rnd);
     if (rare.length < 3) return null;
     final quote = _sentences[top.sentences.reduce(min)].text;
@@ -369,40 +464,63 @@ class OfflineQuizGenerator {
   }
 
   // -- Chiffres et dates --------------------------------------------------
+  /// Nombres d'une phrase : « 1000 », « 2,5 », « 2 200 000 » (espaces, y compris
+  /// insécables), et en anglais « 2,200,000 ». Un nombre groupé est un seul nombre.
+  List<(int, int, _Num)> _numbersIn(String s) {
+    final group = _fr ? r'[ \u00A0\u202F]' : r'[, \u00A0\u202F]';
+    final decimal = _fr ? r'[.,]' : r'\.';
+    final re = RegExp(
+      '(?<![\\p{L}\\p{N}.,])(\\d{1,3}(?:$group\\d{3})+|\\d{1,4})(?:($decimal)(\\d+))?(?![\\p{N}]|[.,]\\d)',
+      unicode: true,
+    );
+    final out = <(int, int, _Num)>[];
+    for (final m in re.allMatches(s)) {
+      final whole = m[1]!;
+      final sep = RegExp(r'\D').firstMatch(whole)?[0];
+      final digits = whole.replaceAll(RegExp(r'\D'), '');
+      final dec = m[3] ?? '';
+      final value = double.tryParse(dec.isEmpty ? digits : '$digits.$dec');
+      if (value == null) continue;
+      out.add((m.start, m.end, _Num(m[0]!, value, sep, m[2] ?? (_fr ? ',' : '.'), dec.length)));
+    }
+    return out;
+  }
+
   (QuizQuestion, int)? _number(List<Sentence> candidates) {
+    final padded = ' $_normText ';
     for (final s in candidates) {
-      final m = RegExp(r'(?<![\d.,])(\d{1,4}(?:[.,]\d+)?)(?![\d.,]?\d)').firstMatch(s.text);
-      if (m == null || s.words.length < 6) continue;
-      final raw = m[1]!;
-      final value = double.tryParse(raw.replaceAll(',', '.'));
-      if (value == null || value == 0) continue;
-      final decimal = raw.contains(RegExp(r'[.,]'));
-      final isYear = !decimal && value >= 1000 && value <= 2100 && raw.length == 4;
-      final candidatesV = isYear
-          ? [value - 10, value + 10, value - 50, value + 25, value - 5]
-          : value < 10 && !decimal
-          ? [value + 1, value + 2, value - 1, value * 3, value + 5]
-          : [value * 2, value / 2, value * 1.5, value * 10, value + 10];
-      final options = <String>{raw};
-      for (final v in candidatesV) {
-        if (options.length == 4) break;
-        if (v <= 0 || v == value) continue;
-        final t = decimal ? v.toStringAsFixed(raw.split(RegExp(r'[.,]')).last.length).replaceAll('.', raw.contains(',') ? ',' : '.') : v.round().toString();
-        if (!_normText.contains(' ${normalize(t)} ') || t == raw) options.add(t);
+      if (s.words.length < 6) continue;
+      for (final (start, end, n) in _numbersIn(s.text)) {
+        final value = n.value;
+        if (value == 0) continue;
+        final isYear = n.group == null && n.decimals == 0 && value >= 1000 && value <= 2100 && n.raw.length == 4;
+        final candidatesV = isYear
+            ? [value - 10, value + 10, value - 50, value + 25, value - 5]
+            : value < 10 && n.decimals == 0
+            ? [value + 1, value + 2, value - 1, value * 3, value + 5]
+            : [value * 2, value / 2, value * 1.5, value * 10, value + 10];
+        final options = <String>{n.raw};
+        for (final v in candidatesV) {
+          if (options.length == 4) break;
+          if (v <= 0 || v == value) continue;
+          final t = n.format(n.decimals == 0 ? v.roundToDouble() : v);
+          // Une proposition qui figure ailleurs dans le texte serait à moitié juste.
+          if (t != n.raw && !padded.contains(' ${normalize(t)} ')) options.add(t);
+        }
+        if (options.length < 4) continue;
+        final blanked = s.text.replaceRange(start, end, '_____');
+        final q = _shuffled(
+          question: _fr
+              ? 'Selon le texte, quel nombre complète la phrase ?\n« $blanked »'
+              : 'According to the text, which number completes the sentence?\n“$blanked”',
+          correct: n.raw,
+          options: options.toList(),
+          explanation: _fr ? 'Le texte dit : « ${s.text} »' : 'The text says: “${s.text}”',
+          quote: s.text,
+          skill: 'detail',
+        );
+        if (q != null) return (q, s.index);
       }
-      if (options.length < 4) continue;
-      final blanked = s.text.replaceRange(m.start, m.end, '_____');
-      final q = _shuffled(
-        question: _fr
-            ? 'Selon le texte, quel nombre complète la phrase ?\n« $blanked »'
-            : 'According to the text, which number completes the sentence?\n“$blanked”',
-        correct: raw,
-        options: options.toList(),
-        explanation: _fr ? 'Le texte dit : « ${s.text} »' : 'The text says: “${s.text}”',
-        quote: s.text,
-        skill: 'detail',
-      );
-      if (q != null) return (q, s.index);
     }
     return null;
   }
@@ -410,10 +528,15 @@ class OfflineQuizGenerator {
   // -- Vrai / faux ---------------------------------------------------------
   QuizQuestion? _trueFalse(Sentence s) {
     if (s.words.length > 30) return null;
-    String ask(String stmt) => _fr ? 'Vrai ou faux, selon le texte ?\n« $stmt »' : 'True or false, according to the text?\n“$stmt”';
-    if (_rnd.nextBool()) {
+    String ask(String stmt) =>
+        _fr ? 'Vrai ou faux, selon le texte ?\n« $stmt »' : 'True or false, according to the text?\n“$stmt”';
+    // Autant de « vrai » que de « faux » : sinon répondre toujours « vrai » suffirait.
+    final wantFalse = _tfFalse < _tfTrue || (_tfFalse == _tfTrue && _rnd.nextBool());
+    if (wantFalse) {
       final altered = _alter(s);
+      if (altered == null && _tfTrue > _tfFalse) return null; // pas un « vrai » de plus
       if (altered != null) {
+        _tfFalse++;
         return QuizQuestion(
           kind: 'truefalse',
           question: ask(altered.$1),
@@ -427,6 +550,7 @@ class OfflineQuizGenerator {
         );
       }
     }
+    _tfTrue++;
     return QuizQuestion(
       kind: 'truefalse',
       question: ask(s.text),
@@ -456,7 +580,8 @@ class OfflineQuizGenerator {
   QuizQuestion? _statement(Sentence s) {
     if (s.words.length > 28) return null;
     final others = <String>{};
-    final pool = _spread(_sentences.where((x) => x.index != s.index && _sentenceOk(x) && x.words.length <= 28).toList())..shuffle(_rnd);
+    final pool = _spread(_sentences.where((x) => x.index != s.index && _sentenceOk(x) && x.words.length <= 28).toList())
+      ..shuffle(_rnd);
     for (final other in pool) {
       if (others.length == 3) break;
       final a = _alter(other);
@@ -487,7 +612,9 @@ class OfflineQuizGenerator {
     if (picks.length < 3) return null;
     final first = picks.reduce((a, b) => a.index < b.index ? a : b);
     return _shuffled(
-      question: _fr ? 'Dans le texte, laquelle de ces idées vient en premier ?' : 'In the text, which of these ideas comes first?',
+      question: _fr
+          ? 'Dans le texte, laquelle de ces idées vient en premier ?'
+          : 'In the text, which of these ideas comes first?',
       correct: _excerpt(first.text, 12),
       options: [for (final p in picks) _excerpt(p.text, 12)],
       explanation: _fr
@@ -525,9 +652,3 @@ class OfflineQuizGenerator {
     );
   }
 }
-
-/// Génère un quiz hors ligne dans un isolat (un long PDF ne fige pas l'interface ;
-/// dans un navigateur, sur le fil courant). Lève [OfflineQuizException] si le
-/// texte ne suffit pas.
-Future<Quiz> generateOfflineQuiz(String text, {String? lang, int? seed, int count = 10}) =>
-    runInBackground(() => OfflineQuizGenerator(text, lang: lang, seed: seed).generate(count: count));

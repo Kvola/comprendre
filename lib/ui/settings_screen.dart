@@ -1,9 +1,56 @@
+import 'dart:convert';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app/providers.dart';
 import '../app/version.dart';
+import '../core/web_env.dart';
+import '../data/backup.dart';
+import '../data/database.dart';
 import 'common.dart';
+
+/// Enregistre toute la bibliothèque dans un fichier choisi par l'utilisateur.
+Future<void> exportLibrary(BuildContext context, AppDatabase db) async {
+  final l = context.l10n;
+  try {
+    if ((await db.select(db.documents).get()).isEmpty) {
+      if (context.mounted) showSnack(context, l.backupEmpty);
+      return;
+    }
+    final bytes = Uint8List.fromList(utf8.encode(await exportBackup(db, appVersion: appVersion)));
+    final now = DateTime.now();
+    final day = '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+    final name = 'comprendre-sauvegarde-$day.json';
+    final bool saved;
+    if (kIsWeb) {
+      saved = downloadBytes(bytes, name, 'application/json');
+    } else {
+      saved = await FilePicker.saveFile(fileName: name, bytes: bytes, mimeType: 'application/json') != null;
+    }
+    if (saved && context.mounted) showSnack(context, l.backupSaved);
+  } catch (_) {
+    if (context.mounted) showSnack(context, l.backupFailed);
+  }
+}
+
+/// Ajoute à la bibliothèque les textes d'un fichier de sauvegarde.
+Future<void> restoreLibrary(BuildContext context, AppDatabase db) async {
+  final l = context.l10n;
+  final picked = await FilePicker.pickFiles(type: FileType.any);
+  final file = picked.firstOrNull;
+  if (file == null || !context.mounted) return;
+  try {
+    final result = await importBackup(db, utf8.decode(await file.readAsBytes(), allowMalformed: true));
+    if (context.mounted) showSnack(context, l.restoreDone(result.added, result.skipped));
+  } on BackupException catch (e) {
+    if (context.mounted) showSnack(context, e.code == 'newer' ? l.backupNewer : l.backupInvalid);
+  } catch (_) {
+    if (context.mounted) showSnack(context, l.backupInvalid);
+  }
+}
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -27,7 +74,13 @@ class SettingsScreen extends ConsumerWidget {
       width: double.infinity,
       child: SegmentedButton<T>(
         showSelectedIcon: false,
-        segments: [for (final (v, label) in options) ButtonSegment(value: v, label: Text(label, textAlign: TextAlign.center))],
+        segments: [
+          for (final (v, label) in options)
+            ButtonSegment(
+              value: v,
+              label: Text(label, textAlign: TextAlign.center),
+            ),
+        ],
         selected: {value},
         onSelectionChanged: (sel) => onChanged(sel.first),
       ),
@@ -39,11 +92,17 @@ class SettingsScreen extends ConsumerWidget {
         padding: scrollPadding(context),
         children: [
           section(l.appLanguage),
-          segmented<String>(s.localeCode ?? 'system', [('system', l.systemDefault), ('fr', 'Français'), ('en', 'English')],
-              (v) => db.setSetting('locale', v)),
+          segmented<String>(s.localeCode ?? 'system', [
+            ('system', l.systemDefault),
+            ('fr', 'Français'),
+            ('en', 'English'),
+          ], (v) => db.setSetting('locale', v)),
           section(l.theme),
-          segmented<String>(s.themeMode, [('system', l.themeSystem), ('light', l.themeLight), ('dark', l.themeDark)],
-              (v) => db.setSetting('theme', v)),
+          segmented<String>(s.themeMode, [
+            ('system', l.themeSystem),
+            ('light', l.themeLight),
+            ('dark', l.themeDark),
+          ], (v) => db.setSetting('theme', v)),
           section(l.questionsPerQuiz),
           segmented<int>(s.questionCount, [(5, '5'), (10, '10'), (15, '15')], (v) => db.setSetting('questions', '$v')),
           section(l.aiSection),
@@ -70,6 +129,27 @@ class SettingsScreen extends ConsumerWidget {
                       onPressed: () => ref.invalidate(quotaProvider),
                     ),
                   ),
+              ],
+            ),
+          ),
+          section(l.backupSection),
+          Card(
+            child: Column(
+              children: [
+                ListTile(
+                  key: const ValueKey('backup-export'),
+                  leading: const Icon(Icons.save_alt),
+                  title: Text(l.backupExport),
+                  subtitle: Text(l.backupExportHint),
+                  onTap: () => exportLibrary(context, db),
+                ),
+                ListTile(
+                  key: const ValueKey('backup-import'),
+                  leading: const Icon(Icons.settings_backup_restore),
+                  title: Text(l.backupImport),
+                  subtitle: Text(l.backupImportHint),
+                  onTap: () => restoreLibrary(context, db),
+                ),
               ],
             ),
           ),

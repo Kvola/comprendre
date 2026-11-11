@@ -90,7 +90,8 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => EditorScreen(documentId: doc.id, initialText: doc.body, initialTitle: doc.title, source: doc.source),
+                builder: (_) =>
+                    EditorScreen(documentId: doc.id, initialText: doc.body, initialTitle: doc.title, source: doc.source),
               ),
             ),
           ),
@@ -100,10 +101,16 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
               if (v == 'delete') _delete(doc);
             },
             itemBuilder: (_) => [
-              PopupMenuItem(value: 'share', child: ListTile(leading: const Icon(Icons.share_outlined), title: Text(l.share))),
+              PopupMenuItem(
+                value: 'share',
+                child: ListTile(leading: const Icon(Icons.share_outlined), title: Text(l.share)),
+              ),
               PopupMenuItem(
                 value: 'delete',
-                child: ListTile(leading: Icon(Icons.delete_outline, color: context.palette.wrong), title: Text(l.delete)),
+                child: ListTile(
+                  leading: Icon(Icons.delete_outline, color: context.palette.wrong),
+                  title: Text(l.delete),
+                ),
               ),
             ],
           ),
@@ -131,7 +138,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
                         const Spacer(),
                         Flexible(
                           child: Text(
-                            '${doc.lang == 'en' ? l.langEn : l.langFr} · ${l.charsCount(doc.body.length)}',
+                            '${langLabel(l, doc.lang)} · ${l.charsCount(doc.body.length)}',
                             style: theme.textTheme.bodySmall,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -149,7 +156,11 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
           if (quizzes.isEmpty)
             Padding(padding: const EdgeInsets.symmetric(vertical: 8), child: Text(l.noQuizYet))
           else
-            for (final q in quizzes) Padding(padding: const EdgeInsets.only(bottom: 10), child: _QuizTile(q)),
+            for (final q in quizzes)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: _QuizTile(q, stale: q.quiz.isStale(doc.body)),
+              ),
         ],
       ),
       bottomNavigationBar: BottomBar(
@@ -164,9 +175,12 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
 }
 
 class _QuizTile extends ConsumerWidget {
-  const _QuizTile(this.summary);
+  const _QuizTile(this.summary, {required this.stale});
 
   final QuizSummary summary;
+
+  /// Le texte a changé depuis ce quiz.
+  final bool stale;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -176,6 +190,18 @@ class _QuizTile extends ConsumerWidget {
     final ai = quiz.engine == QuizEngine.ai;
     final date = DateFormat.yMMMd(Localizations.localeOf(context).toLanguageTag()).add_Hm().format(summary.quiz.createdAt);
     final total = quiz.questions.length;
+    final progress = summary.quiz.progress;
+    final theme = Theme.of(context);
+    final lines = [
+      if (summary.quiz.section case final s?) l.sectionLabel(s.label),
+      if (progress != null && progress.answers.isNotEmpty) l.quizInProgress(progress.answers.length, progress.order.length),
+      // Le meilleur score reste visible pendant un nouvel essai.
+      if (summary.bestScore != null)
+        l.bestScore(summary.bestScore!, total)
+      else if (progress == null || progress.answers.isEmpty)
+        l.notTried,
+      date,
+    ];
     return Card(
       clipBehavior: Clip.antiAlias,
       child: ListTile(
@@ -186,8 +212,24 @@ class _QuizTile extends ConsumerWidget {
           child: Icon(ai ? Icons.auto_awesome : Icons.offline_bolt_outlined),
         ),
         title: Text('${ai ? l.engineAi : l.engineOffline} · ${l.questionsCount(total)}'),
-        subtitle: Text(
-          '${summary.bestScore == null ? l.notTried : l.bestScore(summary.bestScore!, total)}\n$date',
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(lines.join('\n')),
+            if (stale)
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Row(
+                  children: [
+                    Icon(Icons.history, size: 16, color: theme.colorScheme.tertiary),
+                    const SizedBox(width: 4),
+                    Expanded(
+                      child: Text(l.staleQuiz, style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.tertiary)),
+                    ),
+                  ],
+                ),
+              ),
+          ],
         ),
         isThreeLine: true,
         onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => QuizScreen(quizId: summary.quiz.id))),

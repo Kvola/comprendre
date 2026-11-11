@@ -39,8 +39,8 @@ Comprendre tient en quelques écrans :
 | **Nouveau texte** | Les quatre façons d'apporter un texte : **Écrire ou coller**, **Scanner un document**, **Texte d’une photo**, **Importer un fichier**. |
 | **Votre texte** | La saisie ou la relecture du texte, avec un titre facultatif et la langue du texte. Le bouton **Créer le quiz** lance le quiz. |
 | L'écran d'un texte | Il porte le titre du texte. Il montre le début du texte (**Lire le texte** pour tout lire) et la liste de ses **Quiz**. En bas : **Nouveau quiz** ou **Un autre quiz**. |
-| Le quiz | Une question à la fois (*Question 1 sur 10*), puis l'écran **Résultat**. |
-| **Réglages** | Langue, thème, nombre de questions, quiz IA, et **À propos**. |
+| Le quiz | Une question à la fois (*Question 1 sur 10*), puis l'écran **Résultat**. Un quiz quitté en cours reprend là où vous l'aviez laissé. |
+| **Réglages** | Langue, thème, nombre de questions, quiz IA, **Sauvegarde** de vos textes, et **À propos**. |
 
 > **Bon à savoir** : vos textes, vos quiz et vos résultats restent **sur votre téléphone**. Il n'y a pas de compte à créer.
 
@@ -80,7 +80,7 @@ La seule question vient plus tard, au **premier quiz** : Comprendre vous demande
 2. Elle ouvre Comprendre et touche **Écrire ou coller**. S'il y a déjà des textes, elle touche d'abord **Nouveau texte**.
 3. L'écran **Votre texte** s'ouvre. Elle touche l'icône **Coller**, en haut à droite : la leçon apparaît dans le champ **Texte**.
 4. Elle peut écrire un titre dans **Titre (facultatif)**, par exemple *Les indépendances africaines*. Si elle le laisse vide, Comprendre prend le début de la première phrase comme titre.
-5. Sous le texte, le nombre de caractères s'affiche. La **Langue du texte** (**Français** ou **Anglais**) est choisie toute seule ; elle peut la corriger d'un geste.
+5. Sous le texte, le nombre de caractères s'affiche. La **Langue du texte** est reconnue toute seule (**Français**, **Anglais**, **Espagnol**, **Portugais**, **Allemand** ou **Italien**) ; elle peut la corriger d'un geste.
 6. Elle touche **Créer le quiz**.
 
 > **Bon à savoir** : il faut au moins **150 caractères**, soit deux ou trois phrases. Sinon, l'application affiche : *« Ajoutez un peu de texte : 150 caractères au moins. »*
@@ -99,7 +99,7 @@ Ce choix est retenu. Vous pouvez le changer à tout moment dans **Réglages → 
 La fenêtre **Création du quiz…** s'affiche :
 
 - sans IA, avec le message *« Préparation des questions à partir du texte… »* : c'est très rapide ;
-- avec l'IA, avec le message *« L’IA lit votre texte et prépare des questions de compréhension. Cela peut prendre jusqu’à une minute. »*
+- avec l'IA, avec le message *« L’IA lit votre texte et prépare des questions de compréhension. Cela peut prendre une à deux minutes. »*
 
 Pendant l'attente de l'IA, le bouton **Créer hors ligne maintenant** permet de ne pas attendre : le quiz est alors créé tout de suite sur le téléphone.
 
@@ -152,6 +152,15 @@ Le quiz s'ouvre ensuite. Pour y répondre, voir l'[exemple 5](#exemple-5--répon
 
 Formats acceptés : PDF (même un PDF scanné), Word (.docx), PowerPoint (.pptx), Excel (.xlsx, texte des cellules), OpenDocument (.odt, .odp), EPUB, RTF, HTML, texte et Markdown.
 
+**Un long document : choisir une partie**
+
+Pour un long texte (plus de 8 000 caractères, soit environ trois pages), Comprendre demande **Quiz sur quelle partie ?** au moment de créer le quiz :
+
+- **Tout le texte** : un quiz sur l'ensemble. Pour un texte très long, la ligne précise *« Trop long pour l’IA (30000 caractères au plus) : quiz hors ligne »* ;
+- ou l'une des **parties** : les chapitres du document quand il a des titres (*Introduction*, *Chapitre 1…*), sinon des morceaux de deux à trois pages, nommés par leurs premiers mots.
+
+Un quiz sur une partie est plus utile : les questions portent sur ce que vous venez de lire, et l'IA accepte la partie même quand le document entier est trop long pour elle. Dans la liste des quiz, la partie est rappelée (*Partie : Chapitre 2*), et **Un autre quiz** depuis l'écran **Résultat** reprend la même partie.
+
 Ce qui peut bloquer :
 
 | Message | Que faire |
@@ -181,7 +190,7 @@ Ce qui peut bloquer :
 5. Touchez **Voir dans le texte** : le texte complet s'ouvre, avec ce passage **surligné**. Revenez en arrière pour continuer.
 6. Touchez **Suivante**. À la dernière question, touchez **Voir le résultat**.
 
-> **Bon à savoir** : si vous quittez un quiz en cours, Comprendre demande **Quitter le quiz ?** car *« Vos réponses à ce quiz ne seront pas enregistrées. »* Touchez **Annuler** pour continuer, ou **Quitter**.
+> **Bon à savoir** : vous pouvez quitter un quiz en cours à tout moment, même fermer l'application : vos réponses sont gardées. Dans la liste des quiz, il est marqué *En cours : 4 réponse(s) sur 10* ; touchez-le pour reprendre. L'application affiche alors *« Reprise là où vous en étiez. »*
 
 **L'écran Résultat**
 
@@ -200,13 +209,14 @@ Ce qui peut bloquer :
 
 **Depuis l'écran Résultat**
 
-- **Refaire ce quiz** : les mêmes questions, depuis le début.
-- **Un autre quiz** : un nouveau quiz sur le même texte, avec d'autres questions.
+- **Revoir mes erreurs** (au-dessus du résumé, s'il y en a) : seulement les questions manquées, pour vérifier que vous avez compris. Ce tour ne change pas votre meilleur score : l'écran **Mes erreurs** donne par exemple *Erreurs revues : 3 sur 4 maintenant justes*.
+- **Refaire ce quiz** : toutes les questions, **dans un autre ordre** (pour ne pas répondre de mémoire).
+- **Un autre quiz** : un nouveau quiz sur le même texte (ou la même partie), avec d'autres questions. Hors ligne, Comprendre choisit d'abord des phrases que les quiz précédents n'ont pas utilisées.
 
 **Depuis l'écran du texte**
 
 1. Sur l'écran **Mes textes**, touchez le texte.
-2. Sous **Quiz**, chaque quiz est listé : *Quiz hors ligne · 10 questions* ou *Quiz IA · 10 questions*, avec *Pas encore fait* ou *Meilleur score : 7/10*, et la date.
+2. Sous **Quiz**, chaque quiz est listé : *Quiz hors ligne · 10 questions* ou *Quiz IA · 10 questions*, avec la partie s'il en a une (*Partie : Chapitre 2*), *Pas encore fait*, *En cours : 4 réponse(s) sur 10* ou *Meilleur score : 7/10*, et la date.
 3. Touchez un quiz pour le refaire.
 4. Touchez **Un autre quiz**, en bas, pour en créer un nouveau.
 5. Pour supprimer un quiz, touchez l'icône 🗑 à sa droite, puis **Supprimer**.
@@ -228,7 +238,9 @@ Ouvrez le texte depuis l'écran **Mes textes**, puis :
 | Envoyer le texte à quelqu'un | Touchez le menu **⋮** en haut à droite, puis **Partager**. Choisissez ensuite WhatsApp, un e-mail… |
 | Supprimer le texte | Touchez **⋮ → Supprimer**. Comprendre demande **Supprimer ce texte ?** : *« Le texte et ses quiz seront supprimés de ce téléphone. »* Touchez **Supprimer** pour confirmer. |
 
-> **Bon à savoir** : un texte supprimé ne peut pas être récupéré. Ses quiz et ses scores sont supprimés aussi.
+> **Bon à savoir** : un texte supprimé ne peut pas être récupéré (sauf depuis une [sauvegarde](#les-réglages)). Ses quiz et ses scores sont supprimés aussi.
+
+> **Bon à savoir** : après une correction du texte, les quiz déjà faits restent, mais portent la mention *Le texte a été modifié depuis ce quiz* : un passage cité peut avoir changé. Si vous touchez **Voir dans le texte** et que le passage n'y est plus, l'application l'indique : *« Ce passage n’est plus dans le texte : le texte a été modifié depuis ce quiz. »* Créez un nouveau quiz pour travailler sur le texte corrigé.
 
 ---
 
@@ -256,10 +268,13 @@ Comprendre sait créer deux sortes de quiz. Dans la liste des quiz d'un texte, c
 - *Quiz créé hors ligne : le service IA est très demandé, réessayez plus tard.*
 - *Quiz créé hors ligne : le service IA est momentanément indisponible.*
 - *Quiz créé hors ligne : trop de demandes, réessayez dans 10 min.*
+- *Quiz créé hors ligne : l’IA a échoué plusieurs fois aujourd’hui sur vos textes ; elle sera de nouveau disponible demain.*
 
 **La limite du jour.** Le nombre de quiz IA gratuits est indiqué dans la fenêtre **Utiliser l’IA ?** (par exemple **5 quiz IA gratuits par jour**). Pour savoir combien il vous en reste, ouvrez **Réglages → Quiz IA** : vous lisez par exemple *Encore 3 quiz IA aujourd’hui*, ou *Plus de quiz IA aujourd’hui*. Quand la limite est atteinte, vos quiz sont créés hors ligne jusqu'au lendemain.
 
-> **Bon à savoir** : pour un texte très court (moins de 200 caractères environ), le quiz est toujours créé hors ligne. Les textes très longs (plus de 30 000 caractères environ) ne sont pas envoyés à l'IA : retirez les parties inutiles, ou découpez le texte en plusieurs textes.
+> **Bon à savoir** : pour un texte très court (moins de 200 caractères environ), le quiz est toujours créé hors ligne. Un texte très long (plus de 30 000 caractères environ) n'est pas envoyé en entier à l'IA : choisissez une **partie** (voir l'[exemple 4](#exemple-4--importer-un-fichier-pdf-ou-word)).
+
+**Les langues.** Le quiz hors ligne se fait en **français** et en **anglais**. Pour un texte en **espagnol**, **portugais**, **allemand** ou **italien**, il faut l'IA (et donc une connexion) : sans elle, l'application l'explique, par exemple *« Hors ligne, les quiz ne se font qu’en français et en anglais. Pour ce texte, activez l’IA dans les réglages. »*
 
 > **Astuce** : gardez vos quiz IA pour les textes difficiles, par exemple une leçon à bien comprendre. Pour une simple révision, le quiz hors ligne suffit souvent.
 
@@ -275,6 +290,7 @@ Touchez l'icône ⚙ en haut de l'écran **Mes textes**.
 | **Thème** | **Automatique**, **Clair** ou **Sombre**. |
 | **Questions par quiz** | **5**, **10** ou **15**. |
 | **Quiz IA** | L'interrupteur **Utiliser l’IA quand c’est possible**. Quand il est activé, la ligne en dessous indique les quiz IA restants aujourd'hui ; l'icône ↻ met ce nombre à jour. Sans connexion, elle affiche *Quota IA : connexion nécessaire*. |
+| **Sauvegarde** | **Sauvegarder ma bibliothèque** : enregistre dans un fichier tous vos textes, quiz et résultats (choisissez où le ranger : Téléchargements, Google Drive…). **Restaurer une sauvegarde** : ajoute les textes d'un fichier de sauvegarde ; ceux déjà présents ne sont pas dupliqués, et rien n'est effacé. |
 | **À propos** | Une présentation de Comprendre, la **Confidentialité**, et le numéro de version. |
 
 ---
@@ -313,7 +329,7 @@ Après une première ouverture avec Internet, la version web fonctionne **sans c
 
 **Vos textes**
 
-Ils sont gardés **dans ce navigateur, sur cet appareil**, et ne passent pas d'un appareil à l'autre.
+Ils sont gardés **dans ce navigateur, sur cet appareil**, et ne passent pas d'un appareil à l'autre. Pour les emporter ailleurs (de l'ordinateur au téléphone, par exemple), utilisez **Réglages → Sauvegarde** : la sauvegarde est téléchargée en fichier, à restaurer sur l'autre appareil.
 
 > **Attention (iPhone)** : si la version web n'est pas sur l'écran d'accueil et que vous ne l'ouvrez pas pendant plusieurs semaines, Safari peut effacer vos textes. Mettez-la sur l'écran d'accueil.
 
@@ -331,7 +347,7 @@ Non. Comprendre ne demande ni compte, ni numéro de téléphone, ni adresse e-ma
 Il est envoyé de façon chiffrée au serveur de Comprendre puis à l'IA, seulement pour créer le quiz. Il n'est pas conservé. Un identifiant aléatoire, sans lien avec vous, sert seulement à compter vos quiz gratuits. Vos textes et vos résultats restent sur votre téléphone.
 
 **Combien de quiz IA puis-je faire par jour ?**
-Le nombre est affiché dans la fenêtre **Utiliser l’IA ?** et dans **Réglages → Quiz IA** (5 par jour en principe). Seuls les quiz IA réussis sont comptés. Au-delà, vos quiz sont créés hors ligne, sans limite.
+Le nombre est affiché dans la fenêtre **Utiliser l’IA ?** et dans **Réglages → Quiz IA** (5 par jour en principe). Seuls les quiz IA réussis sont comptés. Au-delà, vos quiz sont créés hors ligne, sans limite. Si l'IA échoue plusieurs fois le même jour sur vos textes (3 fois en principe), elle se met en pause jusqu'au lendemain.
 
 **Je n'ai plus de quiz IA aujourd'hui. Que se passe-t-il ?**
 Rien de grave : vos quiz sont créés hors ligne, et un message vous le signale (*« quota IA du jour atteint »*). Les quiz IA reviennent le lendemain.
@@ -348,8 +364,11 @@ Quand un texte est court, il n'y a pas toujours assez de matière pour toutes le
 **Le texte scanné contient des erreurs. Est-ce grave ?**
 Corrigez-les dans l'écran **Votre texte** avant de toucher **Créer le quiz**. Plus le texte est propre, meilleures sont les questions. Vous pouvez aussi corriger plus tard avec l'icône ✎ (**Modifier**).
 
-**Puis-je travailler un texte en anglais ?**
-Oui. Choisissez **Anglais** dans **Langue du texte** si l'application ne l'a pas reconnu toute seule. Les questions seront alors en anglais.
+**Puis-je travailler un texte en anglais, ou dans une autre langue ?**
+Oui. Choisissez la langue dans **Langue du texte** si l'application ne l'a pas reconnue toute seule : les questions seront dans cette langue. En anglais, tout marche aussi hors ligne ; en espagnol, portugais, allemand ou italien, il faut le quiz IA.
+
+**Je change de téléphone. Comment garder mes textes ?**
+Sur l'ancien téléphone : **Réglages → Sauvegarde → Sauvegarder ma bibliothèque**, et rangez le fichier dans Google Drive ou envoyez-le-vous. Sur le nouveau : installez Comprendre, puis **Réglages → Sauvegarde → Restaurer une sauvegarde** et choisissez ce fichier.
 
 **Comment mettre à jour l'application ?**
 Quand une nouvelle version est publiée, un bandeau dans l'application vous le signale ; touchez-le pour la télécharger depuis la page de téléchargement.

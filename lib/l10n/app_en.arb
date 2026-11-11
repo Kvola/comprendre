@@ -38,7 +38,6 @@
   "libraryTitle": "My texts",
   "emptyTitle": "Understand what you read",
   "emptyBody": "Type or paste a text, scan a page or import a file (PDF, Word, PowerPoint…). Understand turns it into a quiz to check and deepen your understanding.",
-  "emptyBodyWeb": "Type or paste a text, or import a file (PDF, Word, PowerPoint…). Understand turns it into a quiz to check and deepen your understanding.",
   "newText": "New text",
   "sourceTyped": "Type or paste",
   "sourceTypedHint": "Type the text, or paste it",
@@ -69,6 +68,11 @@
   "languageOfText": "Language of the text",
   "langFr": "French",
   "langEn": "English",
+  "langEs": "Spanish",
+  "langPt": "Portuguese",
+  "langDe": "German",
+  "langIt": "Italian",
+  "langNeedsAiNote": "Offline, quizzes are only made in French and English: for a text in this language, the AI (with a connection) is needed.",
   "createQuiz": "Create the quiz",
   "saveText": "Save the text",
   "discardTitle": "Discard this text?",
@@ -117,9 +121,22 @@
   "engineAi": "AI quiz",
   "engineOffline": "Offline quiz",
   "deleteQuizTitle": "Delete this quiz?",
+  "staleQuiz": "The text has changed since this quiz",
+  "quizInProgress": "In progress: {done} of {total} answered",
+  "@quizInProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "quoteNotFound": "This passage is no longer in the text: the text has changed since this quiz.",
   "summaryTitle": "In short",
   "creatingQuiz": "Creating the quiz…",
-  "creatingAi": "The AI is reading your text and preparing comprehension questions. This can take up to a minute.",
+  "creatingAi": "The AI is reading your text and preparing comprehension questions. This can take one or two minutes.",
   "creatingOffline": "Preparing questions from the text…",
   "useOfflineNow": "Create offline now",
   "quizTooShort": "This text is too short or too thin for a quiz. Add a few complete sentences.",
@@ -133,6 +150,43 @@
   },
   "whyNetwork": "no connection to the AI service.",
   "whyQuota": "today’s AI quota is used up.",
+  "whyFailures": "the AI failed several times today on your texts; it will be available again tomorrow.",
+  "whyLanguage": "the AI service does not handle this language yet.",
+  "langNeedsAiOff": "Offline, quizzes are only made in French and English. For this text, turn on the AI in the settings.",
+  "langNeedsAiFailed": "Offline, quizzes are only made in French and English, and the AI could not create this quiz: {reason}",
+  "@langNeedsAiFailed": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "chooseSectionTitle": "Quiz on which part?",
+  "chooseSectionBody": "This text is long ({count} characters): a quiz on one part is more useful.",
+  "@chooseSectionBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "wholeText": "The whole text",
+  "wholeTextTooLongForAi": "Too long for the AI ({count} characters max): offline quiz",
+  "@wholeTextTooLongForAi": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sectionLabel": "Part: {label}",
+  "@sectionLabel": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
   "whyTooLong": "text too long for the AI ({count} characters max).",
   "@whyTooLong": {
     "placeholders": {
@@ -195,9 +249,19 @@
   "showInText": "Show in the text",
   "next": "Next",
   "seeResults": "See the result",
-  "quitQuizTitle": "Leave the quiz?",
-  "quitQuizBody": "Your answers to this quiz will not be saved.",
-  "quit": "Leave",
+  "progressResumed": "Picking up where you left off.",
+  "reviewMistakesTitle": "My mistakes",
+  "mistakeOf": "Mistake {index} of {total}",
+  "@mistakeOf": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "skillMainIdea": "Main idea",
   "skillDetail": "Detail",
   "skillVocabulary": "Vocabulary",
@@ -229,6 +293,19 @@
     }
   },
   "tryAgain": "Take this quiz again",
+  "retryMistakes": "Retry my mistakes",
+  "mistakesResult": "Mistakes reviewed: {score} of {total} now right",
+  "@mistakesResult": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "mistakesResultHint": "This round does not change your best score: take the whole quiz again for that.",
   "backToText": "Back to the text",
   "settings": "Settings",
   "appLanguage": "App language",
@@ -250,6 +327,27 @@
     }
   },
   "aiQuotaUnknown": "AI quota: connection needed",
+  "backupSection": "Backup",
+  "backupExport": "Back up my library",
+  "backupExportHint": "A file with your texts, quizzes and results, to keep or move to another phone.",
+  "backupImport": "Restore a backup",
+  "backupImportHint": "Adds the texts from the file; those already here are not duplicated.",
+  "backupSaved": "Backup saved.",
+  "backupEmpty": "Your library is empty: nothing to back up.",
+  "backupFailed": "The backup could not be saved.",
+  "restoreDone": "Restore: {added} text(s) added, {skipped} already here.",
+  "@restoreDone": {
+    "placeholders": {
+      "added": {
+        "type": "int"
+      },
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "backupInvalid": "This file is not an Understand backup.",
+  "backupNewer": "This backup comes from a newer version of Understand: update the app.",
   "about": "About",
   "aboutBody": "Understand helps you understand a text by asking you questions about it. Every answer is backed by a passage of the text.",
   "privacyTitle": "Privacy",
@@ -262,8 +360,23 @@
       }
     }
   },
+  "emptyBodyWeb": "Type or paste a text, or import a file (PDF, Word, PowerPoint…). Understand turns it into a quiz to check and deepen your understanding.",
   "updateAvailable": "Version {version} available",
+  "@updateAvailable": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
   "updateRequired": "Update required: version {version}",
+  "@updateRequired": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
   "updateRequiredHint": "This version is no longer supported: install the new one to continue.",
   "updateDownload": "Download",
   "updateLater": "Later",

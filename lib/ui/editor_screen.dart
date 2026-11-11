@@ -57,7 +57,8 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
   String get _effectiveLang => _lang ?? _detected;
 
   bool get _dirty =>
-      _text.text.trim() != (widget.initialText ?? '').trim() || _title.text.trim() != (widget.initialTitle ?? _titleFromFile(widget.fileName));
+      _text.text.trim() != (widget.initialText ?? '').trim() ||
+      _title.text.trim() != (widget.initialTitle ?? _titleFromFile(widget.fileName));
 
   Future<void> _paste() async {
     final data = await Clipboard.getData(Clipboard.kTextPlain);
@@ -98,7 +99,13 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
       nav.pop();
       return;
     }
-    final id = await db.addDocument(title: title, body: body, source: widget.source, fileName: widget.fileName, lang: _effectiveLang);
+    final id = await db.addDocument(
+      title: title,
+      body: body,
+      source: widget.source,
+      fileName: widget.fileName,
+      lang: _effectiveLang,
+    );
     nav.pushReplacement(MaterialPageRoute(builder: (_) => DocumentScreen(documentId: id, autoCreateQuiz: true)));
   }
 
@@ -163,14 +170,23 @@ class _EditorScreenState extends ConsumerState<EditorScreen> {
             const SizedBox(height: 16),
             Text(l.languageOfText, style: theme.textTheme.titleSmall),
             const SizedBox(height: 8),
-            SegmentedButton<String>(
-              segments: [
-                ButtonSegment(value: 'fr', label: Text(l.langFr)),
-                ButtonSegment(value: 'en', label: Text(l.langEn)),
+            Wrap(
+              spacing: 8,
+              runSpacing: 4,
+              children: [
+                for (final code in textLanguages)
+                  ChoiceChip(
+                    key: ValueKey('lang-$code'),
+                    label: Text(langLabel(l, code)),
+                    selected: _effectiveLang == code,
+                    onSelected: (_) => setState(() => _lang = code),
+                  ),
               ],
-              selected: {_effectiveLang},
-              onSelectionChanged: (s) => setState(() => _lang = s.first),
             ),
+            if (!offlineLanguages.contains(_effectiveLang)) ...[
+              const SizedBox(height: 8),
+              Text(l.langNeedsAiNote, style: theme.textTheme.bodySmall),
+            ],
           ],
         ),
         bottomNavigationBar: BottomBar(

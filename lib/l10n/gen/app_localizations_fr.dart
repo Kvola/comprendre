@@ -81,10 +81,6 @@ class AppLocalizationsFr extends AppLocalizations {
       'Écrivez ou collez un texte, scannez une page ou importez un fichier (PDF, Word, PowerPoint…). Comprendre en tire un quiz pour vérifier et approfondir votre compréhension.';
 
   @override
-  String get emptyBodyWeb =>
-      'Écrivez ou collez un texte, ou importez un fichier (PDF, Word, PowerPoint…). Comprendre en tire un quiz pour vérifier et approfondir votre compréhension.';
-
-  @override
   String get newText => 'Nouveau texte';
 
   @override
@@ -157,6 +153,22 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get langEn => 'Anglais';
+
+  @override
+  String get langEs => 'Espagnol';
+
+  @override
+  String get langPt => 'Portugais';
+
+  @override
+  String get langDe => 'Allemand';
+
+  @override
+  String get langIt => 'Italien';
+
+  @override
+  String get langNeedsAiNote =>
+      'Hors ligne, les quiz ne se font qu’en français et en anglais : pour un texte dans cette langue, l’IA (avec une connexion) est nécessaire.';
 
   @override
   String get createQuiz => 'Créer le quiz';
@@ -250,6 +262,18 @@ class AppLocalizationsFr extends AppLocalizations {
   String get deleteQuizTitle => 'Supprimer ce quiz ?';
 
   @override
+  String get staleQuiz => 'Le texte a été modifié depuis ce quiz';
+
+  @override
+  String quizInProgress(int done, int total) {
+    return 'En cours : $done réponse(s) sur $total';
+  }
+
+  @override
+  String get quoteNotFound =>
+      'Ce passage n’est plus dans le texte : le texte a été modifié depuis ce quiz.';
+
+  @override
   String get summaryTitle => 'En bref';
 
   @override
@@ -257,7 +281,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get creatingAi =>
-      'L’IA lit votre texte et prépare des questions de compréhension. Cela peut prendre jusqu’à une minute.';
+      'L’IA lit votre texte et prépare des questions de compréhension. Cela peut prendre une à deux minutes.';
 
   @override
   String get creatingOffline => 'Préparation des questions à partir du texte…';
@@ -279,6 +303,43 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get whyQuota => 'quota IA du jour atteint.';
+
+  @override
+  String get whyFailures =>
+      'l’IA a échoué plusieurs fois aujourd’hui sur vos textes ; elle sera de nouveau disponible demain.';
+
+  @override
+  String get whyLanguage => 'le service IA ne gère pas encore cette langue.';
+
+  @override
+  String get langNeedsAiOff =>
+      'Hors ligne, les quiz ne se font qu’en français et en anglais. Pour ce texte, activez l’IA dans les réglages.';
+
+  @override
+  String langNeedsAiFailed(String reason) {
+    return 'Hors ligne, les quiz ne se font qu’en français et en anglais, et l’IA n’a pas pu créer ce quiz : $reason';
+  }
+
+  @override
+  String get chooseSectionTitle => 'Quiz sur quelle partie ?';
+
+  @override
+  String chooseSectionBody(int count) {
+    return 'Ce texte est long ($count caractères) : un quiz sur une partie est plus utile.';
+  }
+
+  @override
+  String get wholeText => 'Tout le texte';
+
+  @override
+  String wholeTextTooLongForAi(int count) {
+    return 'Trop long pour l’IA ($count caractères au plus) : quiz hors ligne';
+  }
+
+  @override
+  String sectionLabel(String label) {
+    return 'Partie : $label';
+  }
 
   @override
   String whyTooLong(int count) {
@@ -371,14 +432,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get seeResults => 'Voir le résultat';
 
   @override
-  String get quitQuizTitle => 'Quitter le quiz ?';
+  String get progressResumed => 'Reprise là où vous en étiez.';
 
   @override
-  String get quitQuizBody =>
-      'Vos réponses à ce quiz ne seront pas enregistrées.';
+  String get reviewMistakesTitle => 'Mes erreurs';
 
   @override
-  String get quit => 'Quitter';
+  String mistakeOf(int index, int total) {
+    return 'Erreur $index sur $total';
+  }
 
   @override
   String get skillMainIdea => 'Idée principale';
@@ -427,6 +489,18 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get tryAgain => 'Refaire ce quiz';
+
+  @override
+  String get retryMistakes => 'Revoir mes erreurs';
+
+  @override
+  String mistakesResult(int score, int total) {
+    return 'Erreurs revues : $score sur $total maintenant justes';
+  }
+
+  @override
+  String get mistakesResultHint =>
+      'Ce tour ne change pas votre meilleur score : refaites tout le quiz pour cela.';
 
   @override
   String get backToText => 'Retour au texte';
@@ -481,6 +555,45 @@ class AppLocalizationsFr extends AppLocalizations {
   String get aiQuotaUnknown => 'Quota IA : connexion nécessaire';
 
   @override
+  String get backupSection => 'Sauvegarde';
+
+  @override
+  String get backupExport => 'Sauvegarder ma bibliothèque';
+
+  @override
+  String get backupExportHint =>
+      'Un fichier avec vos textes, quiz et résultats, à garder ou à transférer sur un autre téléphone.';
+
+  @override
+  String get backupImport => 'Restaurer une sauvegarde';
+
+  @override
+  String get backupImportHint =>
+      'Ajoute les textes du fichier ; ceux déjà présents ne sont pas dupliqués.';
+
+  @override
+  String get backupSaved => 'Sauvegarde enregistrée.';
+
+  @override
+  String get backupEmpty => 'Votre bibliothèque est vide : rien à sauvegarder.';
+
+  @override
+  String get backupFailed => 'La sauvegarde n’a pas pu être enregistrée.';
+
+  @override
+  String restoreDone(int added, int skipped) {
+    return 'Restauration : $added texte(s) ajouté(s), $skipped déjà présent(s).';
+  }
+
+  @override
+  String get backupInvalid =>
+      'Ce fichier n’est pas une sauvegarde de Comprendre.';
+
+  @override
+  String get backupNewer =>
+      'Cette sauvegarde vient d’une version plus récente de Comprendre : mettez l’application à jour.';
+
+  @override
   String get about => 'À propos';
 
   @override
@@ -498,6 +611,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String version(String version) {
     return 'Version $version';
   }
+
+  @override
+  String get emptyBodyWeb =>
+      'Écrivez ou collez un texte, ou importez un fichier (PDF, Word, PowerPoint…). Comprendre en tire un quiz pour vérifier et approfondir votre compréhension.';
 
   @override
   String updateAvailable(String version) {

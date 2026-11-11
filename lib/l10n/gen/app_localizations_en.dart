@@ -81,10 +81,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Type or paste a text, scan a page or import a file (PDF, Word, PowerPoint…). Understand turns it into a quiz to check and deepen your understanding.';
 
   @override
-  String get emptyBodyWeb =>
-      'Type or paste a text, or import a file (PDF, Word, PowerPoint…). Understand turns it into a quiz to check and deepen your understanding.';
-
-  @override
   String get newText => 'New text';
 
   @override
@@ -157,6 +153,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get langEn => 'English';
+
+  @override
+  String get langEs => 'Spanish';
+
+  @override
+  String get langPt => 'Portuguese';
+
+  @override
+  String get langDe => 'German';
+
+  @override
+  String get langIt => 'Italian';
+
+  @override
+  String get langNeedsAiNote =>
+      'Offline, quizzes are only made in French and English: for a text in this language, the AI (with a connection) is needed.';
 
   @override
   String get createQuiz => 'Create the quiz';
@@ -250,6 +262,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteQuizTitle => 'Delete this quiz?';
 
   @override
+  String get staleQuiz => 'The text has changed since this quiz';
+
+  @override
+  String quizInProgress(int done, int total) {
+    return 'In progress: $done of $total answered';
+  }
+
+  @override
+  String get quoteNotFound =>
+      'This passage is no longer in the text: the text has changed since this quiz.';
+
+  @override
   String get summaryTitle => 'In short';
 
   @override
@@ -257,7 +281,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get creatingAi =>
-      'The AI is reading your text and preparing comprehension questions. This can take up to a minute.';
+      'The AI is reading your text and preparing comprehension questions. This can take one or two minutes.';
 
   @override
   String get creatingOffline => 'Preparing questions from the text…';
@@ -279,6 +303,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get whyQuota => 'today’s AI quota is used up.';
+
+  @override
+  String get whyFailures =>
+      'the AI failed several times today on your texts; it will be available again tomorrow.';
+
+  @override
+  String get whyLanguage => 'the AI service does not handle this language yet.';
+
+  @override
+  String get langNeedsAiOff =>
+      'Offline, quizzes are only made in French and English. For this text, turn on the AI in the settings.';
+
+  @override
+  String langNeedsAiFailed(String reason) {
+    return 'Offline, quizzes are only made in French and English, and the AI could not create this quiz: $reason';
+  }
+
+  @override
+  String get chooseSectionTitle => 'Quiz on which part?';
+
+  @override
+  String chooseSectionBody(int count) {
+    return 'This text is long ($count characters): a quiz on one part is more useful.';
+  }
+
+  @override
+  String get wholeText => 'The whole text';
+
+  @override
+  String wholeTextTooLongForAi(int count) {
+    return 'Too long for the AI ($count characters max): offline quiz';
+  }
+
+  @override
+  String sectionLabel(String label) {
+    return 'Part: $label';
+  }
 
   @override
   String whyTooLong(int count) {
@@ -371,13 +432,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get seeResults => 'See the result';
 
   @override
-  String get quitQuizTitle => 'Leave the quiz?';
+  String get progressResumed => 'Picking up where you left off.';
 
   @override
-  String get quitQuizBody => 'Your answers to this quiz will not be saved.';
+  String get reviewMistakesTitle => 'My mistakes';
 
   @override
-  String get quit => 'Leave';
+  String mistakeOf(int index, int total) {
+    return 'Mistake $index of $total';
+  }
 
   @override
   String get skillMainIdea => 'Main idea';
@@ -425,6 +488,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tryAgain => 'Take this quiz again';
+
+  @override
+  String get retryMistakes => 'Retry my mistakes';
+
+  @override
+  String mistakesResult(int score, int total) {
+    return 'Mistakes reviewed: $score of $total now right';
+  }
+
+  @override
+  String get mistakesResultHint =>
+      'This round does not change your best score: take the whole quiz again for that.';
 
   @override
   String get backToText => 'Back to the text';
@@ -479,6 +554,44 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aiQuotaUnknown => 'AI quota: connection needed';
 
   @override
+  String get backupSection => 'Backup';
+
+  @override
+  String get backupExport => 'Back up my library';
+
+  @override
+  String get backupExportHint =>
+      'A file with your texts, quizzes and results, to keep or move to another phone.';
+
+  @override
+  String get backupImport => 'Restore a backup';
+
+  @override
+  String get backupImportHint =>
+      'Adds the texts from the file; those already here are not duplicated.';
+
+  @override
+  String get backupSaved => 'Backup saved.';
+
+  @override
+  String get backupEmpty => 'Your library is empty: nothing to back up.';
+
+  @override
+  String get backupFailed => 'The backup could not be saved.';
+
+  @override
+  String restoreDone(int added, int skipped) {
+    return 'Restore: $added text(s) added, $skipped already here.';
+  }
+
+  @override
+  String get backupInvalid => 'This file is not an Understand backup.';
+
+  @override
+  String get backupNewer =>
+      'This backup comes from a newer version of Understand: update the app.';
+
+  @override
   String get about => 'About';
 
   @override
@@ -496,6 +609,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String version(String version) {
     return 'Version $version';
   }
+
+  @override
+  String get emptyBodyWeb =>
+      'Type or paste a text, or import a file (PDF, Word, PowerPoint…). Understand turns it into a quiz to check and deepen your understanding.';
 
   @override
   String updateAvailable(String version) {

@@ -591,6 +591,61 @@ class $QuizzesTable extends Quizzes with TableInfo<$QuizzesTable, QuizRow> {
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _bodyHashMeta = const VerificationMeta(
+    'bodyHash',
+  );
+  @override
+  late final GeneratedColumn<String> bodyHash = GeneratedColumn<String>(
+    'body_hash',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sectionStartMeta = const VerificationMeta(
+    'sectionStart',
+  );
+  @override
+  late final GeneratedColumn<int> sectionStart = GeneratedColumn<int>(
+    'section_start',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sectionEndMeta = const VerificationMeta(
+    'sectionEnd',
+  );
+  @override
+  late final GeneratedColumn<int> sectionEnd = GeneratedColumn<int>(
+    'section_end',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sectionLabelMeta = const VerificationMeta(
+    'sectionLabel',
+  );
+  @override
+  late final GeneratedColumn<String> sectionLabel = GeneratedColumn<String>(
+    'section_label',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _progressJsonMeta = const VerificationMeta(
+    'progressJson',
+  );
+  @override
+  late final GeneratedColumn<String> progressJson = GeneratedColumn<String>(
+    'progress_json',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -601,6 +656,11 @@ class $QuizzesTable extends Quizzes with TableInfo<$QuizzesTable, QuizRow> {
     questionsJson,
     lang,
     createdAt,
+    bodyHash,
+    sectionStart,
+    sectionEnd,
+    sectionLabel,
+    progressJson,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -670,6 +730,45 @@ class $QuizzesTable extends Quizzes with TableInfo<$QuizzesTable, QuizRow> {
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
+    if (data.containsKey('body_hash')) {
+      context.handle(
+        _bodyHashMeta,
+        bodyHash.isAcceptableOrUnknown(data['body_hash']!, _bodyHashMeta),
+      );
+    }
+    if (data.containsKey('section_start')) {
+      context.handle(
+        _sectionStartMeta,
+        sectionStart.isAcceptableOrUnknown(
+          data['section_start']!,
+          _sectionStartMeta,
+        ),
+      );
+    }
+    if (data.containsKey('section_end')) {
+      context.handle(
+        _sectionEndMeta,
+        sectionEnd.isAcceptableOrUnknown(data['section_end']!, _sectionEndMeta),
+      );
+    }
+    if (data.containsKey('section_label')) {
+      context.handle(
+        _sectionLabelMeta,
+        sectionLabel.isAcceptableOrUnknown(
+          data['section_label']!,
+          _sectionLabelMeta,
+        ),
+      );
+    }
+    if (data.containsKey('progress_json')) {
+      context.handle(
+        _progressJsonMeta,
+        progressJson.isAcceptableOrUnknown(
+          data['progress_json']!,
+          _progressJsonMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -711,6 +810,26 @@ class $QuizzesTable extends Quizzes with TableInfo<$QuizzesTable, QuizRow> {
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
       )!,
+      bodyHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}body_hash'],
+      ),
+      sectionStart: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}section_start'],
+      ),
+      sectionEnd: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}section_end'],
+      ),
+      sectionLabel: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}section_label'],
+      ),
+      progressJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}progress_json'],
+      ),
     );
   }
 
@@ -731,6 +850,19 @@ class QuizRow extends DataClass implements Insertable<QuizRow> {
   final String questionsJson;
   final String lang;
   final DateTime createdAt;
+
+  /// Empreinte du texte complet au moment du quiz ([textFingerprint]) : un texte
+  /// modifié depuis rend le quiz « ancien » (ses citations peuvent avoir disparu).
+  /// Null pour les quiz d'avant la version 2.
+  final String? bodyHash;
+
+  /// Partie du texte sur laquelle porte le quiz (null : tout le texte).
+  final int? sectionStart;
+  final int? sectionEnd;
+  final String? sectionLabel;
+
+  /// Quiz en cours : ordre des questions, réponses données (JSON) ; null sinon.
+  final String? progressJson;
   const QuizRow({
     required this.id,
     required this.documentId,
@@ -740,6 +872,11 @@ class QuizRow extends DataClass implements Insertable<QuizRow> {
     required this.questionsJson,
     required this.lang,
     required this.createdAt,
+    this.bodyHash,
+    this.sectionStart,
+    this.sectionEnd,
+    this.sectionLabel,
+    this.progressJson,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -752,6 +889,21 @@ class QuizRow extends DataClass implements Insertable<QuizRow> {
     map['questions_json'] = Variable<String>(questionsJson);
     map['lang'] = Variable<String>(lang);
     map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || bodyHash != null) {
+      map['body_hash'] = Variable<String>(bodyHash);
+    }
+    if (!nullToAbsent || sectionStart != null) {
+      map['section_start'] = Variable<int>(sectionStart);
+    }
+    if (!nullToAbsent || sectionEnd != null) {
+      map['section_end'] = Variable<int>(sectionEnd);
+    }
+    if (!nullToAbsent || sectionLabel != null) {
+      map['section_label'] = Variable<String>(sectionLabel);
+    }
+    if (!nullToAbsent || progressJson != null) {
+      map['progress_json'] = Variable<String>(progressJson);
+    }
     return map;
   }
 
@@ -765,6 +917,21 @@ class QuizRow extends DataClass implements Insertable<QuizRow> {
       questionsJson: Value(questionsJson),
       lang: Value(lang),
       createdAt: Value(createdAt),
+      bodyHash: bodyHash == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bodyHash),
+      sectionStart: sectionStart == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sectionStart),
+      sectionEnd: sectionEnd == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sectionEnd),
+      sectionLabel: sectionLabel == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sectionLabel),
+      progressJson: progressJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(progressJson),
     );
   }
 
@@ -782,6 +949,11 @@ class QuizRow extends DataClass implements Insertable<QuizRow> {
       questionsJson: serializer.fromJson<String>(json['questionsJson']),
       lang: serializer.fromJson<String>(json['lang']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      bodyHash: serializer.fromJson<String?>(json['bodyHash']),
+      sectionStart: serializer.fromJson<int?>(json['sectionStart']),
+      sectionEnd: serializer.fromJson<int?>(json['sectionEnd']),
+      sectionLabel: serializer.fromJson<String?>(json['sectionLabel']),
+      progressJson: serializer.fromJson<String?>(json['progressJson']),
     );
   }
   @override
@@ -796,6 +968,11 @@ class QuizRow extends DataClass implements Insertable<QuizRow> {
       'questionsJson': serializer.toJson<String>(questionsJson),
       'lang': serializer.toJson<String>(lang),
       'createdAt': serializer.toJson<DateTime>(createdAt),
+      'bodyHash': serializer.toJson<String?>(bodyHash),
+      'sectionStart': serializer.toJson<int?>(sectionStart),
+      'sectionEnd': serializer.toJson<int?>(sectionEnd),
+      'sectionLabel': serializer.toJson<String?>(sectionLabel),
+      'progressJson': serializer.toJson<String?>(progressJson),
     };
   }
 
@@ -808,6 +985,11 @@ class QuizRow extends DataClass implements Insertable<QuizRow> {
     String? questionsJson,
     String? lang,
     DateTime? createdAt,
+    Value<String?> bodyHash = const Value.absent(),
+    Value<int?> sectionStart = const Value.absent(),
+    Value<int?> sectionEnd = const Value.absent(),
+    Value<String?> sectionLabel = const Value.absent(),
+    Value<String?> progressJson = const Value.absent(),
   }) => QuizRow(
     id: id ?? this.id,
     documentId: documentId ?? this.documentId,
@@ -817,6 +999,11 @@ class QuizRow extends DataClass implements Insertable<QuizRow> {
     questionsJson: questionsJson ?? this.questionsJson,
     lang: lang ?? this.lang,
     createdAt: createdAt ?? this.createdAt,
+    bodyHash: bodyHash.present ? bodyHash.value : this.bodyHash,
+    sectionStart: sectionStart.present ? sectionStart.value : this.sectionStart,
+    sectionEnd: sectionEnd.present ? sectionEnd.value : this.sectionEnd,
+    sectionLabel: sectionLabel.present ? sectionLabel.value : this.sectionLabel,
+    progressJson: progressJson.present ? progressJson.value : this.progressJson,
   );
   QuizRow copyWithCompanion(QuizzesCompanion data) {
     return QuizRow(
@@ -832,6 +1019,19 @@ class QuizRow extends DataClass implements Insertable<QuizRow> {
           : this.questionsJson,
       lang: data.lang.present ? data.lang.value : this.lang,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      bodyHash: data.bodyHash.present ? data.bodyHash.value : this.bodyHash,
+      sectionStart: data.sectionStart.present
+          ? data.sectionStart.value
+          : this.sectionStart,
+      sectionEnd: data.sectionEnd.present
+          ? data.sectionEnd.value
+          : this.sectionEnd,
+      sectionLabel: data.sectionLabel.present
+          ? data.sectionLabel.value
+          : this.sectionLabel,
+      progressJson: data.progressJson.present
+          ? data.progressJson.value
+          : this.progressJson,
     );
   }
 
@@ -845,7 +1045,12 @@ class QuizRow extends DataClass implements Insertable<QuizRow> {
           ..write('summary: $summary, ')
           ..write('questionsJson: $questionsJson, ')
           ..write('lang: $lang, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('bodyHash: $bodyHash, ')
+          ..write('sectionStart: $sectionStart, ')
+          ..write('sectionEnd: $sectionEnd, ')
+          ..write('sectionLabel: $sectionLabel, ')
+          ..write('progressJson: $progressJson')
           ..write(')'))
         .toString();
   }
@@ -860,6 +1065,11 @@ class QuizRow extends DataClass implements Insertable<QuizRow> {
     questionsJson,
     lang,
     createdAt,
+    bodyHash,
+    sectionStart,
+    sectionEnd,
+    sectionLabel,
+    progressJson,
   );
   @override
   bool operator ==(Object other) =>
@@ -872,7 +1082,12 @@ class QuizRow extends DataClass implements Insertable<QuizRow> {
           other.summary == this.summary &&
           other.questionsJson == this.questionsJson &&
           other.lang == this.lang &&
-          other.createdAt == this.createdAt);
+          other.createdAt == this.createdAt &&
+          other.bodyHash == this.bodyHash &&
+          other.sectionStart == this.sectionStart &&
+          other.sectionEnd == this.sectionEnd &&
+          other.sectionLabel == this.sectionLabel &&
+          other.progressJson == this.progressJson);
 }
 
 class QuizzesCompanion extends UpdateCompanion<QuizRow> {
@@ -884,6 +1099,11 @@ class QuizzesCompanion extends UpdateCompanion<QuizRow> {
   final Value<String> questionsJson;
   final Value<String> lang;
   final Value<DateTime> createdAt;
+  final Value<String?> bodyHash;
+  final Value<int?> sectionStart;
+  final Value<int?> sectionEnd;
+  final Value<String?> sectionLabel;
+  final Value<String?> progressJson;
   const QuizzesCompanion({
     this.id = const Value.absent(),
     this.documentId = const Value.absent(),
@@ -893,6 +1113,11 @@ class QuizzesCompanion extends UpdateCompanion<QuizRow> {
     this.questionsJson = const Value.absent(),
     this.lang = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.bodyHash = const Value.absent(),
+    this.sectionStart = const Value.absent(),
+    this.sectionEnd = const Value.absent(),
+    this.sectionLabel = const Value.absent(),
+    this.progressJson = const Value.absent(),
   });
   QuizzesCompanion.insert({
     this.id = const Value.absent(),
@@ -903,6 +1128,11 @@ class QuizzesCompanion extends UpdateCompanion<QuizRow> {
     required String questionsJson,
     this.lang = const Value.absent(),
     required DateTime createdAt,
+    this.bodyHash = const Value.absent(),
+    this.sectionStart = const Value.absent(),
+    this.sectionEnd = const Value.absent(),
+    this.sectionLabel = const Value.absent(),
+    this.progressJson = const Value.absent(),
   }) : documentId = Value(documentId),
        engine = Value(engine),
        questionsJson = Value(questionsJson),
@@ -916,6 +1146,11 @@ class QuizzesCompanion extends UpdateCompanion<QuizRow> {
     Expression<String>? questionsJson,
     Expression<String>? lang,
     Expression<DateTime>? createdAt,
+    Expression<String>? bodyHash,
+    Expression<int>? sectionStart,
+    Expression<int>? sectionEnd,
+    Expression<String>? sectionLabel,
+    Expression<String>? progressJson,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -926,6 +1161,11 @@ class QuizzesCompanion extends UpdateCompanion<QuizRow> {
       if (questionsJson != null) 'questions_json': questionsJson,
       if (lang != null) 'lang': lang,
       if (createdAt != null) 'created_at': createdAt,
+      if (bodyHash != null) 'body_hash': bodyHash,
+      if (sectionStart != null) 'section_start': sectionStart,
+      if (sectionEnd != null) 'section_end': sectionEnd,
+      if (sectionLabel != null) 'section_label': sectionLabel,
+      if (progressJson != null) 'progress_json': progressJson,
     });
   }
 
@@ -938,6 +1178,11 @@ class QuizzesCompanion extends UpdateCompanion<QuizRow> {
     Value<String>? questionsJson,
     Value<String>? lang,
     Value<DateTime>? createdAt,
+    Value<String?>? bodyHash,
+    Value<int?>? sectionStart,
+    Value<int?>? sectionEnd,
+    Value<String?>? sectionLabel,
+    Value<String?>? progressJson,
   }) {
     return QuizzesCompanion(
       id: id ?? this.id,
@@ -948,6 +1193,11 @@ class QuizzesCompanion extends UpdateCompanion<QuizRow> {
       questionsJson: questionsJson ?? this.questionsJson,
       lang: lang ?? this.lang,
       createdAt: createdAt ?? this.createdAt,
+      bodyHash: bodyHash ?? this.bodyHash,
+      sectionStart: sectionStart ?? this.sectionStart,
+      sectionEnd: sectionEnd ?? this.sectionEnd,
+      sectionLabel: sectionLabel ?? this.sectionLabel,
+      progressJson: progressJson ?? this.progressJson,
     );
   }
 
@@ -978,6 +1228,21 @@ class QuizzesCompanion extends UpdateCompanion<QuizRow> {
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
+    if (bodyHash.present) {
+      map['body_hash'] = Variable<String>(bodyHash.value);
+    }
+    if (sectionStart.present) {
+      map['section_start'] = Variable<int>(sectionStart.value);
+    }
+    if (sectionEnd.present) {
+      map['section_end'] = Variable<int>(sectionEnd.value);
+    }
+    if (sectionLabel.present) {
+      map['section_label'] = Variable<String>(sectionLabel.value);
+    }
+    if (progressJson.present) {
+      map['progress_json'] = Variable<String>(progressJson.value);
+    }
     return map;
   }
 
@@ -991,7 +1256,12 @@ class QuizzesCompanion extends UpdateCompanion<QuizRow> {
           ..write('summary: $summary, ')
           ..write('questionsJson: $questionsJson, ')
           ..write('lang: $lang, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('bodyHash: $bodyHash, ')
+          ..write('sectionStart: $sectionStart, ')
+          ..write('sectionEnd: $sectionEnd, ')
+          ..write('sectionLabel: $sectionLabel, ')
+          ..write('progressJson: $progressJson')
           ..write(')'))
         .toString();
   }
@@ -2000,6 +2270,11 @@ typedef $$QuizzesTableCreateCompanionBuilder = QuizzesCompanion Function({
   required String questionsJson,
   Value<String> lang,
   required DateTime createdAt,
+  Value<String?> bodyHash,
+  Value<int?> sectionStart,
+  Value<int?> sectionEnd,
+  Value<String?> sectionLabel,
+  Value<String?> progressJson,
 });
 typedef $$QuizzesTableUpdateCompanionBuilder = QuizzesCompanion Function({
   Value<int> id,
@@ -2010,6 +2285,11 @@ typedef $$QuizzesTableUpdateCompanionBuilder = QuizzesCompanion Function({
   Value<String> questionsJson,
   Value<String> lang,
   Value<DateTime> createdAt,
+  Value<String?> bodyHash,
+  Value<int?> sectionStart,
+  Value<int?> sectionEnd,
+  Value<String?> sectionLabel,
+  Value<String?> progressJson,
 });
 
 final class $$QuizzesTableReferences
@@ -2094,6 +2374,31 @@ class $$QuizzesTableFilterComposer
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get bodyHash => $composableBuilder(
+    column: $table.bodyHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get sectionStart => $composableBuilder(
+    column: $table.sectionStart,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get sectionEnd => $composableBuilder(
+    column: $table.sectionEnd,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sectionLabel => $composableBuilder(
+    column: $table.sectionLabel,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get progressJson => $composableBuilder(
+    column: $table.progressJson,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -2190,6 +2495,31 @@ class $$QuizzesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get bodyHash => $composableBuilder(
+    column: $table.bodyHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get sectionStart => $composableBuilder(
+    column: $table.sectionStart,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get sectionEnd => $composableBuilder(
+    column: $table.sectionEnd,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sectionLabel => $composableBuilder(
+    column: $table.sectionLabel,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get progressJson => $composableBuilder(
+    column: $table.progressJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$DocumentsTableOrderingComposer get documentId {
     final $$DocumentsTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -2245,6 +2575,29 @@ class $$QuizzesTableAnnotationComposer
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get bodyHash =>
+      $composableBuilder(column: $table.bodyHash, builder: (column) => column);
+
+  GeneratedColumn<int> get sectionStart => $composableBuilder(
+    column: $table.sectionStart,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get sectionEnd => $composableBuilder(
+    column: $table.sectionEnd,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get sectionLabel => $composableBuilder(
+    column: $table.sectionLabel,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get progressJson => $composableBuilder(
+    column: $table.progressJson,
+    builder: (column) => column,
+  );
 
   $$DocumentsTableAnnotationComposer get documentId {
     final $$DocumentsTableAnnotationComposer composer = $composerBuilder(
@@ -2331,6 +2684,11 @@ class $$QuizzesTableTableManager
                 Value<String> questionsJson = const Value.absent(),
                 Value<String> lang = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<String?> bodyHash = const Value.absent(),
+                Value<int?> sectionStart = const Value.absent(),
+                Value<int?> sectionEnd = const Value.absent(),
+                Value<String?> sectionLabel = const Value.absent(),
+                Value<String?> progressJson = const Value.absent(),
               }) => QuizzesCompanion(
                 id: id,
                 documentId: documentId,
@@ -2340,6 +2698,11 @@ class $$QuizzesTableTableManager
                 questionsJson: questionsJson,
                 lang: lang,
                 createdAt: createdAt,
+                bodyHash: bodyHash,
+                sectionStart: sectionStart,
+                sectionEnd: sectionEnd,
+                sectionLabel: sectionLabel,
+                progressJson: progressJson,
               ),
           createCompanionCallback:
               ({
@@ -2351,6 +2714,11 @@ class $$QuizzesTableTableManager
                 required String questionsJson,
                 Value<String> lang = const Value.absent(),
                 required DateTime createdAt,
+                Value<String?> bodyHash = const Value.absent(),
+                Value<int?> sectionStart = const Value.absent(),
+                Value<int?> sectionEnd = const Value.absent(),
+                Value<String?> sectionLabel = const Value.absent(),
+                Value<String?> progressJson = const Value.absent(),
               }) => QuizzesCompanion.insert(
                 id: id,
                 documentId: documentId,
@@ -2360,6 +2728,11 @@ class $$QuizzesTableTableManager
                 questionsJson: questionsJson,
                 lang: lang,
                 createdAt: createdAt,
+                bodyHash: bodyHash,
+                sectionStart: sectionStart,
+                sectionEnd: sectionEnd,
+                sectionLabel: sectionLabel,
+                progressJson: progressJson,
               ),
           withReferenceMapper: (p0) => p0
               .map(

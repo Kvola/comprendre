@@ -38,7 +38,6 @@
   "libraryTitle": "Mes textes",
   "emptyTitle": "Comprenez ce que vous lisez",
   "emptyBody": "Écrivez ou collez un texte, scannez une page ou importez un fichier (PDF, Word, PowerPoint…). Comprendre en tire un quiz pour vérifier et approfondir votre compréhension.",
-  "emptyBodyWeb": "Écrivez ou collez un texte, ou importez un fichier (PDF, Word, PowerPoint…). Comprendre en tire un quiz pour vérifier et approfondir votre compréhension.",
   "newText": "Nouveau texte",
   "sourceTyped": "Écrire ou coller",
   "sourceTypedHint": "Saisissez le texte, ou collez-le",
@@ -69,6 +68,11 @@
   "languageOfText": "Langue du texte",
   "langFr": "Français",
   "langEn": "Anglais",
+  "langEs": "Espagnol",
+  "langPt": "Portugais",
+  "langDe": "Allemand",
+  "langIt": "Italien",
+  "langNeedsAiNote": "Hors ligne, les quiz ne se font qu’en français et en anglais : pour un texte dans cette langue, l’IA (avec une connexion) est nécessaire.",
   "createQuiz": "Créer le quiz",
   "saveText": "Enregistrer le texte",
   "discardTitle": "Abandonner ce texte ?",
@@ -117,9 +121,22 @@
   "engineAi": "Quiz IA",
   "engineOffline": "Quiz hors ligne",
   "deleteQuizTitle": "Supprimer ce quiz ?",
+  "staleQuiz": "Le texte a été modifié depuis ce quiz",
+  "quizInProgress": "En cours : {done} réponse(s) sur {total}",
+  "@quizInProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "quoteNotFound": "Ce passage n’est plus dans le texte : le texte a été modifié depuis ce quiz.",
   "summaryTitle": "En bref",
   "creatingQuiz": "Création du quiz…",
-  "creatingAi": "L’IA lit votre texte et prépare des questions de compréhension. Cela peut prendre jusqu’à une minute.",
+  "creatingAi": "L’IA lit votre texte et prépare des questions de compréhension. Cela peut prendre une à deux minutes.",
   "creatingOffline": "Préparation des questions à partir du texte…",
   "useOfflineNow": "Créer hors ligne maintenant",
   "quizTooShort": "Ce texte est trop court ou trop pauvre pour un quiz. Ajoutez quelques phrases complètes.",
@@ -133,6 +150,43 @@
   },
   "whyNetwork": "pas de connexion au service IA.",
   "whyQuota": "quota IA du jour atteint.",
+  "whyFailures": "l’IA a échoué plusieurs fois aujourd’hui sur vos textes ; elle sera de nouveau disponible demain.",
+  "whyLanguage": "le service IA ne gère pas encore cette langue.",
+  "langNeedsAiOff": "Hors ligne, les quiz ne se font qu’en français et en anglais. Pour ce texte, activez l’IA dans les réglages.",
+  "langNeedsAiFailed": "Hors ligne, les quiz ne se font qu’en français et en anglais, et l’IA n’a pas pu créer ce quiz : {reason}",
+  "@langNeedsAiFailed": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "chooseSectionTitle": "Quiz sur quelle partie ?",
+  "chooseSectionBody": "Ce texte est long ({count} caractères) : un quiz sur une partie est plus utile.",
+  "@chooseSectionBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "wholeText": "Tout le texte",
+  "wholeTextTooLongForAi": "Trop long pour l’IA ({count} caractères au plus) : quiz hors ligne",
+  "@wholeTextTooLongForAi": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sectionLabel": "Partie : {label}",
+  "@sectionLabel": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
   "whyTooLong": "texte trop long pour l’IA ({count} caractères au plus).",
   "@whyTooLong": {
     "placeholders": {
@@ -195,9 +249,19 @@
   "showInText": "Voir dans le texte",
   "next": "Suivante",
   "seeResults": "Voir le résultat",
-  "quitQuizTitle": "Quitter le quiz ?",
-  "quitQuizBody": "Vos réponses à ce quiz ne seront pas enregistrées.",
-  "quit": "Quitter",
+  "progressResumed": "Reprise là où vous en étiez.",
+  "reviewMistakesTitle": "Mes erreurs",
+  "mistakeOf": "Erreur {index} sur {total}",
+  "@mistakeOf": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "skillMainIdea": "Idée principale",
   "skillDetail": "Détail",
   "skillVocabulary": "Vocabulaire",
@@ -229,6 +293,19 @@
     }
   },
   "tryAgain": "Refaire ce quiz",
+  "retryMistakes": "Revoir mes erreurs",
+  "mistakesResult": "Erreurs revues : {score} sur {total} maintenant justes",
+  "@mistakesResult": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "mistakesResultHint": "Ce tour ne change pas votre meilleur score : refaites tout le quiz pour cela.",
   "backToText": "Retour au texte",
   "settings": "Réglages",
   "appLanguage": "Langue de l’application",
@@ -250,6 +327,27 @@
     }
   },
   "aiQuotaUnknown": "Quota IA : connexion nécessaire",
+  "backupSection": "Sauvegarde",
+  "backupExport": "Sauvegarder ma bibliothèque",
+  "backupExportHint": "Un fichier avec vos textes, quiz et résultats, à garder ou à transférer sur un autre téléphone.",
+  "backupImport": "Restaurer une sauvegarde",
+  "backupImportHint": "Ajoute les textes du fichier ; ceux déjà présents ne sont pas dupliqués.",
+  "backupSaved": "Sauvegarde enregistrée.",
+  "backupEmpty": "Votre bibliothèque est vide : rien à sauvegarder.",
+  "backupFailed": "La sauvegarde n’a pas pu être enregistrée.",
+  "restoreDone": "Restauration : {added} texte(s) ajouté(s), {skipped} déjà présent(s).",
+  "@restoreDone": {
+    "placeholders": {
+      "added": {
+        "type": "int"
+      },
+      "skipped": {
+        "type": "int"
+      }
+    }
+  },
+  "backupInvalid": "Ce fichier n’est pas une sauvegarde de Comprendre.",
+  "backupNewer": "Cette sauvegarde vient d’une version plus récente de Comprendre : mettez l’application à jour.",
   "about": "À propos",
   "aboutBody": "Comprendre vous aide à comprendre un texte en vous posant des questions dessus. Chaque réponse est justifiée par un passage du texte.",
   "privacyTitle": "Confidentialité",
@@ -262,6 +360,7 @@
       }
     }
   },
+  "emptyBodyWeb": "Écrivez ou collez un texte, ou importez un fichier (PDF, Word, PowerPoint…). Comprendre en tire un quiz pour vérifier et approfondir votre compréhension.",
   "updateAvailable": "Version {version} disponible",
   "@updateAvailable": {
     "placeholders": {

@@ -1,5 +1,38 @@
 # Journal des versions
 
+## 1.2.0 — 2026-11-11
+
+Nouveautés
+- **Long document : quiz sur une partie.** Au-delà de 8 000 caractères, « Quiz sur quelle partie ? » propose tout le texte
+  ou une partie : les chapitres quand le document a des titres, sinon des morceaux d'environ 6 000 caractères coupés entre
+  deux paragraphes (ou deux phrases pour un texte d'un seul bloc). L'IA accepte une partie même si le document entier est
+  trop long pour elle ; « Un autre quiz » depuis le résultat reprend la même partie.
+- **Reprise d'un quiz en cours** : les réponses sont enregistrées au fur et à mesure ; un quiz quitté (ou l'application
+  fermée) reprend là où il en était. Plus de confirmation pour quitter.
+- **« Revoir mes erreurs »** après un quiz : seulement les questions manquées (sans changer le meilleur score).
+  **« Refaire ce quiz »** pose les questions dans un autre ordre.
+- **« Un autre quiz » hors ligne** évite les phrases des quiz précédents tant qu'il en reste.
+- **Texte modifié** : les quiz antérieurs portent « Le texte a été modifié depuis ce quiz » ; un passage introuvable est
+  signalé au lieu de ne rien surligner.
+- **Sauvegarde / restauration** de la bibliothèque (Réglages → Sauvegarde) : fichier JSON avec textes, quiz et résultats ;
+  la restauration ajoute sans dupliquer ni effacer.
+- **Langues** : espagnol, portugais, allemand, italien reconnus ; quiz par l'IA (serveur 19.0.1.2.0). Hors ligne, le
+  français et l'anglais seulement, et l'application le dit (au lieu d'un quiz faux).
+
+Corrections du moteur hors ligne
+- Nombres écrits avec des espaces (« 2 200 000 ») ou des virgules en anglais (« 2,200,000 ») : un seul nombre, et des
+  propositions écrites de la même façon (avant : seul le « 2 » était caché).
+- Vrai/faux équilibrés (autant de « vrai » que de « faux ») ; avant, un texte sans fausse affirmation possible ne donnait que des « vrai ».
+- Distracteurs grammaticaux : même genre connu (plus de « Le campagne »), voyelle/consonne selon l'article (« l' »,
+  « la »), et un verbe après un pronom (« qui les revendent ») n'est plus pris pour un nom.
+- `tool/demo_quiz.dart` fonctionne de nouveau (le moteur est du Dart pur ; l'isolat est dans `app/offline_runner.dart`).
+
+Technique
+- Base : schéma 2 (empreinte du texte, partie, progression sur chaque quiz), migration testée depuis le schéma 1.
+- Délai d'attente d'un quiz IA porté à 240 s ; le serveur 19.0.1.2.0 borne ses appels à 2 × 100 s pour répondre avant.
+- `scripts/gen_arb.py` redevient la source unique des textes (ceux du bandeau de mise à jour et de la version web y sont repris).
+- 116 tests.
+
 ## 1.1.0 — 2026-11-09
 
 - **Bandeau « nouvelle version »** (Android) : quand une version plus récente est publiée sur la page de téléchargement, un bandeau propose de la télécharger (« Plus tard » le masque pour cette version). Vérification au plus toutes les 12 h, silencieuse hors connexion ; une mise à jour déclarée obligatoire par le serveur ne peut pas être masquée.

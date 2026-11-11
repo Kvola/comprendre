@@ -52,6 +52,8 @@ String skillLabel(AppLocalizations l, String skill) => switch (skill) {
 String fallbackReason(AppLocalizations l, Fallback f, int? param) => switch (f) {
   Fallback.network => l.whyNetwork,
   Fallback.quota => l.whyQuota,
+  Fallback.failures => l.whyFailures,
+  Fallback.language => l.whyLanguage,
   Fallback.tooLong => l.whyTooLong(param ?? 30000),
   Fallback.busy => l.whyBusy,
   Fallback.unavailable => l.whyUnavailable,
@@ -61,6 +63,16 @@ String fallbackReason(AppLocalizations l, Fallback f, int? param) => switch (f) 
   Fallback.refusedContent => l.whyRefusedContent,
   Fallback.cancelled => l.whyCancelled,
   Fallback.other => l.whyOther,
+};
+
+/// Nom d'une langue de texte ([textLanguages]).
+String langLabel(AppLocalizations l, String code) => switch (code) {
+  'en' => l.langEn,
+  'es' => l.langEs,
+  'pt' => l.langPt,
+  'de' => l.langDe,
+  'it' => l.langIt,
+  _ => l.langFr,
 };
 
 IconData sourceIcon(String source) => switch (source) {
@@ -88,11 +100,7 @@ class BottomBar extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     return Material(
       color: scheme.surfaceContainer,
-      child: SafeArea(
-        top: false,
-        minimum: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-        child: child,
-      ),
+      child: SafeArea(top: false, minimum: const EdgeInsets.fromLTRB(16, 12, 16, 12), child: child),
     );
   }
 }

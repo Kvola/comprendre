@@ -15,6 +15,7 @@ justifie (surligné dans le texte).
 |---|---|---|
 | Où | sur le téléphone | serveur Odoo `comprendre_backend` → Claude (Anthropic) |
 | Questions | thème, texte à trous, chiffres et dates, vrai/faux, « laquelle figure dans le texte », ordre des idées | idée principale, détails, causes et conséquences, sens des mots, déductions, résumé |
+| Langues | français, anglais | français, anglais, espagnol, portugais, allemand, italien |
 | Justesse | par construction (tout est tiré du texte) | chaque citation est vérifiée dans le texte par le serveur ; sinon la question est écartée |
 | Données | rien n'est envoyé | le texte est envoyé pour créer le quiz, non conservé ; identifiant d'appareil aléatoire (quota) |
 
@@ -28,11 +29,11 @@ La clé de l'API Claude reste sur le serveur ; l'application n'en contient aucun
 ## Organisation
 
 ```
-lib/engine/    text_tools (normalisation, phrases, langue, citations), offline_quiz, quiz_model — Dart pur, testé
+lib/engine/    text_tools (normalisation, phrases, langue, citations), offline_quiz, sections (parties d'un long texte), quiz_model — Dart pur, testé
 lib/extract/   extractors (formats bureautiques, Dart pur, testé), pdf_extract (pdfrx + OCR), ocr (ML Kit)
 lib/remote/    ai_client (JSON-RPC vers /comprendre/api/v1)
-lib/data/      database (Drift : textes, quiz, essais, réglages)
-lib/app/       providers (Riverpod), quiz_service (IA puis repli hors ligne), settings, version
+lib/data/      database (Drift, schéma 2 : textes, quiz avec partie/empreinte/progression, essais, réglages), backup (sauvegarde JSON)
+lib/app/       providers (Riverpod), quiz_service (IA puis repli hors ligne), offline_runner (isolat), settings, version
 lib/ui/        écrans : bibliothèque, saisie, texte, quiz, lecture surlignée, réglages
 scripts/       gen_arb.py (textes FR/EN), branding.py + svg2png.swift (icône, logos, icône du module), build_release_apk.sh
 ```
@@ -42,7 +43,8 @@ scripts/       gen_arb.py (textes FR/EN), branding.py + svg2png.swift (icône, l
 ```bash
 python3 scripts/gen_arb.py && flutter gen-l10n     # après une modification des textes
 dart run build_runner build                         # après une modification de la base
-flutter test                                        # 61 tests
+flutter test                                        # 116 tests
+dart run tool/demo_quiz.dart texte.txt [graine]     # voir le quiz hors ligne d'un texte
 # Serveur local (odoo_dev, port 8096) depuis l'émulateur :
 flutter run --dart-define=COMPRENDRE_SERVER=http://10.0.2.2:8096
 ```

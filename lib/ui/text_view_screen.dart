@@ -71,6 +71,7 @@ class _TextViewScreenState extends ConsumerState<TextViewScreen> {
     final p = context.palette;
     final paragraphs = _paragraphs(doc.body);
     final range = widget.highlight == null ? null : findQuote(doc.body, widget.highlight!);
+    final missing = widget.highlight != null && widget.highlight!.trim().isNotEmpty && range == null;
     var target = -1;
     if (range != null) {
       target = paragraphs.lastIndexWhere((x) => x.start <= range.$1);
@@ -83,8 +84,30 @@ class _TextViewScreenState extends ConsumerState<TextViewScreen> {
         child: ListView.builder(
           controller: _scroll,
           padding: scrollPadding(context),
-          itemCount: paragraphs.length,
-          itemBuilder: (c, i) {
+          itemCount: paragraphs.length + (missing ? 1 : 0),
+          itemBuilder: (c, item) {
+            if (missing && item == 0) {
+              // Le texte a été modifié depuis le quiz : la citation n'y est plus.
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 14),
+                child: Card(
+                  color: theme.colorScheme.tertiaryContainer,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      children: [
+                        Icon(Icons.history, color: theme.colorScheme.onTertiaryContainer),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(context.l10n.quoteNotFound, style: TextStyle(color: theme.colorScheme.onTertiaryContainer)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }
+            final i = item - (missing ? 1 : 0);
             final para = paragraphs[i];
             Widget text;
             if (range != null && range.$1 < para.start + para.text.length && range.$2 > para.start) {
@@ -107,11 +130,7 @@ class _TextViewScreenState extends ConsumerState<TextViewScreen> {
             } else {
               text = Text(para.text, style: style);
             }
-            return Padding(
-              key: i == target ? _targetKey : null,
-              padding: const EdgeInsets.only(bottom: 14),
-              child: text,
-            );
+            return Padding(key: i == target ? _targetKey : null, padding: const EdgeInsets.only(bottom: 14), child: text);
           },
         ),
       ),

@@ -38,12 +38,26 @@ class AiException implements Exception {
 }
 
 class AiQuota {
-  const AiQuota({required this.remaining, required this.daily, required this.maxChars, required this.enabled});
+  const AiQuota({
+    required this.remaining,
+    required this.daily,
+    required this.maxChars,
+    required this.enabled,
+    this.limited = '',
+    this.languages = const {'fr', 'en'},
+  });
 
   final int remaining;
   final int daily;
   final int maxChars;
   final bool enabled;
+
+  /// Pourquoi l'IA est fermée aujourd'hui malgré le quota : `failures` (trop
+  /// d'échecs), `blocked` ; vide sinon. (Serveur 19.0.1.2.0 et plus.)
+  final String limited;
+
+  /// Langues que le serveur sait traiter (un serveur plus ancien : français et anglais).
+  final Set<String> languages;
 }
 
 class AiResult {
@@ -61,8 +75,7 @@ String newDeviceId([Random? rnd]) {
 }
 
 class AiClient {
-  AiClient({required this.deviceId, this.baseUrl = defaultServer, http.Client? httpClient})
-    : _http = httpClient ?? http.Client();
+  AiClient({required this.deviceId, this.baseUrl = defaultServer, http.Client? httpClient}) : _http = httpClient ?? http.Client();
 
   final String deviceId;
   final String baseUrl;
@@ -78,16 +91,18 @@ class AiClient {
       daily: (r['daily'] as num?)?.toInt() ?? 0,
       maxChars: (r['max_chars'] as num?)?.toInt() ?? 30000,
       enabled: r['enabled'] != false,
+      limited: r['limited'] is String ? r['limited'] as String : '',
+      languages: r['languages'] is List ? {for (final l in r['languages'] as List) '$l'} : const {'fr', 'en'},
     );
   }
 
+  /// Délai d'attente d'un quiz IA. Le serveur borne lui-même ses appels à Claude
+  /// (2 essais de 100 s) pour toujours répondre avant.
+  static const quizTimeout = Duration(seconds: 240);
+
   /// Le serveur appelle Claude (jusqu'à ~2 min pour un long texte) puis vérifie chaque citation.
   Future<AiResult> generate(String text, {required String lang, int count = 10}) async {
-    final r = await _call(
-      '/quiz',
-      {'device_id': deviceId, 'text': text, 'lang': lang, 'count': count},
-      const Duration(seconds: 200),
-    );
+    final r = await _call('/quiz', {'device_id': deviceId, 'text': text, 'lang': lang, 'count': count}, quizTimeout);
     final quiz = Quiz.fromJson({
       'engine': 'ai',
       'title': r['title'],

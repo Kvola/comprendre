@@ -200,12 +200,6 @@ abstract class AppLocalizations {
   /// **'Écrivez ou collez un texte, scannez une page ou importez un fichier (PDF, Word, PowerPoint…). Comprendre en tire un quiz pour vérifier et approfondir votre compréhension.'**
   String get emptyBody;
 
-  /// No description provided for @emptyBodyWeb.
-  ///
-  /// In fr, this message translates to:
-  /// **'Écrivez ou collez un texte, ou importez un fichier (PDF, Word, PowerPoint…). Comprendre en tire un quiz pour vérifier et approfondir votre compréhension.'**
-  String get emptyBodyWeb;
-
   /// No description provided for @newText.
   ///
   /// In fr, this message translates to:
@@ -343,6 +337,36 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Anglais'**
   String get langEn;
+
+  /// No description provided for @langEs.
+  ///
+  /// In fr, this message translates to:
+  /// **'Espagnol'**
+  String get langEs;
+
+  /// No description provided for @langPt.
+  ///
+  /// In fr, this message translates to:
+  /// **'Portugais'**
+  String get langPt;
+
+  /// No description provided for @langDe.
+  ///
+  /// In fr, this message translates to:
+  /// **'Allemand'**
+  String get langDe;
+
+  /// No description provided for @langIt.
+  ///
+  /// In fr, this message translates to:
+  /// **'Italien'**
+  String get langIt;
+
+  /// No description provided for @langNeedsAiNote.
+  ///
+  /// In fr, this message translates to:
+  /// **'Hors ligne, les quiz ne se font qu’en français et en anglais : pour un texte dans cette langue, l’IA (avec une connexion) est nécessaire.'**
+  String get langNeedsAiNote;
 
   /// No description provided for @createQuiz.
   ///
@@ -512,6 +536,24 @@ abstract class AppLocalizations {
   /// **'Supprimer ce quiz ?'**
   String get deleteQuizTitle;
 
+  /// No description provided for @staleQuiz.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le texte a été modifié depuis ce quiz'**
+  String get staleQuiz;
+
+  /// No description provided for @quizInProgress.
+  ///
+  /// In fr, this message translates to:
+  /// **'En cours : {done} réponse(s) sur {total}'**
+  String quizInProgress(int done, int total);
+
+  /// No description provided for @quoteNotFound.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce passage n’est plus dans le texte : le texte a été modifié depuis ce quiz.'**
+  String get quoteNotFound;
+
   /// No description provided for @summaryTitle.
   ///
   /// In fr, this message translates to:
@@ -527,7 +569,7 @@ abstract class AppLocalizations {
   /// No description provided for @creatingAi.
   ///
   /// In fr, this message translates to:
-  /// **'L’IA lit votre texte et prépare des questions de compréhension. Cela peut prendre jusqu’à une minute.'**
+  /// **'L’IA lit votre texte et prépare des questions de compréhension. Cela peut prendre une à deux minutes.'**
   String get creatingAi;
 
   /// No description provided for @creatingOffline.
@@ -565,6 +607,60 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'quota IA du jour atteint.'**
   String get whyQuota;
+
+  /// No description provided for @whyFailures.
+  ///
+  /// In fr, this message translates to:
+  /// **'l’IA a échoué plusieurs fois aujourd’hui sur vos textes ; elle sera de nouveau disponible demain.'**
+  String get whyFailures;
+
+  /// No description provided for @whyLanguage.
+  ///
+  /// In fr, this message translates to:
+  /// **'le service IA ne gère pas encore cette langue.'**
+  String get whyLanguage;
+
+  /// No description provided for @langNeedsAiOff.
+  ///
+  /// In fr, this message translates to:
+  /// **'Hors ligne, les quiz ne se font qu’en français et en anglais. Pour ce texte, activez l’IA dans les réglages.'**
+  String get langNeedsAiOff;
+
+  /// No description provided for @langNeedsAiFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Hors ligne, les quiz ne se font qu’en français et en anglais, et l’IA n’a pas pu créer ce quiz : {reason}'**
+  String langNeedsAiFailed(String reason);
+
+  /// No description provided for @chooseSectionTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Quiz sur quelle partie ?'**
+  String get chooseSectionTitle;
+
+  /// No description provided for @chooseSectionBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce texte est long ({count} caractères) : un quiz sur une partie est plus utile.'**
+  String chooseSectionBody(int count);
+
+  /// No description provided for @wholeText.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tout le texte'**
+  String get wholeText;
+
+  /// No description provided for @wholeTextTooLongForAi.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trop long pour l’IA ({count} caractères au plus) : quiz hors ligne'**
+  String wholeTextTooLongForAi(int count);
+
+  /// No description provided for @sectionLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partie : {label}'**
+  String sectionLabel(String label);
 
   /// No description provided for @whyTooLong.
   ///
@@ -710,23 +806,23 @@ abstract class AppLocalizations {
   /// **'Voir le résultat'**
   String get seeResults;
 
-  /// No description provided for @quitQuizTitle.
+  /// No description provided for @progressResumed.
   ///
   /// In fr, this message translates to:
-  /// **'Quitter le quiz ?'**
-  String get quitQuizTitle;
+  /// **'Reprise là où vous en étiez.'**
+  String get progressResumed;
 
-  /// No description provided for @quitQuizBody.
+  /// No description provided for @reviewMistakesTitle.
   ///
   /// In fr, this message translates to:
-  /// **'Vos réponses à ce quiz ne seront pas enregistrées.'**
-  String get quitQuizBody;
+  /// **'Mes erreurs'**
+  String get reviewMistakesTitle;
 
-  /// No description provided for @quit.
+  /// No description provided for @mistakeOf.
   ///
   /// In fr, this message translates to:
-  /// **'Quitter'**
-  String get quit;
+  /// **'Erreur {index} sur {total}'**
+  String mistakeOf(int index, int total);
 
   /// No description provided for @skillMainIdea.
   ///
@@ -812,6 +908,24 @@ abstract class AppLocalizations {
   /// **'Refaire ce quiz'**
   String get tryAgain;
 
+  /// No description provided for @retryMistakes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Revoir mes erreurs'**
+  String get retryMistakes;
+
+  /// No description provided for @mistakesResult.
+  ///
+  /// In fr, this message translates to:
+  /// **'Erreurs revues : {score} sur {total} maintenant justes'**
+  String mistakesResult(int score, int total);
+
+  /// No description provided for @mistakesResultHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce tour ne change pas votre meilleur score : refaites tout le quiz pour cela.'**
+  String get mistakesResultHint;
+
   /// No description provided for @backToText.
   ///
   /// In fr, this message translates to:
@@ -896,6 +1010,72 @@ abstract class AppLocalizations {
   /// **'Quota IA : connexion nécessaire'**
   String get aiQuotaUnknown;
 
+  /// No description provided for @backupSection.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sauvegarde'**
+  String get backupSection;
+
+  /// No description provided for @backupExport.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sauvegarder ma bibliothèque'**
+  String get backupExport;
+
+  /// No description provided for @backupExportHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un fichier avec vos textes, quiz et résultats, à garder ou à transférer sur un autre téléphone.'**
+  String get backupExportHint;
+
+  /// No description provided for @backupImport.
+  ///
+  /// In fr, this message translates to:
+  /// **'Restaurer une sauvegarde'**
+  String get backupImport;
+
+  /// No description provided for @backupImportHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ajoute les textes du fichier ; ceux déjà présents ne sont pas dupliqués.'**
+  String get backupImportHint;
+
+  /// No description provided for @backupSaved.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sauvegarde enregistrée.'**
+  String get backupSaved;
+
+  /// No description provided for @backupEmpty.
+  ///
+  /// In fr, this message translates to:
+  /// **'Votre bibliothèque est vide : rien à sauvegarder.'**
+  String get backupEmpty;
+
+  /// No description provided for @backupFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'La sauvegarde n’a pas pu être enregistrée.'**
+  String get backupFailed;
+
+  /// No description provided for @restoreDone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Restauration : {added} texte(s) ajouté(s), {skipped} déjà présent(s).'**
+  String restoreDone(int added, int skipped);
+
+  /// No description provided for @backupInvalid.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce fichier n’est pas une sauvegarde de Comprendre.'**
+  String get backupInvalid;
+
+  /// No description provided for @backupNewer.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cette sauvegarde vient d’une version plus récente de Comprendre : mettez l’application à jour.'**
+  String get backupNewer;
+
   /// No description provided for @about.
   ///
   /// In fr, this message translates to:
@@ -925,6 +1105,12 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Version {version}'**
   String version(String version);
+
+  /// No description provided for @emptyBodyWeb.
+  ///
+  /// In fr, this message translates to:
+  /// **'Écrivez ou collez un texte, ou importez un fichier (PDF, Word, PowerPoint…). Comprendre en tire un quiz pour vérifier et approfondir votre compréhension.'**
+  String get emptyBodyWeb;
 
   /// No description provided for @updateAvailable.
   ///
