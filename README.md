@@ -43,7 +43,7 @@ scripts/       gen_arb.py (textes FR/EN), branding.py + svg2png.swift (icône, l
 ```bash
 python3 scripts/gen_arb.py && flutter gen-l10n     # après une modification des textes
 dart run build_runner build                         # après une modification de la base
-flutter test                                        # 116 tests
+flutter test                                        # 117 tests
 dart run tool/demo_quiz.dart texte.txt [graine]     # voir le quiz hors ligne d'un texte
 # Serveur local (odoo_dev, port 8096) depuis l'émulateur :
 flutter run --dart-define=COMPRENDRE_SERVER=http://10.0.2.2:8096

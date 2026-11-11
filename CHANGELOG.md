@@ -1,5 +1,11 @@
 # Journal des versions
 
+## 1.2.1 — 2026-11-11
+
+- Les grands nombres (« 30 000 000 », « 2 200 000 ») ne sont plus coupés en fin de ligne : à l'affichage, les espaces
+  entre groupes de chiffres deviennent insécables (questions, propositions, explications, passages, lecture du texte).
+  Les textes enregistrés ne changent pas. Remplace la 1.2.0, non publiée. 117 tests.
+
 ## 1.2.0 — 2026-11-11
 
 Nouveautés

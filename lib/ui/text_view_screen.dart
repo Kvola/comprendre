@@ -69,7 +69,8 @@ class _TextViewScreenState extends ConsumerState<TextViewScreen> {
     if (doc == null) return Scaffold(appBar: AppBar());
     final theme = Theme.of(context);
     final p = context.palette;
-    final paragraphs = _paragraphs(doc.body);
+    // Même longueur que doc.body : les positions de la citation restent valables.
+    final paragraphs = _paragraphs(keepNumbersTogether(doc.body));
     final range = widget.highlight == null ? null : findQuote(doc.body, widget.highlight!);
     final missing = widget.highlight != null && widget.highlight!.trim().isNotEmpty && range == null;
     var target = -1;

@@ -8,6 +8,7 @@ import '../app/providers.dart';
 import '../core/theme.dart';
 import '../data/database.dart';
 import '../engine/quiz_model.dart';
+import '../engine/text_tools.dart';
 import 'common.dart';
 import 'create_quiz.dart';
 import 'text_view_screen.dart';
@@ -182,14 +183,14 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
           child: Chip(label: Text(skillLabel(l, q.skill)), visualDensity: VisualDensity.compact),
         ),
         const SizedBox(height: 8),
-        Text(q.question, style: theme.textTheme.titleLarge?.copyWith(height: 1.35)),
+        Text(keepNumbersTogether(q.question), style: theme.textTheme.titleLarge?.copyWith(height: 1.35)),
         const SizedBox(height: 20),
         for (var i = 0; i < options.length; i++)
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: _Option(
               key: ValueKey('option-$i'),
-              label: options[i],
+              label: keepNumbersTogether(options[i]),
               state: chosen == null
                   ? _OptionState.idle
                   : valueOf(i) == q.answer
@@ -398,7 +399,7 @@ class _Feedback extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
-        Text(question.explanation, style: theme.textTheme.bodyLarge?.copyWith(height: 1.4)),
+        Text(keepNumbersTogether(question.explanation), style: theme.textTheme.bodyLarge?.copyWith(height: 1.4)),
         if (question.quote.isNotEmpty) ...[const SizedBox(height: 12), QuoteBox(quote: question.quote, documentId: documentId)],
       ],
     );
@@ -429,7 +430,7 @@ class QuoteBox extends StatelessWidget {
         children: [
           Text(l.inTheText, style: theme.textTheme.labelLarge?.copyWith(color: theme.colorScheme.primary)),
           const SizedBox(height: 6),
-          Text(quote, style: theme.textTheme.bodyMedium?.copyWith(fontStyle: FontStyle.italic, height: 1.4)),
+          Text(keepNumbersTogether(quote), style: theme.textTheme.bodyMedium?.copyWith(fontStyle: FontStyle.italic, height: 1.4)),
           Align(
             alignment: Alignment.centerRight,
             child: TextButton.icon(
@@ -459,7 +460,7 @@ class _ReviewTile extends StatelessWidget {
   String _label(BuildContext context, int value) {
     final l = context.l10n;
     if (question.isTrueFalse) return value == 1 ? l.trueLabel : l.falseLabel;
-    return value >= 0 && value < question.choices.length ? question.choices[value] : '—';
+    return value >= 0 && value < question.choices.length ? keepNumbersTogether(question.choices[value]) : '—';
   }
 
   @override
@@ -473,7 +474,7 @@ class _ReviewTile extends StatelessWidget {
       child: ExpansionTile(
         shape: const Border(),
         leading: Icon(ok ? Icons.check_circle : Icons.cancel, color: ok ? p.success : p.wrong),
-        title: Text(question.question, maxLines: 3, overflow: TextOverflow.ellipsis),
+        title: Text(keepNumbersTogether(question.question), maxLines: 3, overflow: TextOverflow.ellipsis),
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -483,7 +484,7 @@ class _ReviewTile extends StatelessWidget {
             style: TextStyle(color: p.success, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 8),
-          Text(question.explanation),
+          Text(keepNumbersTogether(question.explanation)),
           if (question.quote.isNotEmpty) ...[const SizedBox(height: 10), QuoteBox(quote: question.quote, documentId: documentId)],
         ],
       ),

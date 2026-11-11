@@ -308,3 +308,10 @@ String textFingerprint(String s) {
   }
   return '${s.length}-${stableSeed(s).toRadixString(36)}-${h2.toRadixString(36)}';
 }
+
+final _numberGroupSpace = RegExp(r'(?<=\d) (?=\d{3}(?!\d))');
+
+/// Pour l'affichage : les espaces entre les groupes de chiffres (« 2 200 000 »)
+/// deviennent insécables, pour qu'un nombre ne soit jamais coupé en fin de ligne.
+/// Même longueur que le texte d'origine (les positions restent valables).
+String keepNumbersTogether(String s) => s.replaceAll(_numberGroupSpace, ' ');

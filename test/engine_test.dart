@@ -89,6 +89,16 @@ void main() {
       );
     });
 
+    test('nombres insécables à l’affichage, même longueur', () {
+      const t = 'Environ 2 200 000 tonnes en 2024, 30 000 000 habitants, page 12 et 3 chiffres.';
+      final d = keepNumbersTogether(t);
+      expect(d.length, t.length);
+      expect(d, contains('2\u00A0200\u00A0000'));
+      expect(d, contains('30\u00A0000\u00A0000'));
+      expect(d, contains('page 12 et 3 chiffres'), reason: 'les autres espaces ne changent pas');
+      expect(d, contains('2024, 30'));
+    });
+
     test('empreinte d’un texte', () {
       expect(textFingerprint(fr), textFingerprint(fr));
       expect(textFingerprint(fr), isNot(textFingerprint('${fr}x')));
