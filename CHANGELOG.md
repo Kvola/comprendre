@@ -1,5 +1,15 @@
 # Journal des versions
 
+## 1.6.0 — 2026-11-12
+
+- **Tarifs plus clairs à l'achat** : prix d'un quiz pour chaque offre (« soit 83 F CFA le quiz »), économie par
+  rapport à la plus petite offre (« −20 % par quiz »), étiquettes « Le plus choisi » et « Meilleur prix ».
+- **Offre conseillée pour vous**, d'après les quiz IA voulus au-delà du quota gratuit ces 30 derniers jours : l'offre
+  qui couvre environ 3 mois de ce besoin, jamais plus que ce qui sera utilisé avant la date limite ; si le gratuit a
+  suffi, l'écran le dit.
+- Les montants en F CFA sont toujours arrondis au franc. Nécessite le serveur 19.0.1.6.0 pour les étiquettes et le
+  conseil (avec un serveur plus ancien, le prix par quiz est calculé par l'application). 128 tests.
+
 ## 1.5.0 — 2026-11-12
 
 - **Mes codes IA** (Réglages → Quiz IA) : les quiz IA possibles aujourd'hui, puis une carte par code (quiz restants

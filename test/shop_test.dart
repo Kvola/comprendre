@@ -23,6 +23,8 @@ class _FakeShop {
   bool paid = false;
   bool autoConfirm = false;
   String? orderRef;
+  Map<String, dynamic>? extraPack;
+  Map<String, dynamic>? advice;
 
   Map<String, dynamic> get _order => {
     'ref': 'ACH-2026-00001', 'pack_id': 7, 'pack': 'Étude', 'credits': 30, 'amount': 2500, 'currency': 'XOF',
@@ -41,8 +43,9 @@ class _FakeShop {
           'success': true, 'payment_available': true, 'auto_confirm': autoConfirm,
           'packs': [
             {'id': 7, 'name': 'Étude', 'description': 'Un trimestre', 'credits': 30, 'price': 2500, 'currency': 'XOF',
-              'validity_days': 180, 'daily_limit': 0},
+              'validity_days': 180, 'daily_limit': 0, ...?extraPack},
           ],
+          'advice': ?advice,
           'orders': orderRef == null ? [] : [_order],
         };
       case '/buy':
@@ -180,6 +183,32 @@ void main() {
     await settle(tester);
     expect(find.textContaining('Wave confirme le paiement en quelques instants'), findsOneWidget);
     expect(find.byKey(const ValueKey('wave-ref-ACH-2026-00001')), findsNothing);
+  });
+
+  testWidgets('tarifs : prix par quiz, économie, badges et conseil d’après l’usage', (tester) async {
+    final server = _FakeShop()
+      ..extraPack = {'price_per_quiz': 83.33, 'saving_percent': 17, 'highlight': true, 'best_value': true, 'recommended': true}
+      ..advice = {'monthly': 20, 'extra_monthly': 12, 'free_enough': false, 'daily_free': 5, 'recommended_id': 7};
+    await pump(tester, server);
+    await settle(tester);
+    expect(find.textContaining('vous avez voulu 12 quiz IA de plus que le quota gratuit'), findsOneWidget);
+    expect(find.textContaining('Conseil : Étude'), findsOneWidget);
+    expect(find.text('Conseillé pour vous'), findsOneWidget);
+    expect(find.text('Le plus choisi'), findsOneWidget);
+    expect(find.text('Meilleur prix'), findsOneWidget);
+    expect(find.text('−17 % par quiz'), findsOneWidget);
+    expect(find.byWidgetPredicate((w) => w is Text && RegExp(r'^soit 83\s?F CFA le quiz$').hasMatch(w.data ?? '')),
+        findsOneWidget, reason: 'prix par quiz arrondi au franc');
+  });
+
+  testWidgets('tarifs : le gratuit suffit, on le dit', (tester) async {
+    final server = _FakeShop()..advice = {'monthly': 8, 'extra_monthly': 0, 'free_enough': true, 'daily_free': 5};
+    await pump(tester, server);
+    await settle(tester);
+    expect(find.textContaining('vos 5 quiz IA gratuits par jour ont suffi'), findsOneWidget);
+    expect(find.text('Conseillé pour vous'), findsNothing);
+    expect(find.byWidgetPredicate((w) => w is Text && RegExp(r'^soit 83\s?F CFA le quiz$').hasMatch(w.data ?? '')),
+        findsOneWidget, reason: 'serveur ancien : prix par quiz calculé par l’application');
   });
 
   test('prix lisibles', () {

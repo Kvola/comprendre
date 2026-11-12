@@ -1568,6 +1568,48 @@ abstract class AppLocalizations {
   /// **'{count, plural, =1{Paiement confirmé : 1 quiz IA ajouté.} other{Paiement confirmé : {count} quiz IA ajoutés.}}'**
   String shopConfirmed(int count);
 
+  /// No description provided for @shopPerQuiz.
+  ///
+  /// In fr, this message translates to:
+  /// **'soit {price} le quiz'**
+  String shopPerQuiz(String price);
+
+  /// No description provided for @shopSaving.
+  ///
+  /// In fr, this message translates to:
+  /// **'−{count} % par quiz'**
+  String shopSaving(int count);
+
+  /// No description provided for @shopBestValue.
+  ///
+  /// In fr, this message translates to:
+  /// **'Meilleur prix'**
+  String get shopBestValue;
+
+  /// No description provided for @shopPopular.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le plus choisi'**
+  String get shopPopular;
+
+  /// No description provided for @shopRecommended.
+  ///
+  /// In fr, this message translates to:
+  /// **'Conseillé pour vous'**
+  String get shopRecommended;
+
+  /// No description provided for @shopAdviceNeed.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{Ces 30 derniers jours, vous avez voulu 1 quiz IA de plus que le quota gratuit.} other{Ces 30 derniers jours, vous avez voulu {count} quiz IA de plus que le quota gratuit.}} Conseil : {pack}, de quoi tenir environ 3 mois sans quiz perdus.'**
+  String shopAdviceNeed(int count, String pack);
+
+  /// No description provided for @shopAdviceFree.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{Ces 30 derniers jours, votre quiz IA gratuit par jour a suffi.} other{Ces 30 derniers jours, vos {count} quiz IA gratuits par jour ont suffi.}} Un achat ne sert que les jours où vous en voulez plus : les quiz gratuits passent toujours en premier.'**
+  String shopAdviceFree(int count);
+
   /// No description provided for @shopErrUnavailable.
   ///
   /// In fr, this message translates to:

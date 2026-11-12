@@ -974,6 +974,49 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String shopPerQuiz(String price) {
+    return 'that is $price per quiz';
+  }
+
+  @override
+  String shopSaving(int count) {
+    return '−$count% per quiz';
+  }
+
+  @override
+  String get shopBestValue => 'Best price';
+
+  @override
+  String get shopPopular => 'Most popular';
+
+  @override
+  String get shopRecommended => 'Recommended for you';
+
+  @override
+  String shopAdviceNeed(int count, String pack) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Over the last 30 days, you wanted $count AI quizzes more than the free quota.',
+      one: 'Over the last 30 days, you wanted 1 AI quiz more than the free quota.',
+    );
+    return '$_temp0 Our advice: $pack, enough for about 3 months with no quiz wasted.';
+  }
+
+  @override
+  String shopAdviceFree(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Over the last 30 days, your $count free AI quizzes per day were enough.',
+      one: 'Over the last 30 days, your free AI quiz per day was enough.',
+    );
+    return '$_temp0 A purchase only helps on days when you want more: free quizzes are always used first.';
+  }
+
+  @override
   String get shopErrUnavailable => 'This offer is no longer available.';
 
   @override

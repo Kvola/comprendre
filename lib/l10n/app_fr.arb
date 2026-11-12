@@ -623,6 +623,44 @@
       }
     }
   },
+  "shopPerQuiz": "soit {price} le quiz",
+  "@shopPerQuiz": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "shopSaving": "−{count} % par quiz",
+  "@shopSaving": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shopBestValue": "Meilleur prix",
+  "shopPopular": "Le plus choisi",
+  "shopRecommended": "Conseillé pour vous",
+  "shopAdviceNeed": "{count, plural, =1{Ces 30 derniers jours, vous avez voulu 1 quiz IA de plus que le quota gratuit.} other{Ces 30 derniers jours, vous avez voulu {count} quiz IA de plus que le quota gratuit.}} Conseil : {pack}, de quoi tenir environ 3 mois sans quiz perdus.",
+  "@shopAdviceNeed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "pack": {
+        "type": "String"
+      }
+    }
+  },
+  "shopAdviceFree": "{count, plural, =1{Ces 30 derniers jours, votre quiz IA gratuit par jour a suffi.} other{Ces 30 derniers jours, vos {count} quiz IA gratuits par jour ont suffi.}} Un achat ne sert que les jours où vous en voulez plus : les quiz gratuits passent toujours en premier.",
+  "@shopAdviceFree": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "shopErrUnavailable": "Cette offre n’est plus proposée.",
   "shopErrPayment": "Le paiement n’est pas disponible pour le moment. Réessayez plus tard.",
   "shopErrRefShort": "Cet identifiant est trop court.",

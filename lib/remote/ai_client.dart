@@ -145,7 +145,9 @@ class AiRedeemed {
 /// Une offre de quiz IA en vente (serveur 19.0.1.4.0 et plus).
 class AiPack {
   const AiPack({required this.id, required this.name, required this.credits, required this.price, required this.currency,
-      this.description = '', this.validityDays = 0, this.dailyLimit = 0});
+      this.description = '', this.validityDays = 0, this.dailyLimit = 0, num? pricePerQuiz, this.savingPercent = 0,
+      this.highlight = false, this.bestValue = false, this.recommended = false})
+      : pricePerQuiz = pricePerQuiz ?? (credits > 0 ? price / credits : 0);
 
   factory AiPack.fromJson(Map<dynamic, dynamic> j) => AiPack(
     id: (j['id'] as num).toInt(),
@@ -156,6 +158,11 @@ class AiPack {
     currency: '${j['currency'] ?? ''}',
     validityDays: (j['validity_days'] as num?)?.toInt() ?? 0,
     dailyLimit: (j['daily_limit'] as num?)?.toInt() ?? 0,
+    pricePerQuiz: j['price_per_quiz'] is num ? j['price_per_quiz'] as num : null,
+    savingPercent: (j['saving_percent'] as num?)?.toInt() ?? 0,
+    highlight: j['highlight'] == true,
+    bestValue: j['best_value'] == true,
+    recommended: j['recommended'] == true,
   );
 
   final int id;
@@ -168,6 +175,35 @@ class AiPack {
   /// Validité du code délivré, en jours (0 : sans limite).
   final int validityDays;
   final int dailyLimit;
+
+  /// Prix d'un quiz, et économie par quiz par rapport à l'offre la plus chère (serveur 19.0.1.6.0).
+  final num pricePerQuiz;
+  final int savingPercent;
+
+  /// « Le plus choisi » (choix du gestionnaire), « Meilleur prix », « Conseillé pour vous » (d'après l'usage).
+  final bool highlight;
+  final bool bestValue;
+  final bool recommended;
+}
+
+/// Conseil d'achat d'après l'usage des 30 derniers jours (serveur 19.0.1.6.0).
+class AiShopAdvice {
+  const AiShopAdvice({this.monthly = 0, this.extraMonthly = 0, this.freeEnough = false, this.dailyFree = 0});
+
+  factory AiShopAdvice.fromJson(Map<dynamic, dynamic> j) => AiShopAdvice(
+    monthly: (j['monthly'] as num?)?.toInt() ?? 0,
+    extraMonthly: (j['extra_monthly'] as num?)?.toInt() ?? 0,
+    freeEnough: j['free_enough'] == true,
+    dailyFree: (j['daily_free'] as num?)?.toInt() ?? 0,
+  );
+
+  /// Quiz IA réussis sur 30 jours, et voulus au-delà du quota gratuit.
+  final int monthly;
+  final int extraMonthly;
+
+  /// Le quota gratuit a suffi : un achat ne servirait pas (ou peu).
+  final bool freeEnough;
+  final int dailyFree;
 }
 
 /// Un achat de l'appareil.
@@ -214,16 +250,19 @@ class AiOrder {
 }
 
 class AiShop {
-  const AiShop({required this.packs, required this.paymentAvailable, required this.autoConfirm, required this.orders});
+  const AiShop({required this.packs, required this.paymentAvailable, required this.autoConfirm, required this.orders,
+      this.advice = const AiShopAdvice()});
 
   factory AiShop.fromJson(Map<String, dynamic> r) => AiShop(
     packs: [for (final p in (r['packs'] is List ? r['packs'] as List : const [])) if (p is Map) AiPack.fromJson(p)],
     paymentAvailable: r['payment_available'] == true,
     autoConfirm: r['auto_confirm'] == true,
     orders: [for (final o in (r['orders'] is List ? r['orders'] as List : const [])) if (o is Map) AiOrder.fromJson(o)],
+    advice: r['advice'] is Map ? AiShopAdvice.fromJson(r['advice'] as Map) : const AiShopAdvice(),
   );
 
   final List<AiPack> packs;
+  final AiShopAdvice advice;
   final bool paymentAvailable;
 
   /// API Wave : la confirmation arrive toute seule (sinon un agent valide).

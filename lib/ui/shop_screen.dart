@@ -27,9 +27,10 @@ import 'common.dart';
 /// Montant lisible : « 2 500 F CFA », « 12,50 USD ».
 String formatPrice(BuildContext context, num amount, String currency) {
   final locale = Localizations.localeOf(context).toLanguageTag();
-  final whole = currency == 'XOF' || currency == 'XAF' || amount == amount.roundToDouble();
+  final cfa = currency == 'XOF' || currency == 'XAF'; // pas de centimes
+  final whole = cfa || amount == amount.roundToDouble();
   final n = (whole ? NumberFormat.decimalPattern(locale) : NumberFormat.decimalPatternDigits(locale: locale, decimalDigits: 2))
-      .format(amount);
+      .format(cfa ? amount.round() : amount);
   final label = switch (currency) { 'XOF' || 'XAF' => 'F CFA', _ => currency };
   return '$n $label';
 }
@@ -299,9 +300,15 @@ class _ShopScreenState extends ConsumerState<ShopScreen> with WidgetsBindingObse
             ],
             if (shop != null && (shop.packs.isEmpty || !shop.paymentAvailable))
               _Message(icon: Icons.storefront_outlined, text: l.shopNoOffer)
-            else if (shop != null)
+            else if (shop != null) ...[
+              if (_adviceText(l, shop) case final advice?)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: _Message(icon: Icons.insights_outlined, text: advice),
+                ),
               for (final p in shop.packs)
                 _PackCard(key: ValueKey('pack-${p.id}'), pack: p, onBuy: _busy ? null : () => _buy(p)),
+            ],
             if (done.isNotEmpty) ...[
               const SizedBox(height: 16),
               for (final o in done)
@@ -321,6 +328,15 @@ class _ShopScreenState extends ConsumerState<ShopScreen> with WidgetsBindingObse
       ),
     );
   }
+}
+
+/// Conseil honnête d'après l'usage : l'offre qui couvre le besoin, ou « le gratuit vous suffit ».
+String? _adviceText(AppLocalizations l, AiShop shop) {
+  final a = shop.advice;
+  final recommended = shop.packs.where((p) => p.recommended).firstOrNull;
+  if (recommended != null && a.extraMonthly > 0) return l.shopAdviceNeed(a.extraMonthly, recommended.name);
+  if (a.freeEnough && a.dailyFree > 0) return l.shopAdviceFree(a.dailyFree);
+  return null;
 }
 
 class _Message extends StatelessWidget {
@@ -356,33 +372,73 @@ class _PackCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
     final details = [
       pack.validityDays > 0 ? l.shopValidity(pack.validityDays) : l.shopNoExpiry,
       if (pack.dailyLimit > 0) l.shopDailyLimit(pack.dailyLimit),
     ];
+    final badges = <(String, IconData, bool)>[
+      if (pack.recommended) (l.shopRecommended, Icons.thumb_up_alt_outlined, true),
+      if (pack.highlight) (l.shopPopular, Icons.star_outline, false),
+      if (pack.bestValue) (l.shopBestValue, Icons.savings_outlined, false),
+    ];
+    final perQuiz = pack.credits > 1 ? l.shopPerQuiz(formatPrice(context, pack.pricePerQuiz, pack.currency)) : null;
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
+      // L'offre conseillée se repère d'un coup d'œil (bordure), en plus de son badge.
+      shape: pack.recommended
+          ? RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: scheme.primary, width: 2))
+          : null,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (badges.isNotEmpty) ...[
+              Wrap(
+                spacing: 8,
+                runSpacing: 4,
+                children: [
+                  for (final (label, icon, strong) in badges)
+                    Chip(
+                      avatar: Icon(icon, size: 16, color: strong ? scheme.onPrimary : scheme.primary),
+                      label: Text(label),
+                      labelStyle: TextStyle(color: strong ? scheme.onPrimary : scheme.onSecondaryContainer),
+                      backgroundColor: strong ? scheme.primary : scheme.secondaryContainer,
+                      side: BorderSide.none,
+                      visualDensity: VisualDensity.compact,
+                    ),
+                ],
+              ),
+              const SizedBox(height: 8),
+            ],
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(child: Text(pack.name, style: theme.textTheme.titleLarge)),
                 Text(formatPrice(context, pack.price, pack.currency),
-                    style: theme.textTheme.titleLarge?.copyWith(color: theme.colorScheme.primary, fontWeight: FontWeight.bold)),
+                    style: theme.textTheme.titleLarge?.copyWith(color: scheme.primary, fontWeight: FontWeight.bold)),
               ],
             ),
             const SizedBox(height: 4),
-            Text(l.shopCredits(pack.credits), style: theme.textTheme.titleMedium),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(child: Text(l.shopCredits(pack.credits), style: theme.textTheme.titleMedium)),
+                if (perQuiz != null) Text(perQuiz, style: theme.textTheme.bodyMedium),
+              ],
+            ),
+            if (pack.savingPercent > 0)
+              Text(l.shopSaving(pack.savingPercent),
+                  style: theme.textTheme.bodyMedium?.copyWith(color: context.palette.success, fontWeight: FontWeight.w600)),
             if (pack.description.isNotEmpty) Text(pack.description),
             Text(details.join(' · '), style: theme.textTheme.bodySmall),
             const SizedBox(height: 12),
             SizedBox(
               width: double.infinity,
-              child: FilledButton.icon(key: ValueKey('buy-${pack.id}'), onPressed: onBuy, icon: const Icon(Icons.account_balance_wallet_outlined), label: Text(l.shopBuy)),
+              child: pack.recommended || pack.highlight
+                  ? FilledButton.icon(key: ValueKey('buy-${pack.id}'), onPressed: onBuy, icon: const Icon(Icons.account_balance_wallet_outlined), label: Text(l.shopBuy))
+                  : FilledButton.tonalIcon(key: ValueKey('buy-${pack.id}'), onPressed: onBuy, icon: const Icon(Icons.account_balance_wallet_outlined), label: Text(l.shopBuy)),
             ),
           ],
         ),

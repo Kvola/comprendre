@@ -975,6 +975,49 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String shopPerQuiz(String price) {
+    return 'soit $price le quiz';
+  }
+
+  @override
+  String shopSaving(int count) {
+    return '−$count % par quiz';
+  }
+
+  @override
+  String get shopBestValue => 'Meilleur prix';
+
+  @override
+  String get shopPopular => 'Le plus choisi';
+
+  @override
+  String get shopRecommended => 'Conseillé pour vous';
+
+  @override
+  String shopAdviceNeed(int count, String pack) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Ces 30 derniers jours, vous avez voulu $count quiz IA de plus que le quota gratuit.',
+      one: 'Ces 30 derniers jours, vous avez voulu 1 quiz IA de plus que le quota gratuit.',
+    );
+    return '$_temp0 Conseil : $pack, de quoi tenir environ 3 mois sans quiz perdus.';
+  }
+
+  @override
+  String shopAdviceFree(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Ces 30 derniers jours, vos $count quiz IA gratuits par jour ont suffi.',
+      one: 'Ces 30 derniers jours, votre quiz IA gratuit par jour a suffi.',
+    );
+    return '$_temp0 Un achat ne sert que les jours où vous en voulez plus : les quiz gratuits passent toujours en premier.';
+  }
+
+  @override
   String get shopErrUnavailable => 'Cette offre n’est plus proposée.';
 
   @override

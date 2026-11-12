@@ -344,6 +344,24 @@ S = {
     'shopCheck': ('Vérifier', 'Check'),
     'shopConfirmed': ('{count, plural, =1{Paiement confirmé : 1 quiz IA ajouté.} other{Paiement confirmé : {count} quiz IA ajoutés.}}',
                       '{count, plural, =1{Payment confirmed: 1 AI quiz added.} other{Payment confirmed: {count} AI quizzes added.}}'),
+    # Tarifs (1.6)
+    'shopPerQuiz': ('soit {price} le quiz', 'that is {price} per quiz'),
+    'shopSaving': ('−{count} % par quiz', '−{count}% per quiz'),
+    'shopBestValue': ('Meilleur prix', 'Best price'),
+    'shopPopular': ('Le plus choisi', 'Most popular'),
+    'shopRecommended': ('Conseillé pour vous', 'Recommended for you'),
+    'shopAdviceNeed': ('{count, plural, =1{Ces 30 derniers jours, vous avez voulu 1 quiz IA de plus que le quota gratuit.} '
+                       'other{Ces 30 derniers jours, vous avez voulu {count} quiz IA de plus que le quota gratuit.}} '
+                       'Conseil : {pack}, de quoi tenir environ 3 mois sans quiz perdus.',
+                       '{count, plural, =1{Over the last 30 days, you wanted 1 AI quiz more than the free quota.} '
+                       'other{Over the last 30 days, you wanted {count} AI quizzes more than the free quota.}} '
+                       'Our advice: {pack}, enough for about 3 months with no quiz wasted.'),
+    'shopAdviceFree': ('{count, plural, =1{Ces 30 derniers jours, votre quiz IA gratuit par jour a suffi.} other{Ces 30 '
+                       'derniers jours, vos {count} quiz IA gratuits par jour ont suffi.}} Un achat ne sert que les jours où '
+                       'vous en voulez plus : les quiz gratuits passent toujours en premier.',
+                       '{count, plural, =1{Over the last 30 days, your free AI quiz per day was enough.} other{Over the last '
+                       '30 days, your {count} free AI quizzes per day were enough.}} A purchase only helps on days when you '
+                       'want more: free quizzes are always used first.'),
     'shopErrUnavailable': ('Cette offre n’est plus proposée.', 'This offer is no longer available.'),
     'shopErrPayment': ('Le paiement n’est pas disponible pour le moment. Réessayez plus tard.',
                        'Payment is not available at the moment. Try again later.'),

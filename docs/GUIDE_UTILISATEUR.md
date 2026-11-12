@@ -343,10 +343,16 @@ Vous n'avez plus besoin de vos quiz IA restants ? Dans **Mes codes IA**, touchez
 > **Situation** : Kouamé prépare ses examens. Les 5 quiz IA gratuits par jour ne lui suffisent plus. Il en achète avec Wave.
 
 1. Ouvrez **Réglages → Quiz IA → Acheter des quiz IA**.
-2. Les offres s'affichent : leur nom, le nombre de quiz IA (*30 quiz IA*), le prix (*2 500 F CFA*) et la durée de validité (*valables 180 jours*).
+2. Les offres s'affichent : leur nom, le nombre de quiz IA (*30 quiz IA*), le prix (*2 500 F CFA*), le **prix d'un quiz** (*soit 83 F CFA le quiz*), l'**économie** par rapport à la plus petite offre (*−20 % par quiz*) et la durée de validité (*valables 180 jours*). Des étiquettes aident à choisir : **Le plus choisi**, **Meilleur prix** et surtout **Conseillé pour vous**.
 3. Touchez **Payer avec Wave** sous l'offre choisie, puis confirmez. L'application **Wave** s'ouvre, au bon montant : payez comme d'habitude.
 4. Revenez dans Comprendre. L'achat s'affiche sous **Mes achats**, avec *Paiement en attente* et sa référence (*Achat ACH-2026-00001*).
 5. Dès que le paiement est confirmé, l'application l'annonce : *« Paiement confirmé : 30 quiz IA ajoutés. »* Les quiz s'ajoutent à votre quota, sans code à saisir (vous verrez une ligne *Code …* dans **Réglages → Quiz IA**). L'IA est activée si elle ne l'était pas.
+
+**L'offre conseillée pour vous**
+
+Comprendre regarde combien de quiz IA vous avez voulus **en plus du quota gratuit** ces 30 derniers jours, par exemple : *« Ces 30 derniers jours, vous avez voulu 12 quiz IA de plus que le quota gratuit. Conseil : Étude, de quoi tenir environ 3 mois sans quiz perdus. »* L'offre conseillée couvre environ 3 mois de ce besoin, et jamais plus que ce que vous utiliserez avant sa date limite.
+
+Si les quiz gratuits vous ont suffi, l'écran le dit franchement : *« Ces 30 derniers jours, vos 5 quiz IA gratuits par jour ont suffi. »* Un achat ne sert alors que les jours où vous en voulez plus, puisque les quiz gratuits passent toujours en premier.
 
 **Combien de temps pour la confirmation ?**
 

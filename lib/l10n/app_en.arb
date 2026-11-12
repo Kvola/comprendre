@@ -623,6 +623,44 @@
       }
     }
   },
+  "shopPerQuiz": "that is {price} per quiz",
+  "@shopPerQuiz": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "shopSaving": "−{count}% per quiz",
+  "@shopSaving": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shopBestValue": "Best price",
+  "shopPopular": "Most popular",
+  "shopRecommended": "Recommended for you",
+  "shopAdviceNeed": "{count, plural, =1{Over the last 30 days, you wanted 1 AI quiz more than the free quota.} other{Over the last 30 days, you wanted {count} AI quizzes more than the free quota.}} Our advice: {pack}, enough for about 3 months with no quiz wasted.",
+  "@shopAdviceNeed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "pack": {
+        "type": "String"
+      }
+    }
+  },
+  "shopAdviceFree": "{count, plural, =1{Over the last 30 days, your free AI quiz per day was enough.} other{Over the last 30 days, your {count} free AI quizzes per day were enough.}} A purchase only helps on days when you want more: free quizzes are always used first.",
+  "@shopAdviceFree": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "shopErrUnavailable": "This offer is no longer available.",
   "shopErrPayment": "Payment is not available at the moment. Try again later.",
   "shopErrRefShort": "This ID is too short.",
