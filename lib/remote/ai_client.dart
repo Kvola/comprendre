@@ -19,7 +19,7 @@ import '../engine/quiz_model.dart';
 const defaultServer = String.fromEnvironment('COMPRENDRE_SERVER', defaultValue: 'https://iyf.ebng.world');
 
 class AiException implements Exception {
-  AiException(this.code, {this.reason = '', this.message = '', this.minutes});
+  AiException(this.code, {this.reason = '', this.message = '', this.minutes, this.transfersLeft});
 
   /// `NETWORK` | `TIMEOUT` | `SERVER` | `REFUSED` | `AI_FAILED` | `AUTH_010` | `BAD_REQUEST`
   final String code;
@@ -31,24 +31,59 @@ class AiException implements Exception {
   final String message;
   final int? minutes;
 
+  /// Motif `code_transferable` : transferts encore permis.
+  final int? transfersLeft;
+
   bool get isNetwork => code == 'NETWORK' || code == 'TIMEOUT';
 
   @override
   String toString() => 'AiException($code/$reason): $message';
 }
 
-/// Un code IA activé sur ce téléphone (serveur 19.0.1.3.0 et plus).
+/// Un code IA activé sur ce téléphone (serveur 19.0.1.3.0 et plus ; détails en 19.0.1.5.0).
 class AiCode {
-  const AiCode({required this.code, required this.remaining, required this.credits, this.expires, this.dailyLeft, this.usableToday = true});
+  const AiCode({
+    required this.code,
+    required this.remaining,
+    required this.credits,
+    this.expires,
+    this.dailyLeft,
+    this.usableToday = true,
+    this.serverState,
+    this.used,
+    this.usedByMe,
+    this.dailyLimit = 0,
+    this.maxDevices = 1,
+    this.devices = 1,
+    this.activated,
+    this.lastUsed,
+    this.source = 'gift',
+    this.transfersLeft = 0,
+  });
 
-  factory AiCode.fromJson(Map<dynamic, dynamic> j) => AiCode(
-    code: '${j['code'] ?? ''}',
-    remaining: (j['remaining'] as num?)?.toInt() ?? 0,
-    credits: (j['credits'] as num?)?.toInt() ?? 0,
-    expires: j['expires'] is String ? DateTime.tryParse(j['expires'] as String) : null,
-    dailyLeft: (j['daily_left'] is num) ? (j['daily_left'] as num).toInt() : null,
-    usableToday: j['usable_today'] != false,
-  );
+  factory AiCode.fromJson(Map<dynamic, dynamic> j) {
+    int? optInt(Object? v) => v is num ? v.toInt() : null;
+    DateTime? optDate(Object? v) => v is String && v.isNotEmpty ? DateTime.tryParse(v) : null;
+    DateTime? optUtc(Object? v) => v is String && v.isNotEmpty ? DateTime.tryParse('${v}Z')?.toLocal() : null;
+    return AiCode(
+      code: '${j['code'] ?? ''}',
+      remaining: optInt(j['remaining']) ?? 0,
+      credits: optInt(j['credits']) ?? 0,
+      expires: optDate(j['expires']),
+      dailyLeft: optInt(j['daily_left']),
+      usableToday: j['usable_today'] != false,
+      serverState: j['state'] is String ? j['state'] as String : null,
+      used: optInt(j['used']),
+      usedByMe: optInt(j['used_by_me']),
+      dailyLimit: optInt(j['daily_limit']) ?? 0,
+      maxDevices: optInt(j['max_devices']) ?? 1,
+      devices: optInt(j['devices']) ?? 1,
+      activated: optUtc(j['activated']),
+      lastUsed: optUtc(j['last_used']),
+      source: j['source'] == 'purchase' ? 'purchase' : 'gift',
+      transfersLeft: optInt(j['transfers_left']) ?? 0,
+    );
+  }
 
   final String code;
 
@@ -63,7 +98,48 @@ class AiCode {
   final int? dailyLeft;
   final bool usableToday;
 
+  /// État donné par le serveur (19.0.1.5.0) ; null avec un serveur plus ancien.
+  final String? serverState;
+
+  /// Quiz comptés sur le code (tous téléphones), et par ce téléphone ; null avec un serveur ancien.
+  final int? used;
+  final int? usedByMe;
+  final int dailyLimit;
+  final int maxDevices;
+  final int devices;
+  final DateTime? activated;
+  final DateTime? lastUsed;
+
+  /// `purchase` (acheté avec Wave) ou `gift` (reçu).
+  final String source;
+
+  /// Transferts encore permis vers un autre téléphone (codes à un seul téléphone).
+  final int transfersLeft;
+
   bool isExpired(DateTime now) => expires != null && DateTime(now.year, now.month, now.day).isAfter(expires!);
+
+  /// `active` | `exhausted` | `expired` | `disabled` (déduit des chiffres avec un serveur ancien).
+  String stateAt(DateTime now) => serverState ?? (isExpired(now) ? 'expired' : (remaining <= 0 ? 'exhausted' : 'active'));
+
+  bool isLive(DateTime now) => stateAt(now) == 'active' && !isExpired(now) && remaining > 0;
+
+  bool get isShared => maxDevices > 1;
+  bool get isBought => source == 'purchase';
+
+  /// Jours avant la fin (0 : dernier jour aujourd'hui) ; null sans date limite.
+  int? daysLeft(DateTime now) => expires == null
+      ? null
+      : DateTime.utc(expires!.year, expires!.month, expires!.day).difference(DateTime.utc(now.year, now.month, now.day)).inDays;
+}
+
+/// Résultat d'une activation : le code, le quota à jour, et s'il était déjà sur ce téléphone.
+class AiRedeemed {
+  const AiRedeemed(this.code, this.quota, {this.already = false, this.transferred = false});
+
+  final AiCode code;
+  final AiQuota quota;
+  final bool already;
+  final bool transferred;
 }
 
 /// Une offre de quiz IA en vente (serveur 19.0.1.4.0 et plus).
@@ -175,7 +251,10 @@ class AiQuota {
     int? freeRemaining,
     this.codeRemaining = 0,
     this.codes = const [],
-  }) : freeRemaining = freeRemaining ?? remaining;
+    List<AiCode>? allCodes,
+    this.raw = const {},
+  }) : freeRemaining = freeRemaining ?? remaining,
+       allCodes = allCodes ?? codes;
 
   factory AiQuota.fromJson(Map<String, dynamic> r) => AiQuota(
     remaining: (r['remaining'] as num?)?.toInt() ?? 0,
@@ -187,6 +266,8 @@ class AiQuota {
     freeRemaining: (r['free_remaining'] as num?)?.toInt(),
     codeRemaining: (r['code_remaining'] as num?)?.toInt() ?? 0,
     codes: [for (final c in (r['codes'] is List ? r['codes'] as List : const [])) if (c is Map) AiCode.fromJson(c)],
+    allCodes: r['all_codes'] is List ? [for (final c in r['all_codes'] as List) if (c is Map) AiCode.fromJson(c)] : null,
+    raw: r,
   );
 
   /// Quiz IA possibles aujourd'hui : gratuits + codes IA.
@@ -196,6 +277,12 @@ class AiQuota {
   final int freeRemaining;
   final int codeRemaining;
   final List<AiCode> codes;
+
+  /// Tous les codes du téléphone, terminés compris (serveur 19.0.1.5.0 ; sinon [codes]).
+  final List<AiCode> allCodes;
+
+  /// Réponse brute du serveur (gardée pour l'affichage hors connexion).
+  final Map<String, dynamic> raw;
   final int daily;
   final int maxChars;
   final bool enabled;
@@ -236,14 +323,23 @@ class AiClient {
     return AiQuota.fromJson(await _call('/quota', {'device_id': deviceId}, const Duration(seconds: 12)));
   }
 
-  /// Active un code IA sur ce téléphone. Renvoie le code activé et le quota à jour ;
-  /// [AiException] (motif `code_unknown`, `code_taken`, `code_expired`…) sinon.
-  Future<(AiCode, AiQuota)> redeem(String code) async {
-    final r = await _call('/redeem', {'device_id': deviceId, 'code': code.trim()}, const Duration(seconds: 15));
+  /// Active un code IA sur ce téléphone. [transfer] : l'utilisateur a confirmé le transfert
+  /// depuis son ancien téléphone. [AiException] (motif `code_unknown`, `code_transferable`…) sinon.
+  Future<AiRedeemed> redeem(String code, {bool transfer = false}) async {
+    final r = await _call('/redeem', {
+      'device_id': deviceId,
+      'code': code.trim(),
+      'can_transfer': true,
+      if (transfer) 'transfer': true,
+    }, const Duration(seconds: 15));
     final redeemed = r['redeemed'];
     if (redeemed is! Map) throw AiException('SERVER');
-    return (AiCode.fromJson(redeemed), AiQuota.fromJson(r));
+    return AiRedeemed(AiCode.fromJson(redeemed), AiQuota.fromJson(r), already: r['already'] == true, transferred: transfer);
   }
+
+  /// Retire un code de ce téléphone (pour le donner) ; renvoie le quota à jour.
+  Future<AiQuota> release(String code) async =>
+      AiQuota.fromJson(await _call('/code/release', {'device_id': deviceId, 'code': code}, const Duration(seconds: 15)));
 
   /// Délai d'attente d'un quiz IA. Le serveur borne lui-même ses appels à Claude
   /// (2 essais de 100 s) pour toujours répondre avant.
@@ -327,6 +423,7 @@ class AiClient {
         reason: '${details['reason'] ?? ''}',
         message: '${error['message'] ?? ''}',
         minutes: (details['minutes'] as num?)?.toInt(),
+        transfersLeft: (details['transfers_left'] as num?)?.toInt(),
       );
     }
     return result;

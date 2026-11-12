@@ -560,7 +560,7 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get aiCodeEnter => 'Saisir un code IA';
+  String get aiCodeEnter => 'J’ai un code IA';
 
   @override
   String get aiCodeEnterHint =>
@@ -636,7 +636,11 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get aiCodeErrTaken =>
-      'Ce code IA est déjà utilisé sur un autre téléphone. Pour changer de téléphone, demandez à la personne qui vous l’a donné de libérer le code.';
+      'Ce code IA est déjà utilisé sur un autre téléphone et ne peut plus être transféré. Demandez à la personne qui vous l’a donné de libérer le code.';
+
+  @override
+  String get aiCodeErrFull =>
+      'Ce code IA est déjà utilisé sur tous les téléphones prévus. Demandez à la personne qui vous l’a donné.';
 
   @override
   String aiCodeErrRate(int count) {
@@ -650,6 +654,200 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get aiCodeErrOther =>
       'Le code n’a pas pu être activé. Réessayez plus tard.';
+
+  @override
+  String get aiCodePaste => 'Coller';
+
+  @override
+  String get aiCodePasteEmpty => 'Aucun code dans le presse-papiers.';
+
+  @override
+  String get aiCodeAlready => 'Ce code est déjà sur ce téléphone.';
+
+  @override
+  String get aiCodeTransferTitle => 'Transférer ce code ici ?';
+
+  @override
+  String aiCodeTransferBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Ce code IA est utilisé sur un autre téléphone. Si c’est le vôtre (changement de téléphone), transférez-le : l’autre téléphone ne pourra plus s’en servir. Encore $count transferts permis.',
+      one: 'Ce code IA est utilisé sur un autre téléphone. Si c’est le vôtre (changement de téléphone), transférez-le : l’autre téléphone ne pourra plus s’en servir. C’est le dernier transfert permis.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiCodeTransferAction => 'Transférer';
+
+  @override
+  String get aiCodeTransferred => 'Code transféré sur ce téléphone.';
+
+  @override
+  String get myCodes => 'Mes codes IA';
+
+  @override
+  String get myCodesBuy => 'Acheter';
+
+  @override
+  String get myCodesNone => 'Aucun code IA sur ce téléphone';
+
+  @override
+  String myCodesSummary(int codes, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      codes,
+      locale: localeName,
+      other: '$codes codes',
+      one: '1 code',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count quiz IA restants',
+      one: '1 quiz IA restant',
+      zero: 'plus de quiz IA',
+    );
+    return '$_temp0 · $_temp1';
+  }
+
+  @override
+  String myCodesExpireSoon(int count, String when) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count quiz IA expirent $when',
+      one: '1 quiz IA expire $when',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get whenToday => 'aujourd’hui';
+
+  @override
+  String get whenTomorrow => 'demain';
+
+  @override
+  String whenInDays(int count) {
+    return 'dans $count jours';
+  }
+
+  @override
+  String whenOnDate(String date) {
+    return 'le $date';
+  }
+
+  @override
+  String get myCodesIntro =>
+      'Vos codes servent quand le quota gratuit du jour est épuisé, en commençant par celui qui expire le premier.';
+
+  @override
+  String get myCodesEmptyBody =>
+      'Un code IA vous donne des quiz IA en plus du quota gratuit. Vous pouvez en recevoir un (école, entreprise, partenaire) ou en acheter.';
+
+  @override
+  String get myCodesToday => 'Aujourd’hui';
+
+  @override
+  String get myCodesEnded => 'Terminés';
+
+  @override
+  String myCodesOffline(String date) {
+    return 'Hors connexion : état au $date.';
+  }
+
+  @override
+  String get myCodesOfflineNone =>
+      'Connexion nécessaire pour voir vos codes IA.';
+
+  @override
+  String codeUsedOf(int used, int total) {
+    return '$used utilisés sur $total';
+  }
+
+  @override
+  String codeExpiresWhen(String when) {
+    return 'Expire $when';
+  }
+
+  @override
+  String get codeNoExpiry => 'Sans date limite';
+
+  @override
+  String codeDailyLimit(int count) {
+    return '$count par jour au plus';
+  }
+
+  @override
+  String codeDailyLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'encore $count aujourd’hui',
+      one: 'encore 1 aujourd’hui',
+      zero: 'plus rien aujourd’hui',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String codeShared(int count, int mine) {
+    return 'Partagé : $count téléphones au plus · $mine par vous';
+  }
+
+  @override
+  String get codeBought => 'Acheté';
+
+  @override
+  String get codeGift => 'Reçu';
+
+  @override
+  String get codeStateExhausted => 'Épuisé';
+
+  @override
+  String get codeStateExpired => 'Expiré';
+
+  @override
+  String get codeStateDisabled => 'Désactivé';
+
+  @override
+  String codeLastUsed(String date) {
+    return 'Dernier quiz IA : $date';
+  }
+
+  @override
+  String get codeCopy => 'Copier le code';
+
+  @override
+  String get codeCopied => 'Code copié.';
+
+  @override
+  String get codeRemove => 'Retirer de ce téléphone';
+
+  @override
+  String get codeRemoveTitle => 'Retirer ce code ?';
+
+  @override
+  String codeRemoveBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Le code disparaît de ce téléphone ; les $count quiz IA restants restent sur le code : vous pouvez le donner à quelqu’un, qui le saisira sur son téléphone.',
+      one: 'Le code disparaît de ce téléphone ; le quiz IA restant reste sur le code : vous pouvez le donner à quelqu’un, qui le saisira sur son téléphone.',
+      zero: 'Le code disparaît de ce téléphone.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get codeRemoved => 'Code retiré de ce téléphone.';
+
+  @override
+  String get codeRemoveFailed =>
+      'Le code n’a pas pu être retiré. Réessayez quand vous serez connecté.';
 
   @override
   String get shopEntry => 'Acheter des quiz IA';

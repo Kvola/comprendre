@@ -338,7 +338,7 @@
       }
     }
   },
-  "aiCodeEnter": "Enter an AI code",
+  "aiCodeEnter": "I have an AI code",
   "aiCodeEnterHint": "A code from your school, company or a partner, for more AI quizzes.",
   "aiCodeDialogTitle": "AI code",
   "aiCodeDialogBody": "Type the code as you received it (capitals, spaces and dashes do not matter). It will be linked to this phone.",
@@ -383,7 +383,8 @@
   "aiCodeErrDisabled": "This AI code has been turned off.",
   "aiCodeErrExpired": "This AI code has expired.",
   "aiCodeErrExhausted": "All the AI quizzes of this code have been used.",
-  "aiCodeErrTaken": "This AI code is already used on another phone. To change phones, ask the person who gave it to you to release the code.",
+  "aiCodeErrTaken": "This AI code is already used on another phone and can no longer be moved. Ask the person who gave it to you to release the code.",
+  "aiCodeErrFull": "This AI code is already used on all the phones it allows. Ask the person who gave it to you.",
   "aiCodeErrRate": "Too many attempts: try again in {count} min.",
   "@aiCodeErrRate": {
     "placeholders": {
@@ -394,6 +395,150 @@
   },
   "aiCodeErrNetwork": "No connection to the service: try again when you are online.",
   "aiCodeErrOther": "The code could not be activated. Try again later.",
+  "aiCodePaste": "Paste",
+  "aiCodePasteEmpty": "No code on the clipboard.",
+  "aiCodeAlready": "This code is already on this phone.",
+  "aiCodeTransferTitle": "Move this code here?",
+  "aiCodeTransferBody": "{count, plural, =1{This AI code is used on another phone. If it is yours (new phone), move it: the other phone will no longer be able to use it. This is the last move allowed.} other{This AI code is used on another phone. If it is yours (new phone), move it: the other phone will no longer be able to use it. {count} moves left.}}",
+  "@aiCodeTransferBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aiCodeTransferAction": "Move it",
+  "aiCodeTransferred": "Code moved to this phone.",
+  "myCodes": "My AI codes",
+  "myCodesBuy": "Buy",
+  "myCodesNone": "No AI code on this phone",
+  "myCodesSummary": "{codes, plural, =1{1 code} other{{codes} codes}} · {count, plural, =0{no AI quiz left} =1{1 AI quiz left} other{{count} AI quizzes left}}",
+  "@myCodesSummary": {
+    "placeholders": {
+      "codes": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "myCodesExpireSoon": "{count, plural, =1{1 AI quiz expires {when}} other{{count} AI quizzes expire {when}}}",
+  "@myCodesExpireSoon": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "whenToday": "today",
+  "whenTomorrow": "tomorrow",
+  "whenInDays": "in {count} days",
+  "@whenInDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "whenOnDate": "on {date}",
+  "@whenOnDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "myCodesIntro": "Your codes are used once the free daily quota is used up, starting with the one that expires first.",
+  "myCodesEmptyBody": "An AI code gives you AI quizzes on top of the free quota. You can receive one (school, company, partner) or buy one.",
+  "myCodesToday": "Today",
+  "myCodesEnded": "Finished",
+  "myCodesOffline": "Offline: status as of {date}.",
+  "@myCodesOffline": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "myCodesOfflineNone": "A connection is needed to see your AI codes.",
+  "codeUsedOf": "{used} used out of {total}",
+  "@codeUsedOf": {
+    "placeholders": {
+      "used": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "codeExpiresWhen": "Expires {when}",
+  "@codeExpiresWhen": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "codeNoExpiry": "No end date",
+  "codeDailyLimit": "at most {count} a day",
+  "@codeDailyLimit": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "codeDailyLeft": "{count, plural, =0{none left today} =1{1 more today} other{{count} more today}}",
+  "@codeDailyLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "codeShared": "Shared: up to {count} phones · {mine} by you",
+  "@codeShared": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "mine": {
+        "type": "int"
+      }
+    }
+  },
+  "codeBought": "Bought",
+  "codeGift": "Received",
+  "codeStateExhausted": "Used up",
+  "codeStateExpired": "Expired",
+  "codeStateDisabled": "Turned off",
+  "codeLastUsed": "Last AI quiz: {date}",
+  "@codeLastUsed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "codeCopy": "Copy the code",
+  "codeCopied": "Code copied.",
+  "codeRemove": "Remove from this phone",
+  "codeRemoveTitle": "Remove this code?",
+  "codeRemoveBody": "{count, plural, =0{The code disappears from this phone.} =1{The code disappears from this phone; the remaining AI quiz stays on the code: you can give it to someone, who will enter it on their phone.} other{The code disappears from this phone; the {count} remaining AI quizzes stay on the code: you can give it to someone, who will enter it on their phone.}}",
+  "@codeRemoveBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "codeRemoved": "Code removed from this phone.",
+  "codeRemoveFailed": "The code could not be removed. Try again when you are online.",
   "shopEntry": "Buy AI quizzes",
   "shopEntryHint": "Pay with Wave: the AI quizzes are added to this phone.",
   "shopTitle": "Buy AI quizzes",

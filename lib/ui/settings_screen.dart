@@ -10,8 +10,9 @@ import '../app/version.dart';
 import '../core/web_env.dart';
 import '../data/backup.dart';
 import '../data/database.dart';
-import '../remote/ai_client.dart' show AiCode;
+import '../remote/ai_client.dart' show AiCode, AiQuota;
 import 'ai_code.dart';
+import 'codes_screen.dart';
 import 'shop_screen.dart';
 import 'common.dart';
 
@@ -136,7 +137,7 @@ class SettingsScreen extends ConsumerWidget {
                       onPressed: () => ref.invalidate(quotaProvider),
                     ),
                   ),
-                if (aiOn) for (final code in quota?.value?.codes ?? const <AiCode>[]) AiCodeTile(code),
+                _MyCodesTile(quota: quota?.value),
                 ListTile(
                   key: const ValueKey('ai-code-enter'),
                   leading: const Icon(Icons.add_card_outlined),
@@ -210,6 +211,38 @@ class SettingsScreen extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Entrée « Mes codes IA » : nombre de codes, quiz restants, et ce qui expire bientôt.
+class _MyCodesTile extends ConsumerWidget {
+  const _MyCodesTile({required this.quota});
+
+  final AiQuota? quota;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l = context.l10n;
+    final codes = quota?.allCodes ?? const <AiCode>[];
+    final now = DateTime.now();
+    final live = codes.where((c) => c.isLive(now)).toList();
+    final soon = expiringSoon(live, now);
+    final left = live.fold<int>(0, (sum, c) => sum + c.remaining);
+    final summary = [
+      if (codes.isEmpty) l.myCodesNone else l.myCodesSummary(live.length, left),
+      if (soon != null) l.myCodesExpireSoon(soon.remaining, whenLabel(context, soon.expires!, soon.daysLeft(now)!)),
+    ];
+    return ListTile(
+      key: const ValueKey('my-codes'),
+      leading: const Icon(Icons.key),
+      title: Text(l.myCodes),
+      subtitle: quota == null ? null : Text(summary.join('\n')),
+      trailing: const Icon(Icons.chevron_right),
+      onTap: () async {
+        await Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const MyCodesScreen()));
+        ref.invalidate(quotaProvider);
+      },
     );
   }
 }

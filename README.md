@@ -19,7 +19,7 @@ justifie (surligné dans le texte).
 | Justesse | par construction (tout est tiré du texte) | chaque citation est vérifiée dans le texte par le serveur ; sinon la question est écartée |
 | Données | rien n'est envoyé | le texte est envoyé pour créer le quiz, non conservé ; identifiant d'appareil aléatoire (quota) |
 
-Des **codes IA** (créés dans le back-office) donnent des quiz IA en plus du quota gratuit : Réglages → Quiz IA → Saisir un code IA (`lib/ui/ai_code.dart`, `/comprendre/api/v1/redeem`). Des quiz IA s'**achètent** aussi avec Wave (`lib/ui/shop_screen.dart`, `/shop`, `/buy`, `/orders`) : le paiement confirmé délivre un code IA activé sur le téléphone.
+Des **codes IA** (créés dans le back-office) donnent des quiz IA en plus du quota gratuit : Réglages → Quiz IA → J'ai un code IA (`lib/ui/ai_code.dart`, `/comprendre/api/v1/redeem`) ; l'écran **Mes codes IA** (`lib/ui/codes_screen.dart`) détaille chaque code, propose le transfert depuis un ancien téléphone (`redeem` avec `can_transfer`/`transfer`) et le retrait (`/code/release`), et garde le dernier état pour l'affichage hors connexion. Des quiz IA s'**achètent** aussi avec Wave (`lib/ui/shop_screen.dart`, `/shop`, `/buy`, `/orders`) : le paiement confirmé délivre un code IA activé sur le téléphone.
 
 L'IA n'est utilisée qu'après accord explicite (demandé au premier quiz,
 modifiable dans les réglages). En cas d'échec, quel qu'il soit (pas de

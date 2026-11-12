@@ -559,7 +559,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get aiCodeEnter => 'Enter an AI code';
+  String get aiCodeEnter => 'I have an AI code';
 
   @override
   String get aiCodeEnterHint =>
@@ -635,7 +635,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aiCodeErrTaken =>
-      'This AI code is already used on another phone. To change phones, ask the person who gave it to you to release the code.';
+      'This AI code is already used on another phone and can no longer be moved. Ask the person who gave it to you to release the code.';
+
+  @override
+  String get aiCodeErrFull =>
+      'This AI code is already used on all the phones it allows. Ask the person who gave it to you.';
 
   @override
   String aiCodeErrRate(int count) {
@@ -649,6 +653,200 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get aiCodeErrOther =>
       'The code could not be activated. Try again later.';
+
+  @override
+  String get aiCodePaste => 'Paste';
+
+  @override
+  String get aiCodePasteEmpty => 'No code on the clipboard.';
+
+  @override
+  String get aiCodeAlready => 'This code is already on this phone.';
+
+  @override
+  String get aiCodeTransferTitle => 'Move this code here?';
+
+  @override
+  String aiCodeTransferBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'This AI code is used on another phone. If it is yours (new phone), move it: the other phone will no longer be able to use it. $count moves left.',
+      one: 'This AI code is used on another phone. If it is yours (new phone), move it: the other phone will no longer be able to use it. This is the last move allowed.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiCodeTransferAction => 'Move it';
+
+  @override
+  String get aiCodeTransferred => 'Code moved to this phone.';
+
+  @override
+  String get myCodes => 'My AI codes';
+
+  @override
+  String get myCodesBuy => 'Buy';
+
+  @override
+  String get myCodesNone => 'No AI code on this phone';
+
+  @override
+  String myCodesSummary(int codes, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      codes,
+      locale: localeName,
+      other: '$codes codes',
+      one: '1 code',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count AI quizzes left',
+      one: '1 AI quiz left',
+      zero: 'no AI quiz left',
+    );
+    return '$_temp0 · $_temp1';
+  }
+
+  @override
+  String myCodesExpireSoon(int count, String when) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count AI quizzes expire $when',
+      one: '1 AI quiz expires $when',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get whenToday => 'today';
+
+  @override
+  String get whenTomorrow => 'tomorrow';
+
+  @override
+  String whenInDays(int count) {
+    return 'in $count days';
+  }
+
+  @override
+  String whenOnDate(String date) {
+    return 'on $date';
+  }
+
+  @override
+  String get myCodesIntro =>
+      'Your codes are used once the free daily quota is used up, starting with the one that expires first.';
+
+  @override
+  String get myCodesEmptyBody =>
+      'An AI code gives you AI quizzes on top of the free quota. You can receive one (school, company, partner) or buy one.';
+
+  @override
+  String get myCodesToday => 'Today';
+
+  @override
+  String get myCodesEnded => 'Finished';
+
+  @override
+  String myCodesOffline(String date) {
+    return 'Offline: status as of $date.';
+  }
+
+  @override
+  String get myCodesOfflineNone =>
+      'A connection is needed to see your AI codes.';
+
+  @override
+  String codeUsedOf(int used, int total) {
+    return '$used used out of $total';
+  }
+
+  @override
+  String codeExpiresWhen(String when) {
+    return 'Expires $when';
+  }
+
+  @override
+  String get codeNoExpiry => 'No end date';
+
+  @override
+  String codeDailyLimit(int count) {
+    return 'at most $count a day';
+  }
+
+  @override
+  String codeDailyLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count more today',
+      one: '1 more today',
+      zero: 'none left today',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String codeShared(int count, int mine) {
+    return 'Shared: up to $count phones · $mine by you';
+  }
+
+  @override
+  String get codeBought => 'Bought';
+
+  @override
+  String get codeGift => 'Received';
+
+  @override
+  String get codeStateExhausted => 'Used up';
+
+  @override
+  String get codeStateExpired => 'Expired';
+
+  @override
+  String get codeStateDisabled => 'Turned off';
+
+  @override
+  String codeLastUsed(String date) {
+    return 'Last AI quiz: $date';
+  }
+
+  @override
+  String get codeCopy => 'Copy the code';
+
+  @override
+  String get codeCopied => 'Code copied.';
+
+  @override
+  String get codeRemove => 'Remove from this phone';
+
+  @override
+  String get codeRemoveTitle => 'Remove this code?';
+
+  @override
+  String codeRemoveBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'The code disappears from this phone; the $count remaining AI quizzes stay on the code: you can give it to someone, who will enter it on their phone.',
+      one: 'The code disappears from this phone; the remaining AI quiz stays on the code: you can give it to someone, who will enter it on their phone.',
+      zero: 'The code disappears from this phone.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get codeRemoved => 'Code removed from this phone.';
+
+  @override
+  String get codeRemoveFailed =>
+      'The code could not be removed. Try again when you are online.';
 
   @override
   String get shopEntry => 'Buy AI quizzes';

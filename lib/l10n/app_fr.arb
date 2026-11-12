@@ -338,7 +338,7 @@
       }
     }
   },
-  "aiCodeEnter": "Saisir un code IA",
+  "aiCodeEnter": "J’ai un code IA",
   "aiCodeEnterHint": "Un code reçu de votre école, de votre entreprise ou d’un partenaire, pour plus de quiz IA.",
   "aiCodeDialogTitle": "Code IA",
   "aiCodeDialogBody": "Saisissez le code tel qu’il vous a été donné (majuscules, espaces et tirets ne comptent pas). Il sera lié à ce téléphone.",
@@ -383,7 +383,8 @@
   "aiCodeErrDisabled": "Ce code IA a été désactivé.",
   "aiCodeErrExpired": "Ce code IA a expiré.",
   "aiCodeErrExhausted": "Tous les quiz IA de ce code ont déjà été utilisés.",
-  "aiCodeErrTaken": "Ce code IA est déjà utilisé sur un autre téléphone. Pour changer de téléphone, demandez à la personne qui vous l’a donné de libérer le code.",
+  "aiCodeErrTaken": "Ce code IA est déjà utilisé sur un autre téléphone et ne peut plus être transféré. Demandez à la personne qui vous l’a donné de libérer le code.",
+  "aiCodeErrFull": "Ce code IA est déjà utilisé sur tous les téléphones prévus. Demandez à la personne qui vous l’a donné.",
   "aiCodeErrRate": "Trop d’essais : réessayez dans {count} min.",
   "@aiCodeErrRate": {
     "placeholders": {
@@ -394,6 +395,150 @@
   },
   "aiCodeErrNetwork": "Pas de connexion au service : réessayez quand vous serez connecté.",
   "aiCodeErrOther": "Le code n’a pas pu être activé. Réessayez plus tard.",
+  "aiCodePaste": "Coller",
+  "aiCodePasteEmpty": "Aucun code dans le presse-papiers.",
+  "aiCodeAlready": "Ce code est déjà sur ce téléphone.",
+  "aiCodeTransferTitle": "Transférer ce code ici ?",
+  "aiCodeTransferBody": "{count, plural, =1{Ce code IA est utilisé sur un autre téléphone. Si c’est le vôtre (changement de téléphone), transférez-le : l’autre téléphone ne pourra plus s’en servir. C’est le dernier transfert permis.} other{Ce code IA est utilisé sur un autre téléphone. Si c’est le vôtre (changement de téléphone), transférez-le : l’autre téléphone ne pourra plus s’en servir. Encore {count} transferts permis.}}",
+  "@aiCodeTransferBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aiCodeTransferAction": "Transférer",
+  "aiCodeTransferred": "Code transféré sur ce téléphone.",
+  "myCodes": "Mes codes IA",
+  "myCodesBuy": "Acheter",
+  "myCodesNone": "Aucun code IA sur ce téléphone",
+  "myCodesSummary": "{codes, plural, =1{1 code} other{{codes} codes}} · {count, plural, =0{plus de quiz IA} =1{1 quiz IA restant} other{{count} quiz IA restants}}",
+  "@myCodesSummary": {
+    "placeholders": {
+      "codes": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "myCodesExpireSoon": "{count, plural, =1{1 quiz IA expire {when}} other{{count} quiz IA expirent {when}}}",
+  "@myCodesExpireSoon": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "whenToday": "aujourd’hui",
+  "whenTomorrow": "demain",
+  "whenInDays": "dans {count} jours",
+  "@whenInDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "whenOnDate": "le {date}",
+  "@whenOnDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "myCodesIntro": "Vos codes servent quand le quota gratuit du jour est épuisé, en commençant par celui qui expire le premier.",
+  "myCodesEmptyBody": "Un code IA vous donne des quiz IA en plus du quota gratuit. Vous pouvez en recevoir un (école, entreprise, partenaire) ou en acheter.",
+  "myCodesToday": "Aujourd’hui",
+  "myCodesEnded": "Terminés",
+  "myCodesOffline": "Hors connexion : état au {date}.",
+  "@myCodesOffline": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "myCodesOfflineNone": "Connexion nécessaire pour voir vos codes IA.",
+  "codeUsedOf": "{used} utilisés sur {total}",
+  "@codeUsedOf": {
+    "placeholders": {
+      "used": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "codeExpiresWhen": "Expire {when}",
+  "@codeExpiresWhen": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "codeNoExpiry": "Sans date limite",
+  "codeDailyLimit": "{count} par jour au plus",
+  "@codeDailyLimit": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "codeDailyLeft": "{count, plural, =0{plus rien aujourd’hui} =1{encore 1 aujourd’hui} other{encore {count} aujourd’hui}}",
+  "@codeDailyLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "codeShared": "Partagé : {count} téléphones au plus · {mine} par vous",
+  "@codeShared": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "mine": {
+        "type": "int"
+      }
+    }
+  },
+  "codeBought": "Acheté",
+  "codeGift": "Reçu",
+  "codeStateExhausted": "Épuisé",
+  "codeStateExpired": "Expiré",
+  "codeStateDisabled": "Désactivé",
+  "codeLastUsed": "Dernier quiz IA : {date}",
+  "@codeLastUsed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "codeCopy": "Copier le code",
+  "codeCopied": "Code copié.",
+  "codeRemove": "Retirer de ce téléphone",
+  "codeRemoveTitle": "Retirer ce code ?",
+  "codeRemoveBody": "{count, plural, =0{Le code disparaît de ce téléphone.} =1{Le code disparaît de ce téléphone ; le quiz IA restant reste sur le code : vous pouvez le donner à quelqu’un, qui le saisira sur son téléphone.} other{Le code disparaît de ce téléphone ; les {count} quiz IA restants restent sur le code : vous pouvez le donner à quelqu’un, qui le saisira sur son téléphone.}}",
+  "@codeRemoveBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "codeRemoved": "Code retiré de ce téléphone.",
+  "codeRemoveFailed": "Le code n’a pas pu être retiré. Réessayez quand vous serez connecté.",
   "shopEntry": "Acheter des quiz IA",
   "shopEntryHint": "Payez avec Wave : les quiz IA sont ajoutés à ce téléphone.",
   "shopTitle": "Acheter des quiz IA",

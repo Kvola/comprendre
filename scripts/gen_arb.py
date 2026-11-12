@@ -206,7 +206,7 @@ S = {
     'aiQuotaUnknown': ('Quota IA : connexion nécessaire', 'AI quota: connection needed'),
     # Codes IA
     'aiRemainingDetail': ('{free} du quota gratuit + {codes} avec vos codes IA', '{free} from the free quota + {codes} from your AI codes'),
-    'aiCodeEnter': ('Saisir un code IA', 'Enter an AI code'),
+    'aiCodeEnter': ('J’ai un code IA', 'I have an AI code'),
     'aiCodeEnterHint': ('Un code reçu de votre école, de votre entreprise ou d’un partenaire, pour plus de quiz IA.',
                         'A code from your school, company or a partner, for more AI quizzes.'),
     'aiCodeDialogTitle': ('Code IA', 'AI code'),
@@ -229,14 +229,81 @@ S = {
     'aiCodeErrDisabled': ('Ce code IA a été désactivé.', 'This AI code has been turned off.'),
     'aiCodeErrExpired': ('Ce code IA a expiré.', 'This AI code has expired.'),
     'aiCodeErrExhausted': ('Tous les quiz IA de ce code ont déjà été utilisés.', 'All the AI quizzes of this code have been used.'),
-    'aiCodeErrTaken': ('Ce code IA est déjà utilisé sur un autre téléphone. Pour changer de téléphone, demandez à la personne '
-                       'qui vous l’a donné de libérer le code.',
-                       'This AI code is already used on another phone. To change phones, ask the person who gave it to you '
-                       'to release the code.'),
+    'aiCodeErrTaken': ('Ce code IA est déjà utilisé sur un autre téléphone et ne peut plus être transféré. Demandez à la '
+                       'personne qui vous l’a donné de libérer le code.',
+                       'This AI code is already used on another phone and can no longer be moved. Ask the person who gave '
+                       'it to you to release the code.'),
+    'aiCodeErrFull': ('Ce code IA est déjà utilisé sur tous les téléphones prévus. Demandez à la personne qui vous l’a donné.',
+                      'This AI code is already used on all the phones it allows. Ask the person who gave it to you.'),
     'aiCodeErrRate': ('Trop d’essais : réessayez dans {count} min.', 'Too many attempts: try again in {count} min.'),
     'aiCodeErrNetwork': ('Pas de connexion au service : réessayez quand vous serez connecté.',
                          'No connection to the service: try again when you are online.'),
     'aiCodeErrOther': ('Le code n’a pas pu être activé. Réessayez plus tard.', 'The code could not be activated. Try again later.'),
+    # Mes codes IA (1.5)
+    'aiCodePaste': ('Coller', 'Paste'),
+    'aiCodePasteEmpty': ('Aucun code dans le presse-papiers.', 'No code on the clipboard.'),
+    'aiCodeAlready': ('Ce code est déjà sur ce téléphone.', 'This code is already on this phone.'),
+    'aiCodeTransferTitle': ('Transférer ce code ici ?', 'Move this code here?'),
+    'aiCodeTransferBody': ('{count, plural, =1{Ce code IA est utilisé sur un autre téléphone. Si c’est le vôtre (changement de '
+                           'téléphone), transférez-le : l’autre téléphone ne pourra plus s’en servir. C’est le dernier '
+                           'transfert permis.} other{Ce code IA est utilisé sur un autre téléphone. Si c’est le vôtre '
+                           '(changement de téléphone), transférez-le : l’autre téléphone ne pourra plus s’en servir. '
+                           'Encore {count} transferts permis.}}',
+                           '{count, plural, =1{This AI code is used on another phone. If it is yours (new phone), move it: '
+                           'the other phone will no longer be able to use it. This is the last move allowed.} other{This AI '
+                           'code is used on another phone. If it is yours (new phone), move it: the other phone will no '
+                           'longer be able to use it. {count} moves left.}}'),
+    'aiCodeTransferAction': ('Transférer', 'Move it'),
+    'aiCodeTransferred': ('Code transféré sur ce téléphone.', 'Code moved to this phone.'),
+    'myCodes': ('Mes codes IA', 'My AI codes'),
+    'myCodesBuy': ('Acheter', 'Buy'),
+    'myCodesNone': ('Aucun code IA sur ce téléphone', 'No AI code on this phone'),
+    'myCodesSummary': ('{codes, plural, =1{1 code} other{{codes} codes}} · {count, plural, =0{plus de quiz IA} =1{1 quiz IA restant} other{{count} quiz IA restants}}',
+                       '{codes, plural, =1{1 code} other{{codes} codes}} · {count, plural, =0{no AI quiz left} =1{1 AI quiz left} other{{count} AI quizzes left}}'),
+    'myCodesExpireSoon': ('{count, plural, =1{1 quiz IA expire {when}} other{{count} quiz IA expirent {when}}}',
+                          '{count, plural, =1{1 AI quiz expires {when}} other{{count} AI quizzes expire {when}}}'),
+    'whenToday': ('aujourd’hui', 'today'),
+    'whenTomorrow': ('demain', 'tomorrow'),
+    'whenInDays': ('dans {count} jours', 'in {count} days'),
+    'whenOnDate': ('le {date}', 'on {date}'),
+    'myCodesIntro': ('Vos codes servent quand le quota gratuit du jour est épuisé, en commençant par celui qui expire le premier.',
+                     'Your codes are used once the free daily quota is used up, starting with the one that expires first.'),
+    'myCodesEmptyBody': ('Un code IA vous donne des quiz IA en plus du quota gratuit. Vous pouvez en recevoir un (école, '
+                         'entreprise, partenaire) ou en acheter.',
+                         'An AI code gives you AI quizzes on top of the free quota. You can receive one (school, company, '
+                         'partner) or buy one.'),
+    'myCodesToday': ('Aujourd’hui', 'Today'),
+    'myCodesEnded': ('Terminés', 'Finished'),
+    'myCodesOffline': ('Hors connexion : état au {date}.', 'Offline: status as of {date}.'),
+    'myCodesOfflineNone': ('Connexion nécessaire pour voir vos codes IA.', 'A connection is needed to see your AI codes.'),
+    'codeUsedOf': ('{used} utilisés sur {total}', '{used} used out of {total}'),
+    'codeExpiresWhen': ('Expire {when}', 'Expires {when}'),
+    'codeNoExpiry': ('Sans date limite', 'No end date'),
+    'codeDailyLimit': ('{count} par jour au plus', 'at most {count} a day'),
+    'codeDailyLeft': ('{count, plural, =0{plus rien aujourd’hui} =1{encore 1 aujourd’hui} other{encore {count} aujourd’hui}}',
+                      '{count, plural, =0{none left today} =1{1 more today} other{{count} more today}}'),
+    'codeShared': ('Partagé : {count} téléphones au plus · {mine} par vous', 'Shared: up to {count} phones · {mine} by you'),
+    'codeBought': ('Acheté', 'Bought'),
+    'codeGift': ('Reçu', 'Received'),
+    'codeStateExhausted': ('Épuisé', 'Used up'),
+    'codeStateExpired': ('Expiré', 'Expired'),
+    'codeStateDisabled': ('Désactivé', 'Turned off'),
+    'codeLastUsed': ('Dernier quiz IA : {date}', 'Last AI quiz: {date}'),
+    'codeCopy': ('Copier le code', 'Copy the code'),
+    'codeCopied': ('Code copié.', 'Code copied.'),
+    'codeRemove': ('Retirer de ce téléphone', 'Remove from this phone'),
+    'codeRemoveTitle': ('Retirer ce code ?', 'Remove this code?'),
+    'codeRemoveBody': ('{count, plural, =0{Le code disparaît de ce téléphone.} =1{Le code disparaît de ce téléphone ; le quiz '
+                       'IA restant reste sur le code : vous pouvez le donner à quelqu’un, qui le saisira sur son téléphone.} '
+                       'other{Le code disparaît de ce téléphone ; les {count} quiz IA restants restent sur le code : vous '
+                       'pouvez le donner à quelqu’un, qui le saisira sur son téléphone.}}',
+                       '{count, plural, =0{The code disappears from this phone.} =1{The code disappears from this phone; '
+                       'the remaining AI quiz stays on the code: you can give it to someone, who will enter it on their '
+                       'phone.} other{The code disappears from this phone; the {count} remaining AI quizzes stay on the '
+                       'code: you can give it to someone, who will enter it on their phone.}}'),
+    'codeRemoved': ('Code retiré de ce téléphone.', 'Code removed from this phone.'),
+    'codeRemoveFailed': ('Le code n’a pas pu être retiré. Réessayez quand vous serez connecté.',
+                         'The code could not be removed. Try again when you are online.'),
     # Achat de quiz IA (Wave)
     'shopEntry': ('Acheter des quiz IA', 'Buy AI quizzes'),
     'shopEntryHint': ('Payez avec Wave : les quiz IA sont ajoutés à ce téléphone.', 'Pay with Wave: the AI quizzes are added to this phone.'),
@@ -334,7 +401,7 @@ def placeholders(text):
     return names
 
 
-INT = ('count', 'done', 'total', 'score', 'index', 'added', 'skipped', 'free', 'codes')
+INT = ('count', 'done', 'total', 'score', 'index', 'added', 'skipped', 'free', 'codes', 'used', 'mine')
 
 
 def build(index):

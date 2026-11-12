@@ -1019,7 +1019,7 @@ abstract class AppLocalizations {
   /// No description provided for @aiCodeEnter.
   ///
   /// In fr, this message translates to:
-  /// **'Saisir un code IA'**
+  /// **'J’ai un code IA'**
   String get aiCodeEnter;
 
   /// No description provided for @aiCodeEnterHint.
@@ -1121,8 +1121,14 @@ abstract class AppLocalizations {
   /// No description provided for @aiCodeErrTaken.
   ///
   /// In fr, this message translates to:
-  /// **'Ce code IA est déjà utilisé sur un autre téléphone. Pour changer de téléphone, demandez à la personne qui vous l’a donné de libérer le code.'**
+  /// **'Ce code IA est déjà utilisé sur un autre téléphone et ne peut plus être transféré. Demandez à la personne qui vous l’a donné de libérer le code.'**
   String get aiCodeErrTaken;
+
+  /// No description provided for @aiCodeErrFull.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce code IA est déjà utilisé sur tous les téléphones prévus. Demandez à la personne qui vous l’a donné.'**
+  String get aiCodeErrFull;
 
   /// No description provided for @aiCodeErrRate.
   ///
@@ -1141,6 +1147,252 @@ abstract class AppLocalizations {
   /// In fr, this message translates to:
   /// **'Le code n’a pas pu être activé. Réessayez plus tard.'**
   String get aiCodeErrOther;
+
+  /// No description provided for @aiCodePaste.
+  ///
+  /// In fr, this message translates to:
+  /// **'Coller'**
+  String get aiCodePaste;
+
+  /// No description provided for @aiCodePasteEmpty.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun code dans le presse-papiers.'**
+  String get aiCodePasteEmpty;
+
+  /// No description provided for @aiCodeAlready.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce code est déjà sur ce téléphone.'**
+  String get aiCodeAlready;
+
+  /// No description provided for @aiCodeTransferTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Transférer ce code ici ?'**
+  String get aiCodeTransferTitle;
+
+  /// No description provided for @aiCodeTransferBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{Ce code IA est utilisé sur un autre téléphone. Si c’est le vôtre (changement de téléphone), transférez-le : l’autre téléphone ne pourra plus s’en servir. C’est le dernier transfert permis.} other{Ce code IA est utilisé sur un autre téléphone. Si c’est le vôtre (changement de téléphone), transférez-le : l’autre téléphone ne pourra plus s’en servir. Encore {count} transferts permis.}}'**
+  String aiCodeTransferBody(int count);
+
+  /// No description provided for @aiCodeTransferAction.
+  ///
+  /// In fr, this message translates to:
+  /// **'Transférer'**
+  String get aiCodeTransferAction;
+
+  /// No description provided for @aiCodeTransferred.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code transféré sur ce téléphone.'**
+  String get aiCodeTransferred;
+
+  /// No description provided for @myCodes.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mes codes IA'**
+  String get myCodes;
+
+  /// No description provided for @myCodesBuy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Acheter'**
+  String get myCodesBuy;
+
+  /// No description provided for @myCodesNone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucun code IA sur ce téléphone'**
+  String get myCodesNone;
+
+  /// No description provided for @myCodesSummary.
+  ///
+  /// In fr, this message translates to:
+  /// **'{codes, plural, =1{1 code} other{{codes} codes}} · {count, plural, =0{plus de quiz IA} =1{1 quiz IA restant} other{{count} quiz IA restants}}'**
+  String myCodesSummary(int codes, int count);
+
+  /// No description provided for @myCodesExpireSoon.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{1 quiz IA expire {when}} other{{count} quiz IA expirent {when}}}'**
+  String myCodesExpireSoon(int count, String when);
+
+  /// No description provided for @whenToday.
+  ///
+  /// In fr, this message translates to:
+  /// **'aujourd’hui'**
+  String get whenToday;
+
+  /// No description provided for @whenTomorrow.
+  ///
+  /// In fr, this message translates to:
+  /// **'demain'**
+  String get whenTomorrow;
+
+  /// No description provided for @whenInDays.
+  ///
+  /// In fr, this message translates to:
+  /// **'dans {count} jours'**
+  String whenInDays(int count);
+
+  /// No description provided for @whenOnDate.
+  ///
+  /// In fr, this message translates to:
+  /// **'le {date}'**
+  String whenOnDate(String date);
+
+  /// No description provided for @myCodesIntro.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vos codes servent quand le quota gratuit du jour est épuisé, en commençant par celui qui expire le premier.'**
+  String get myCodesIntro;
+
+  /// No description provided for @myCodesEmptyBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un code IA vous donne des quiz IA en plus du quota gratuit. Vous pouvez en recevoir un (école, entreprise, partenaire) ou en acheter.'**
+  String get myCodesEmptyBody;
+
+  /// No description provided for @myCodesToday.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aujourd’hui'**
+  String get myCodesToday;
+
+  /// No description provided for @myCodesEnded.
+  ///
+  /// In fr, this message translates to:
+  /// **'Terminés'**
+  String get myCodesEnded;
+
+  /// No description provided for @myCodesOffline.
+  ///
+  /// In fr, this message translates to:
+  /// **'Hors connexion : état au {date}.'**
+  String myCodesOffline(String date);
+
+  /// No description provided for @myCodesOfflineNone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion nécessaire pour voir vos codes IA.'**
+  String get myCodesOfflineNone;
+
+  /// No description provided for @codeUsedOf.
+  ///
+  /// In fr, this message translates to:
+  /// **'{used} utilisés sur {total}'**
+  String codeUsedOf(int used, int total);
+
+  /// No description provided for @codeExpiresWhen.
+  ///
+  /// In fr, this message translates to:
+  /// **'Expire {when}'**
+  String codeExpiresWhen(String when);
+
+  /// No description provided for @codeNoExpiry.
+  ///
+  /// In fr, this message translates to:
+  /// **'Sans date limite'**
+  String get codeNoExpiry;
+
+  /// No description provided for @codeDailyLimit.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count} par jour au plus'**
+  String codeDailyLimit(int count);
+
+  /// No description provided for @codeDailyLeft.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =0{plus rien aujourd’hui} =1{encore 1 aujourd’hui} other{encore {count} aujourd’hui}}'**
+  String codeDailyLeft(int count);
+
+  /// No description provided for @codeShared.
+  ///
+  /// In fr, this message translates to:
+  /// **'Partagé : {count} téléphones au plus · {mine} par vous'**
+  String codeShared(int count, int mine);
+
+  /// No description provided for @codeBought.
+  ///
+  /// In fr, this message translates to:
+  /// **'Acheté'**
+  String get codeBought;
+
+  /// No description provided for @codeGift.
+  ///
+  /// In fr, this message translates to:
+  /// **'Reçu'**
+  String get codeGift;
+
+  /// No description provided for @codeStateExhausted.
+  ///
+  /// In fr, this message translates to:
+  /// **'Épuisé'**
+  String get codeStateExhausted;
+
+  /// No description provided for @codeStateExpired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Expiré'**
+  String get codeStateExpired;
+
+  /// No description provided for @codeStateDisabled.
+  ///
+  /// In fr, this message translates to:
+  /// **'Désactivé'**
+  String get codeStateDisabled;
+
+  /// No description provided for @codeLastUsed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dernier quiz IA : {date}'**
+  String codeLastUsed(String date);
+
+  /// No description provided for @codeCopy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Copier le code'**
+  String get codeCopy;
+
+  /// No description provided for @codeCopied.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code copié.'**
+  String get codeCopied;
+
+  /// No description provided for @codeRemove.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer de ce téléphone'**
+  String get codeRemove;
+
+  /// No description provided for @codeRemoveTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Retirer ce code ?'**
+  String get codeRemoveTitle;
+
+  /// No description provided for @codeRemoveBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =0{Le code disparaît de ce téléphone.} =1{Le code disparaît de ce téléphone ; le quiz IA restant reste sur le code : vous pouvez le donner à quelqu’un, qui le saisira sur son téléphone.} other{Le code disparaît de ce téléphone ; les {count} quiz IA restants restent sur le code : vous pouvez le donner à quelqu’un, qui le saisira sur son téléphone.}}'**
+  String codeRemoveBody(int count);
+
+  /// No description provided for @codeRemoved.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code retiré de ce téléphone.'**
+  String get codeRemoved;
+
+  /// No description provided for @codeRemoveFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le code n’a pas pu être retiré. Réessayez quand vous serez connecté.'**
+  String get codeRemoveFailed;
 
   /// No description provided for @shopEntry.
   ///

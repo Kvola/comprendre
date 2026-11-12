@@ -1,5 +1,19 @@
 # Journal des versions
 
+## 1.5.0 — 2026-11-12
+
+- **Mes codes IA** (Réglages → Quiz IA) : les quiz IA possibles aujourd'hui, puis une carte par code (quiz restants
+  et barre d'usage, date limite avec alerte « expire dans 3 jours », plafond du jour, code partagé, acheté ou reçu,
+  dernier quiz IA) ; les codes terminés à part. Hors connexion, le dernier état connu, daté. Les réglages résument
+  (« 1 code · 12 quiz IA restants ») et préviennent des quiz qui expirent bientôt.
+- **Changer de téléphone sans aide** : saisir son code sur le nouveau téléphone propose de le transférer (nombre de
+  transferts borné par le serveur) ; l'ancien téléphone le perd.
+- **Retirer un code** de ce téléphone pour donner ses quiz restants à quelqu'un ; **copier** un code pour le garder.
+- Saisie : bouton **Coller** qui retrouve le code dans un message copié ; « J'ai un code IA » ; un code déjà présent
+  est signalé au lieu d'être refusé.
+- Nécessite le serveur 19.0.1.5.0 pour le transfert, le retrait et les détails (avec un serveur 19.0.1.4.0, l'écran
+  montre ce que le serveur connaît). 126 tests.
+
 ## 1.4.0 — 2026-11-12
 
 - **Acheter des quiz IA avec Wave** (Réglages → Quiz IA → Acheter des quiz IA) : offres définies dans le back-office
