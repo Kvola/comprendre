@@ -1,5 +1,16 @@
 # Journal des versions
 
+## 1.4.0 — 2026-11-12
+
+- **Acheter des quiz IA avec Wave** (Réglages → Quiz IA → Acheter des quiz IA) : offres définies dans le back-office
+  (quiz, prix, validité) ; « Payer avec Wave » ouvre Wave au bon montant ; le paiement confirmé ajoute un code IA à ce
+  téléphone, sans rien saisir, et allume l'IA.
+- Confirmation automatique (API Wave, webhook) ou par un agent (lien marchand) ; dans ce cas, l'acheteur peut donner
+  l'identifiant de sa transaction Wave.
+- Robustesse : la clé de chaque achat est gardée avant l'appel (un réessai après coupure reprend le même achat, jamais
+  un second) ; l'écran revérifie toutes les 10 s et au retour de Wave ; « Ouvrir Wave » reprend un paiement inachevé.
+- Nécessite le serveur 19.0.1.4.0. 122 tests.
+
 ## 1.3.0 — 2026-11-12
 
 - **Codes IA** : un code unique (remis par une école, une entreprise, un partenaire) donne des quiz IA en plus du

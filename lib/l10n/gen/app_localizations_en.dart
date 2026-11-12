@@ -651,6 +651,144 @@ class AppLocalizationsEn extends AppLocalizations {
       'The code could not be activated. Try again later.';
 
   @override
+  String get shopEntry => 'Buy AI quizzes';
+
+  @override
+  String get shopEntryHint =>
+      'Pay with Wave: the AI quizzes are added to this phone.';
+
+  @override
+  String get shopTitle => 'Buy AI quizzes';
+
+  @override
+  String get shopIntro =>
+      'Choose an offer and pay with Wave. As soon as the payment is confirmed, your AI quizzes are added to this phone, with no code to type.';
+
+  @override
+  String get shopNoOffer => 'No offer is available at the moment.';
+
+  @override
+  String get shopOffline => 'A connection is needed to see the offers.';
+
+  @override
+  String shopCredits(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count AI quizzes',
+      one: '1 AI quiz',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shopValidity(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'valid $count days',
+      one: 'valid 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get shopNoExpiry => 'no time limit';
+
+  @override
+  String shopDailyLimit(int count) {
+    return 'at most $count a day';
+  }
+
+  @override
+  String get shopBuy => 'Pay with Wave';
+
+  @override
+  String get shopConfirmTitle => 'Pay with Wave?';
+
+  @override
+  String shopConfirmBody(String pack, String credits, String price) {
+    return '$pack: $credits, for $price. The Wave app will open for the payment.';
+  }
+
+  @override
+  String get shopOpenFailed =>
+      'Wave could not be opened. Open this link to pay:';
+
+  @override
+  String get shopCopyLink => 'Copy the link';
+
+  @override
+  String get shopLinkCopied => 'Link copied.';
+
+  @override
+  String get shopMyOrders => 'My purchases';
+
+  @override
+  String get shopOrderPending => 'Payment pending';
+
+  @override
+  String get shopOrderDone => 'Paid: AI quizzes added';
+
+  @override
+  String shopOrderRef(String ref) {
+    return 'Purchase $ref';
+  }
+
+  @override
+  String get shopWaitAuto =>
+      'Wave confirms the payment within moments; your AI quizzes are then added automatically.';
+
+  @override
+  String get shopWaitAgent =>
+      'After your Wave payment, our team confirms it (usually the same day). Your AI quizzes are then added automatically.';
+
+  @override
+  String get shopWaveRefLabel => 'Wave transaction ID (optional)';
+
+  @override
+  String get shopWaveRefHint =>
+      'In Wave: tap the payment, then copy its ID. It helps find your payment.';
+
+  @override
+  String get shopWaveRefSend => 'Send';
+
+  @override
+  String shopWaveRefSent(String ref) {
+    return 'ID sent: $ref';
+  }
+
+  @override
+  String get shopPayAgain => 'Open Wave';
+
+  @override
+  String get shopCheck => 'Check';
+
+  @override
+  String shopConfirmed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Payment confirmed: $count AI quizzes added.',
+      one: 'Payment confirmed: 1 AI quiz added.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get shopErrUnavailable => 'This offer is no longer available.';
+
+  @override
+  String get shopErrPayment =>
+      'Payment is not available at the moment. Try again later.';
+
+  @override
+  String get shopErrRefShort => 'This ID is too short.';
+
+  @override
+  String get shopErrRefUsed => 'This ID was already given for another payment.';
+
+  @override
   String get backupSection => 'Backup';
 
   @override

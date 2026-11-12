@@ -19,7 +19,7 @@ justifie (surligné dans le texte).
 | Justesse | par construction (tout est tiré du texte) | chaque citation est vérifiée dans le texte par le serveur ; sinon la question est écartée |
 | Données | rien n'est envoyé | le texte est envoyé pour créer le quiz, non conservé ; identifiant d'appareil aléatoire (quota) |
 
-Des **codes IA** (créés dans le back-office) donnent des quiz IA en plus du quota gratuit : Réglages → Quiz IA → Saisir un code IA (`lib/ui/ai_code.dart`, `/comprendre/api/v1/redeem`).
+Des **codes IA** (créés dans le back-office) donnent des quiz IA en plus du quota gratuit : Réglages → Quiz IA → Saisir un code IA (`lib/ui/ai_code.dart`, `/comprendre/api/v1/redeem`). Des quiz IA s'**achètent** aussi avec Wave (`lib/ui/shop_screen.dart`, `/shop`, `/buy`, `/orders`) : le paiement confirmé délivre un code IA activé sur le téléphone.
 
 L'IA n'est utilisée qu'après accord explicite (demandé au premier quiz,
 modifiable dans les réglages). En cas d'échec, quel qu'il soit (pas de
@@ -45,7 +45,7 @@ scripts/       gen_arb.py (textes FR/EN), branding.py + svg2png.swift (icône, l
 ```bash
 python3 scripts/gen_arb.py && flutter gen-l10n     # après une modification des textes
 dart run build_runner build                         # après une modification de la base
-flutter test                                        # 119 tests
+flutter test                                        # 122 tests
 dart run tool/demo_quiz.dart texte.txt [graine]     # voir le quiz hors ligne d'un texte
 # Serveur local (odoo_dev, port 8096) depuis l'émulateur :
 flutter run --dart-define=COMPRENDRE_SERVER=http://10.0.2.2:8096

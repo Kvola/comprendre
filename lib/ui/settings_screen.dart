@@ -12,6 +12,7 @@ import '../data/backup.dart';
 import '../data/database.dart';
 import '../remote/ai_client.dart' show AiCode;
 import 'ai_code.dart';
+import 'shop_screen.dart';
 import 'common.dart';
 
 /// Enregistre toute la bibliothèque dans un fichier choisi par l'utilisateur.
@@ -142,6 +143,17 @@ class SettingsScreen extends ConsumerWidget {
                   title: Text(l.aiCodeEnter),
                   subtitle: Text(l.aiCodeEnterHint),
                   onTap: () => enterAiCode(context, ref),
+                ),
+                ListTile(
+                  key: const ValueKey('shop-entry'),
+                  leading: const Icon(Icons.shopping_bag_outlined),
+                  title: Text(l.shopEntry),
+                  subtitle: Text(l.shopEntryHint),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () async {
+                    await Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const ShopScreen()));
+                    ref.invalidate(quotaProvider);
+                  },
                 ),
               ],
             ),

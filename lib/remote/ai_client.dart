@@ -66,6 +66,104 @@ class AiCode {
   bool isExpired(DateTime now) => expires != null && DateTime(now.year, now.month, now.day).isAfter(expires!);
 }
 
+/// Une offre de quiz IA en vente (serveur 19.0.1.4.0 et plus).
+class AiPack {
+  const AiPack({required this.id, required this.name, required this.credits, required this.price, required this.currency,
+      this.description = '', this.validityDays = 0, this.dailyLimit = 0});
+
+  factory AiPack.fromJson(Map<dynamic, dynamic> j) => AiPack(
+    id: (j['id'] as num).toInt(),
+    name: '${j['name'] ?? ''}',
+    description: '${j['description'] ?? ''}',
+    credits: (j['credits'] as num?)?.toInt() ?? 0,
+    price: (j['price'] as num?) ?? 0,
+    currency: '${j['currency'] ?? ''}',
+    validityDays: (j['validity_days'] as num?)?.toInt() ?? 0,
+    dailyLimit: (j['daily_limit'] as num?)?.toInt() ?? 0,
+  );
+
+  final int id;
+  final String name;
+  final String description;
+  final int credits;
+  final num price;
+  final String currency;
+
+  /// Validité du code délivré, en jours (0 : sans limite).
+  final int validityDays;
+  final int dailyLimit;
+}
+
+/// Un achat de l'appareil.
+class AiOrder {
+  const AiOrder({required this.ref, this.packId, required this.pack, required this.credits, required this.amount, required this.currency,
+      required this.state, this.mode, this.awaitingValidation = false, this.waveRef, this.created, this.code});
+
+  factory AiOrder.fromJson(Map<dynamic, dynamic> j) => AiOrder(
+    ref: '${j['ref'] ?? ''}',
+    packId: (j['pack_id'] is num) ? (j['pack_id'] as num).toInt() : null,
+    pack: '${j['pack'] ?? ''}',
+    credits: (j['credits'] as num?)?.toInt() ?? 0,
+    amount: (j['amount'] as num?) ?? 0,
+    currency: '${j['currency'] ?? ''}',
+    state: '${j['state'] ?? 'draft'}',
+    mode: j['mode'] is String ? j['mode'] as String : null,
+    awaitingValidation: j['awaiting_validation'] == true,
+    waveRef: j['wave_ref'] is String ? j['wave_ref'] as String : null,
+    created: j['created'] is String ? DateTime.tryParse('${j['created']}Z')?.toLocal() : null,
+    code: j['code'] is String ? j['code'] as String : null,
+  );
+
+  final String ref;
+  final int? packId;
+  final String pack;
+  final int credits;
+  final num amount;
+  final String currency;
+
+  /// `draft` (à payer) | `done` (payé, code activé) | `cancelled`
+  final String state;
+
+  /// `checkout` (Wave confirme tout seul) | `merchant` (un agent valide) ; null avant le paiement.
+  final String? mode;
+  final bool awaitingValidation;
+  final String? waveRef;
+  final DateTime? created;
+
+  /// Code IA délivré (achat payé).
+  final String? code;
+
+  bool get isPending => state == 'draft';
+  bool get isDone => state == 'done';
+}
+
+class AiShop {
+  const AiShop({required this.packs, required this.paymentAvailable, required this.autoConfirm, required this.orders});
+
+  factory AiShop.fromJson(Map<String, dynamic> r) => AiShop(
+    packs: [for (final p in (r['packs'] is List ? r['packs'] as List : const [])) if (p is Map) AiPack.fromJson(p)],
+    paymentAvailable: r['payment_available'] == true,
+    autoConfirm: r['auto_confirm'] == true,
+    orders: [for (final o in (r['orders'] is List ? r['orders'] as List : const [])) if (o is Map) AiOrder.fromJson(o)],
+  );
+
+  final List<AiPack> packs;
+  final bool paymentAvailable;
+
+  /// API Wave : la confirmation arrive toute seule (sinon un agent valide).
+  final bool autoConfirm;
+  final List<AiOrder> orders;
+}
+
+/// Achat préparé : l'URL Wave à ouvrir pour payer (vide si l'achat est déjà payé).
+class AiPurchase {
+  const AiPurchase(this.order, this.mode, this.url);
+
+  final AiOrder order;
+  final String? mode;
+  final String? url;
+}
+
 class AiQuota {
   const AiQuota({
     required this.remaining,
@@ -163,6 +261,37 @@ class AiClient {
     });
     if (quiz.questions.length < 3) throw AiException('AI_FAILED', reason: 'unverified');
     return AiResult(quiz, (r['remaining'] as num?)?.toInt() ?? 0);
+  }
+
+  /// Offres en vente et achats récents de ce téléphone.
+  Future<AiShop> shop() async => AiShop.fromJson(await _call('/shop', {'device_id': deviceId}, const Duration(seconds: 15)));
+
+  /// Achète [packId]. [clientRef] (tiré une fois par achat et gardé) rend l'appel rejouable sans double achat.
+  Future<AiPurchase> buy(int packId, String clientRef) async {
+    final r = await _call('/buy', {'device_id': deviceId, 'pack_id': packId, 'client_ref': clientRef}, const Duration(seconds: 30));
+    final order = r['order'];
+    if (order is! Map) throw AiException('SERVER');
+    return AiPurchase(AiOrder.fromJson(order), r['mode'] is String ? r['mode'] as String : null,
+        r['url'] is String && (r['url'] as String).isNotEmpty ? r['url'] as String : null);
+  }
+
+  /// Achats de ce téléphone et quota à jour.
+  Future<(List<AiOrder>, AiQuota)> orders() async {
+    final r = await _call('/orders', {'device_id': deviceId}, const Duration(seconds: 15));
+    final quota = r['quota'];
+    return (
+      [for (final o in (r['orders'] is List ? r['orders'] as List : const [])) if (o is Map) AiOrder.fromJson(o)],
+      AiQuota.fromJson(quota is Map<String, dynamic> ? quota : const {}),
+    );
+  }
+
+  /// Identifiant de la transaction Wave (paiement par lien marchand), pour aider l'agent à la retrouver.
+  Future<AiOrder> declareWaveRef(String ref, String waveRef) async {
+    final r = await _call('/order/wave-ref', {'device_id': deviceId, 'ref': ref, 'wave_ref': waveRef.trim()},
+        const Duration(seconds: 15));
+    final order = r['order'];
+    if (order is! Map) throw AiException('SERVER');
+    return AiOrder.fromJson(order);
   }
 
   Future<Map<String, dynamic>> _call(String path, Map<String, dynamic> params, Duration timeout) async {

@@ -1142,6 +1142,204 @@ abstract class AppLocalizations {
   /// **'Le code n’a pas pu être activé. Réessayez plus tard.'**
   String get aiCodeErrOther;
 
+  /// No description provided for @shopEntry.
+  ///
+  /// In fr, this message translates to:
+  /// **'Acheter des quiz IA'**
+  String get shopEntry;
+
+  /// No description provided for @shopEntryHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Payez avec Wave : les quiz IA sont ajoutés à ce téléphone.'**
+  String get shopEntryHint;
+
+  /// No description provided for @shopTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Acheter des quiz IA'**
+  String get shopTitle;
+
+  /// No description provided for @shopIntro.
+  ///
+  /// In fr, this message translates to:
+  /// **'Choisissez une offre et payez avec Wave. Dès que le paiement est confirmé, vos quiz IA sont ajoutés à ce téléphone, sans code à saisir.'**
+  String get shopIntro;
+
+  /// No description provided for @shopNoOffer.
+  ///
+  /// In fr, this message translates to:
+  /// **'Aucune offre n’est proposée pour le moment.'**
+  String get shopNoOffer;
+
+  /// No description provided for @shopOffline.
+  ///
+  /// In fr, this message translates to:
+  /// **'Connexion nécessaire pour voir les offres.'**
+  String get shopOffline;
+
+  /// No description provided for @shopCredits.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{1 quiz IA} other{{count} quiz IA}}'**
+  String shopCredits(int count);
+
+  /// No description provided for @shopValidity.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{valable 1 jour} other{valables {count} jours}}'**
+  String shopValidity(int count);
+
+  /// No description provided for @shopNoExpiry.
+  ///
+  /// In fr, this message translates to:
+  /// **'sans limite de durée'**
+  String get shopNoExpiry;
+
+  /// No description provided for @shopDailyLimit.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count} par jour au plus'**
+  String shopDailyLimit(int count);
+
+  /// No description provided for @shopBuy.
+  ///
+  /// In fr, this message translates to:
+  /// **'Payer avec Wave'**
+  String get shopBuy;
+
+  /// No description provided for @shopConfirmTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Payer avec Wave ?'**
+  String get shopConfirmTitle;
+
+  /// No description provided for @shopConfirmBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'{pack} : {credits}, pour {price}. L’application Wave va s’ouvrir pour le paiement.'**
+  String shopConfirmBody(String pack, String credits, String price);
+
+  /// No description provided for @shopOpenFailed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Wave n’a pas pu s’ouvrir. Ouvrez ce lien pour payer :'**
+  String get shopOpenFailed;
+
+  /// No description provided for @shopCopyLink.
+  ///
+  /// In fr, this message translates to:
+  /// **'Copier le lien'**
+  String get shopCopyLink;
+
+  /// No description provided for @shopLinkCopied.
+  ///
+  /// In fr, this message translates to:
+  /// **'Lien copié.'**
+  String get shopLinkCopied;
+
+  /// No description provided for @shopMyOrders.
+  ///
+  /// In fr, this message translates to:
+  /// **'Mes achats'**
+  String get shopMyOrders;
+
+  /// No description provided for @shopOrderPending.
+  ///
+  /// In fr, this message translates to:
+  /// **'Paiement en attente'**
+  String get shopOrderPending;
+
+  /// No description provided for @shopOrderDone.
+  ///
+  /// In fr, this message translates to:
+  /// **'Payé : quiz IA ajoutés'**
+  String get shopOrderDone;
+
+  /// No description provided for @shopOrderRef.
+  ///
+  /// In fr, this message translates to:
+  /// **'Achat {ref}'**
+  String shopOrderRef(String ref);
+
+  /// No description provided for @shopWaitAuto.
+  ///
+  /// In fr, this message translates to:
+  /// **'Wave confirme le paiement en quelques instants ; vos quiz IA sont alors ajoutés automatiquement.'**
+  String get shopWaitAuto;
+
+  /// No description provided for @shopWaitAgent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Après votre paiement Wave, notre équipe le confirme (en général dans la journée). Vos quiz IA sont alors ajoutés automatiquement.'**
+  String get shopWaitAgent;
+
+  /// No description provided for @shopWaveRefLabel.
+  ///
+  /// In fr, this message translates to:
+  /// **'ID de la transaction Wave (facultatif)'**
+  String get shopWaveRefLabel;
+
+  /// No description provided for @shopWaveRefHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Dans Wave : touchez le paiement, puis copiez son identifiant. Il aide à retrouver votre paiement.'**
+  String get shopWaveRefHint;
+
+  /// No description provided for @shopWaveRefSend.
+  ///
+  /// In fr, this message translates to:
+  /// **'Envoyer'**
+  String get shopWaveRefSend;
+
+  /// No description provided for @shopWaveRefSent.
+  ///
+  /// In fr, this message translates to:
+  /// **'Identifiant envoyé : {ref}'**
+  String shopWaveRefSent(String ref);
+
+  /// No description provided for @shopPayAgain.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ouvrir Wave'**
+  String get shopPayAgain;
+
+  /// No description provided for @shopCheck.
+  ///
+  /// In fr, this message translates to:
+  /// **'Vérifier'**
+  String get shopCheck;
+
+  /// No description provided for @shopConfirmed.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{Paiement confirmé : 1 quiz IA ajouté.} other{Paiement confirmé : {count} quiz IA ajoutés.}}'**
+  String shopConfirmed(int count);
+
+  /// No description provided for @shopErrUnavailable.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cette offre n’est plus proposée.'**
+  String get shopErrUnavailable;
+
+  /// No description provided for @shopErrPayment.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le paiement n’est pas disponible pour le moment. Réessayez plus tard.'**
+  String get shopErrPayment;
+
+  /// No description provided for @shopErrRefShort.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cet identifiant est trop court.'**
+  String get shopErrRefShort;
+
+  /// No description provided for @shopErrRefUsed.
+  ///
+  /// In fr, this message translates to:
+  /// **'Cet identifiant a déjà été donné pour un autre paiement.'**
+  String get shopErrRefUsed;
+
   /// No description provided for @backupSection.
   ///
   /// In fr, this message translates to:

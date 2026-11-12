@@ -394,6 +394,94 @@
   },
   "aiCodeErrNetwork": "Pas de connexion au service : réessayez quand vous serez connecté.",
   "aiCodeErrOther": "Le code n’a pas pu être activé. Réessayez plus tard.",
+  "shopEntry": "Acheter des quiz IA",
+  "shopEntryHint": "Payez avec Wave : les quiz IA sont ajoutés à ce téléphone.",
+  "shopTitle": "Acheter des quiz IA",
+  "shopIntro": "Choisissez une offre et payez avec Wave. Dès que le paiement est confirmé, vos quiz IA sont ajoutés à ce téléphone, sans code à saisir.",
+  "shopNoOffer": "Aucune offre n’est proposée pour le moment.",
+  "shopOffline": "Connexion nécessaire pour voir les offres.",
+  "shopCredits": "{count, plural, =1{1 quiz IA} other{{count} quiz IA}}",
+  "@shopCredits": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shopValidity": "{count, plural, =1{valable 1 jour} other{valables {count} jours}}",
+  "@shopValidity": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shopNoExpiry": "sans limite de durée",
+  "shopDailyLimit": "{count} par jour au plus",
+  "@shopDailyLimit": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shopBuy": "Payer avec Wave",
+  "shopConfirmTitle": "Payer avec Wave ?",
+  "shopConfirmBody": "{pack} : {credits}, pour {price}. L’application Wave va s’ouvrir pour le paiement.",
+  "@shopConfirmBody": {
+    "placeholders": {
+      "pack": {
+        "type": "String"
+      },
+      "credits": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "shopOpenFailed": "Wave n’a pas pu s’ouvrir. Ouvrez ce lien pour payer :",
+  "shopCopyLink": "Copier le lien",
+  "shopLinkCopied": "Lien copié.",
+  "shopMyOrders": "Mes achats",
+  "shopOrderPending": "Paiement en attente",
+  "shopOrderDone": "Payé : quiz IA ajoutés",
+  "shopOrderRef": "Achat {ref}",
+  "@shopOrderRef": {
+    "placeholders": {
+      "ref": {
+        "type": "String"
+      }
+    }
+  },
+  "shopWaitAuto": "Wave confirme le paiement en quelques instants ; vos quiz IA sont alors ajoutés automatiquement.",
+  "shopWaitAgent": "Après votre paiement Wave, notre équipe le confirme (en général dans la journée). Vos quiz IA sont alors ajoutés automatiquement.",
+  "shopWaveRefLabel": "ID de la transaction Wave (facultatif)",
+  "shopWaveRefHint": "Dans Wave : touchez le paiement, puis copiez son identifiant. Il aide à retrouver votre paiement.",
+  "shopWaveRefSend": "Envoyer",
+  "shopWaveRefSent": "Identifiant envoyé : {ref}",
+  "@shopWaveRefSent": {
+    "placeholders": {
+      "ref": {
+        "type": "String"
+      }
+    }
+  },
+  "shopPayAgain": "Ouvrir Wave",
+  "shopCheck": "Vérifier",
+  "shopConfirmed": "{count, plural, =1{Paiement confirmé : 1 quiz IA ajouté.} other{Paiement confirmé : {count} quiz IA ajoutés.}}",
+  "@shopConfirmed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shopErrUnavailable": "Cette offre n’est plus proposée.",
+  "shopErrPayment": "Le paiement n’est pas disponible pour le moment. Réessayez plus tard.",
+  "shopErrRefShort": "Cet identifiant est trop court.",
+  "shopErrRefUsed": "Cet identifiant a déjà été donné pour un autre paiement.",
   "backupSection": "Sauvegarde",
   "backupExport": "Sauvegarder ma bibliothèque",
   "backupExportHint": "Un fichier avec vos textes, quiz et résultats, à garder ou à transférer sur un autre téléphone.",

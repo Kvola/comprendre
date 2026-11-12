@@ -24,6 +24,7 @@ Ce guide commence par une visite rapide, puis présente **7 exemples complets**,
    7. [Corriger, partager ou supprimer un texte](#exemple-7--corriger-partager-ou-supprimer-un-texte)
 - [Quiz hors ligne et quiz IA](#quiz-hors-ligne-et-quiz-ia)
 - [Les codes IA](#les-codes-ia)
+- [Acheter des quiz IA](#acheter-des-quiz-ia)
 - [Les réglages](#les-réglages)
 - [Utiliser l'application dans le navigateur](#utiliser-lapplication-dans-le-navigateur)
 - [Questions fréquentes](#questions-fréquentes)
@@ -321,6 +322,29 @@ Dans **Réglages → Quiz IA**, sous le nombre de quiz IA du jour (par exemple *
 
 ---
 
+## Acheter des quiz IA
+
+> **Situation** : Kouamé prépare ses examens. Les 5 quiz IA gratuits par jour ne lui suffisent plus. Il en achète avec Wave.
+
+1. Ouvrez **Réglages → Quiz IA → Acheter des quiz IA**.
+2. Les offres s'affichent : leur nom, le nombre de quiz IA (*30 quiz IA*), le prix (*2 500 F CFA*) et la durée de validité (*valables 180 jours*).
+3. Touchez **Payer avec Wave** sous l'offre choisie, puis confirmez. L'application **Wave** s'ouvre, au bon montant : payez comme d'habitude.
+4. Revenez dans Comprendre. L'achat s'affiche sous **Mes achats**, avec *Paiement en attente* et sa référence (*Achat ACH-2026-00001*).
+5. Dès que le paiement est confirmé, l'application l'annonce : *« Paiement confirmé : 30 quiz IA ajoutés. »* Les quiz s'ajoutent à votre quota, sans code à saisir (vous verrez une ligne *Code …* dans **Réglages → Quiz IA**). L'IA est activée si elle ne l'était pas.
+
+**Combien de temps pour la confirmation ?**
+
+- Le plus souvent, Wave confirme **en quelques instants** : *« Wave confirme le paiement en quelques instants… »*.
+- Sinon, l'écran indique *« notre équipe le confirme (en général dans la journée) »*. Pour l'aider, copiez dans Wave l'**identifiant de la transaction** (touchez le paiement dans l'historique Wave), collez-le dans **ID de la transaction Wave (facultatif)**, puis touchez la flèche d'envoi : *Identifiant envoyé : …*.
+
+L'écran vérifie tout seul toutes les quelques secondes, et à chaque retour dans l'application. Le bouton **Vérifier** (ou ↻ en haut) le fait tout de suite. **Ouvrir Wave** rouvre le paiement du même achat si vous n'avez pas fini de payer.
+
+> **Bon à savoir** : si la connexion se coupe pendant l'achat, touchez à nouveau **Payer avec Wave** : c'est **le même achat** qui reprend, jamais un second. Un achat jamais payé est annulé au bout de 30 jours.
+
+> **Bon à savoir** : les quiz achetés sont liés à ce téléphone, comme un [code IA](#les-codes-ia). Ils passent après vos quiz gratuits du jour, et seuls les quiz IA réussis sont comptés.
+
+---
+
 ## Les réglages
 
 Touchez l'icône ⚙ en haut de l'écran **Mes textes**.
@@ -330,7 +354,7 @@ Touchez l'icône ⚙ en haut de l'écran **Mes textes**.
 | **Langue de l’application** | **Langue du téléphone**, **Français** ou **English**. |
 | **Thème** | **Automatique**, **Clair** ou **Sombre**. |
 | **Questions par quiz** | **5**, **10** ou **15**. |
-| **Quiz IA** | L'interrupteur **Utiliser l’IA quand c’est possible**. Quand il est activé, la ligne en dessous indique les quiz IA restants aujourd'hui ; l'icône ↻ met ce nombre à jour. Sans connexion, elle affiche *Quota IA : connexion nécessaire*. Ensuite viennent vos codes IA, et **Saisir un code IA** (voir [Les codes IA](#les-codes-ia)). |
+| **Quiz IA** | L'interrupteur **Utiliser l’IA quand c’est possible**. Quand il est activé, la ligne en dessous indique les quiz IA restants aujourd'hui ; l'icône ↻ met ce nombre à jour. Sans connexion, elle affiche *Quota IA : connexion nécessaire*. Ensuite viennent vos codes IA, **Saisir un code IA** (voir [Les codes IA](#les-codes-ia)) et **Acheter des quiz IA** (voir [Acheter des quiz IA](#acheter-des-quiz-ia)). |
 | **Sauvegarde** | **Sauvegarder ma bibliothèque** : enregistre dans un fichier tous vos textes, quiz et résultats (choisissez où le ranger : Téléchargements, Google Drive…). **Restaurer une sauvegarde** : ajoute les textes d'un fichier de sauvegarde ; ceux déjà présents ne sont pas dupliqués, et rien n'est effacé. |
 | **À propos** | Une présentation de Comprendre, la **Confidentialité**, et le numéro de version. |
 
@@ -391,7 +415,7 @@ Il est envoyé de façon chiffrée au serveur de Comprendre puis à l'IA, seulem
 Le nombre est affiché dans la fenêtre **Utiliser l’IA ?** et dans **Réglages → Quiz IA** (5 par jour en principe). Seuls les quiz IA réussis sont comptés. Au-delà, vos quiz sont créés hors ligne, sans limite. Si l'IA échoue plusieurs fois le même jour sur vos textes (3 fois en principe), elle se met en pause jusqu'au lendemain.
 
 **Je n'ai plus de quiz IA aujourd'hui. Que se passe-t-il ?**
-Rien de grave : vos quiz sont créés hors ligne, et un message vous le signale (*« quota IA du jour atteint »*). Les quiz IA reviennent le lendemain. Avec un [code IA](#les-codes-ia), vous en avez davantage.
+Rien de grave : vos quiz sont créés hors ligne, et un message vous le signale (*« quota IA du jour atteint »*). Les quiz IA reviennent le lendemain. Avec un [code IA](#les-codes-ia) ou en [achetant des quiz IA](#acheter-des-quiz-ia), vous en avez davantage.
 
 **Comment activer ou désactiver l'IA après le premier choix ?**
 Ouvrez **Réglages → Quiz IA** et touchez l'interrupteur **Utiliser l’IA quand c’est possible**.
