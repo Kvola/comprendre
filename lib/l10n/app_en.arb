@@ -327,6 +327,73 @@
     }
   },
   "aiQuotaUnknown": "AI quota: connection needed",
+  "aiRemainingDetail": "{free} from the free quota + {codes} from your AI codes",
+  "@aiRemainingDetail": {
+    "placeholders": {
+      "free": {
+        "type": "int"
+      },
+      "codes": {
+        "type": "int"
+      }
+    }
+  },
+  "aiCodeEnter": "Enter an AI code",
+  "aiCodeEnterHint": "A code from your school, company or a partner, for more AI quizzes.",
+  "aiCodeDialogTitle": "AI code",
+  "aiCodeDialogBody": "Type the code as you received it (capitals, spaces and dashes do not matter). It will be linked to this phone.",
+  "aiCodeField": "Code",
+  "aiCodeActivate": "Activate",
+  "aiCodeActivated": "{count, plural, =1{Code activated: 1 AI quiz available.} other{Code activated: {count} AI quizzes available.}}",
+  "@aiCodeActivated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aiCodeActivatedAiOn": "The AI is now on for your quizzes.",
+  "aiCodeTitle": "Code {code}",
+  "@aiCodeTitle": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "aiCodeLeft": "{count, plural, =0{No AI quiz left on this code} =1{1 AI quiz left} other{{count} AI quizzes left}}",
+  "@aiCodeLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aiCodeUntil": "until {date}",
+  "@aiCodeUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "aiCodeExpired": "expired",
+  "aiCodeDailyDone": "daily limit reached",
+  "aiCodeErrUnknown": "This AI code does not exist. Check it.",
+  "aiCodeErrDisabled": "This AI code has been turned off.",
+  "aiCodeErrExpired": "This AI code has expired.",
+  "aiCodeErrExhausted": "All the AI quizzes of this code have been used.",
+  "aiCodeErrTaken": "This AI code is already used on another phone. To change phones, ask the person who gave it to you to release the code.",
+  "aiCodeErrRate": "Too many attempts: try again in {count} min.",
+  "@aiCodeErrRate": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aiCodeErrNetwork": "No connection to the service: try again when you are online.",
+  "aiCodeErrOther": "The code could not be activated. Try again later.",
   "backupSection": "Backup",
   "backupExport": "Back up my library",
   "backupExportHint": "A file with your texts, quizzes and results, to keep or move to another phone.",

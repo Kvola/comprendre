@@ -10,6 +10,8 @@ import '../app/version.dart';
 import '../core/web_env.dart';
 import '../data/backup.dart';
 import '../data/database.dart';
+import '../remote/ai_client.dart' show AiCode;
+import 'ai_code.dart';
 import 'common.dart';
 
 /// Enregistre toute la bibliothèque dans un fichier choisi par l'utilisateur.
@@ -123,12 +125,24 @@ class SettingsScreen extends ConsumerWidget {
                       final q? => l.aiRemaining(q.remaining),
                       _ => quota?.isLoading == true ? '…' : l.aiQuotaUnknown,
                     }),
+                    subtitle: switch (quota?.value) {
+                      final q? when q.codes.isNotEmpty => Text(l.aiRemainingDetail(q.freeRemaining, q.codeRemaining)),
+                      _ => null,
+                    },
                     trailing: IconButton(
                       tooltip: l.retry,
                       icon: const Icon(Icons.refresh),
                       onPressed: () => ref.invalidate(quotaProvider),
                     ),
                   ),
+                if (aiOn) for (final code in quota?.value?.codes ?? const <AiCode>[]) AiCodeTile(code),
+                ListTile(
+                  key: const ValueKey('ai-code-enter'),
+                  leading: const Icon(Icons.add_card_outlined),
+                  title: Text(l.aiCodeEnter),
+                  subtitle: Text(l.aiCodeEnterHint),
+                  onTap: () => enterAiCode(context, ref),
+                ),
               ],
             ),
           ),

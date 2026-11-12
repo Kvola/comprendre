@@ -1,5 +1,14 @@
 # Journal des versions
 
+## 1.3.0 — 2026-11-12
+
+- **Codes IA** : un code unique (remis par une école, une entreprise, un partenaire) donne des quiz IA en plus du
+  quota gratuit. Réglages → Quiz IA → **Saisir un code IA** ; l'erreur éventuelle s'affiche sous le champ (code
+  inconnu, déjà utilisé sur un autre téléphone, expiré, épuisé, désactivé, trop d'essais). Un code activé allume l'IA.
+  Le quota affiche le détail (gratuits + codes) et chaque code (restants, date limite, plafond du jour).
+- Le quota gratuit passe d'abord ; le code qui expire le plus tôt ensuite ; seuls les quiz IA réussis comptent.
+- Nécessite le serveur 19.0.1.3.0 (un serveur plus ancien répond « le code n'a pas pu être activé »). 119 tests.
+
 ## 1.2.1 — 2026-11-11
 
 - Les grands nombres (« 30 000 000 », « 2 200 000 ») ne sont plus coupés en fin de ligne : à l'affichage, les espaces

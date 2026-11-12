@@ -327,6 +327,73 @@
     }
   },
   "aiQuotaUnknown": "Quota IA : connexion nécessaire",
+  "aiRemainingDetail": "{free} du quota gratuit + {codes} avec vos codes IA",
+  "@aiRemainingDetail": {
+    "placeholders": {
+      "free": {
+        "type": "int"
+      },
+      "codes": {
+        "type": "int"
+      }
+    }
+  },
+  "aiCodeEnter": "Saisir un code IA",
+  "aiCodeEnterHint": "Un code reçu de votre école, de votre entreprise ou d’un partenaire, pour plus de quiz IA.",
+  "aiCodeDialogTitle": "Code IA",
+  "aiCodeDialogBody": "Saisissez le code tel qu’il vous a été donné (majuscules, espaces et tirets ne comptent pas). Il sera lié à ce téléphone.",
+  "aiCodeField": "Code",
+  "aiCodeActivate": "Activer",
+  "aiCodeActivated": "{count, plural, =1{Code activé : 1 quiz IA disponible.} other{Code activé : {count} quiz IA disponibles.}}",
+  "@aiCodeActivated": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aiCodeActivatedAiOn": "L’IA est activée pour vos quiz.",
+  "aiCodeTitle": "Code {code}",
+  "@aiCodeTitle": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "aiCodeLeft": "{count, plural, =0{Plus de quiz IA sur ce code} =1{1 quiz IA restant} other{{count} quiz IA restants}}",
+  "@aiCodeLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aiCodeUntil": "jusqu’au {date}",
+  "@aiCodeUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "aiCodeExpired": "expiré",
+  "aiCodeDailyDone": "plafond du jour atteint",
+  "aiCodeErrUnknown": "Ce code IA n’existe pas. Vérifiez-le.",
+  "aiCodeErrDisabled": "Ce code IA a été désactivé.",
+  "aiCodeErrExpired": "Ce code IA a expiré.",
+  "aiCodeErrExhausted": "Tous les quiz IA de ce code ont déjà été utilisés.",
+  "aiCodeErrTaken": "Ce code IA est déjà utilisé sur un autre téléphone. Pour changer de téléphone, demandez à la personne qui vous l’a donné de libérer le code.",
+  "aiCodeErrRate": "Trop d’essais : réessayez dans {count} min.",
+  "@aiCodeErrRate": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "aiCodeErrNetwork": "Pas de connexion au service : réessayez quand vous serez connecté.",
+  "aiCodeErrOther": "Le code n’a pas pu être activé. Réessayez plus tard.",
   "backupSection": "Sauvegarde",
   "backupExport": "Sauvegarder ma bibliothèque",
   "backupExportHint": "Un fichier avec vos textes, quiz et résultats, à garder ou à transférer sur un autre téléphone.",

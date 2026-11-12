@@ -23,6 +23,7 @@ Ce guide commence par une visite rapide, puis présente **7 exemples complets**,
    6. [Refaire un quiz ou en créer un autre](#exemple-6--refaire-un-quiz-ou-en-créer-un-autre)
    7. [Corriger, partager ou supprimer un texte](#exemple-7--corriger-partager-ou-supprimer-un-texte)
 - [Quiz hors ligne et quiz IA](#quiz-hors-ligne-et-quiz-ia)
+- [Les codes IA](#les-codes-ia)
 - [Les réglages](#les-réglages)
 - [Utiliser l'application dans le navigateur](#utiliser-lapplication-dans-le-navigateur)
 - [Questions fréquentes](#questions-fréquentes)
@@ -280,6 +281,46 @@ Comprendre sait créer deux sortes de quiz. Dans la liste des quiz d'un texte, c
 
 ---
 
+## Les codes IA
+
+> **Situation** : le lycée d'Aya a obtenu des quiz IA pour ses élèves. Le professeur donne à chacun un **code IA**, par exemple `7KQ3-M9PX`.
+
+Un code IA donne des **quiz IA en plus** des quiz gratuits du jour. Il vous est remis par une école, une entreprise ou un partenaire de Comprendre.
+
+**Activer un code**
+
+1. Ouvrez **Réglages → Quiz IA**, puis touchez **Saisir un code IA**.
+2. Tapez le code tel qu'il vous a été donné. Les majuscules, les espaces et les tirets ne comptent pas : `7kq3 m9px` marche aussi.
+3. Touchez **Activer**. L'application confirme, par exemple : *« Code activé : 20 quiz IA disponibles. »* Si l'IA n'était pas encore activée, elle l'est maintenant : *« L’IA est activée pour vos quiz. »*
+
+Une connexion Internet est nécessaire pour activer le code.
+
+**Suivre son code**
+
+Dans **Réglages → Quiz IA**, sous le nombre de quiz IA du jour (par exemple *Encore 15 quiz IA aujourd’hui*), le détail s'affiche : *3 du quota gratuit + 12 avec vos codes IA*. Chaque code a sa ligne : *Code 7KQ3-M9PX*, avec *12 quiz IA restants · jusqu’au 31 déc. 2026*.
+
+**Comment les quiz sont comptés**
+
+- Les quiz gratuits du jour passent **en premier** ; le code ne sert qu'ensuite. Ainsi, il dure plus longtemps.
+- Seuls les quiz IA **réussis** comptent. Si l'IA échoue, ou si vous touchez **Créer hors ligne maintenant**, le code n'est pas entamé.
+- Avec plusieurs codes, celui qui expire le plus tôt sert d'abord.
+- Certains codes ont une **date limite** ou un **plafond par jour** (*plafond du jour atteint*) : c'est la personne qui vous a donné le code qui les a choisis.
+
+**Ce qui peut bloquer**
+
+| Message | Que faire |
+|---|---|
+| *Ce code IA n’existe pas. Vérifiez-le.* | Relisez le code, caractère par caractère. |
+| *Ce code IA est déjà utilisé sur un autre téléphone…* | Un code est lié au téléphone où il a été activé. Pour changer de téléphone, demandez à la personne qui vous l'a donné de **libérer** le code, puis saisissez-le sur le nouveau téléphone. |
+| *Ce code IA a expiré.* | La date limite est passée. |
+| *Tous les quiz IA de ce code ont déjà été utilisés.* | Demandez un nouveau code. |
+| *Ce code IA a été désactivé.* | Adressez-vous à la personne qui vous l'a donné. |
+| *Trop d’essais : réessayez dans … min.* | Après plusieurs codes faux, il faut patienter un peu. |
+
+> **Bon à savoir** : le code est lié à ce téléphone, sans compte ni donnée personnelle. Quand Android restaure vos applications sur un nouveau téléphone (même compte Google), le code suit souvent tout seul. Sinon (la sauvegarde de la bibliothèque, elle, n'emporte pas le code), faites-le libérer puis saisissez-le à nouveau.
+
+---
+
 ## Les réglages
 
 Touchez l'icône ⚙ en haut de l'écran **Mes textes**.
@@ -289,7 +330,7 @@ Touchez l'icône ⚙ en haut de l'écran **Mes textes**.
 | **Langue de l’application** | **Langue du téléphone**, **Français** ou **English**. |
 | **Thème** | **Automatique**, **Clair** ou **Sombre**. |
 | **Questions par quiz** | **5**, **10** ou **15**. |
-| **Quiz IA** | L'interrupteur **Utiliser l’IA quand c’est possible**. Quand il est activé, la ligne en dessous indique les quiz IA restants aujourd'hui ; l'icône ↻ met ce nombre à jour. Sans connexion, elle affiche *Quota IA : connexion nécessaire*. |
+| **Quiz IA** | L'interrupteur **Utiliser l’IA quand c’est possible**. Quand il est activé, la ligne en dessous indique les quiz IA restants aujourd'hui ; l'icône ↻ met ce nombre à jour. Sans connexion, elle affiche *Quota IA : connexion nécessaire*. Ensuite viennent vos codes IA, et **Saisir un code IA** (voir [Les codes IA](#les-codes-ia)). |
 | **Sauvegarde** | **Sauvegarder ma bibliothèque** : enregistre dans un fichier tous vos textes, quiz et résultats (choisissez où le ranger : Téléchargements, Google Drive…). **Restaurer une sauvegarde** : ajoute les textes d'un fichier de sauvegarde ; ceux déjà présents ne sont pas dupliqués, et rien n'est effacé. |
 | **À propos** | Une présentation de Comprendre, la **Confidentialité**, et le numéro de version. |
 
@@ -350,7 +391,7 @@ Il est envoyé de façon chiffrée au serveur de Comprendre puis à l'IA, seulem
 Le nombre est affiché dans la fenêtre **Utiliser l’IA ?** et dans **Réglages → Quiz IA** (5 par jour en principe). Seuls les quiz IA réussis sont comptés. Au-delà, vos quiz sont créés hors ligne, sans limite. Si l'IA échoue plusieurs fois le même jour sur vos textes (3 fois en principe), elle se met en pause jusqu'au lendemain.
 
 **Je n'ai plus de quiz IA aujourd'hui. Que se passe-t-il ?**
-Rien de grave : vos quiz sont créés hors ligne, et un message vous le signale (*« quota IA du jour atteint »*). Les quiz IA reviennent le lendemain.
+Rien de grave : vos quiz sont créés hors ligne, et un message vous le signale (*« quota IA du jour atteint »*). Les quiz IA reviennent le lendemain. Avec un [code IA](#les-codes-ia), vous en avez davantage.
 
 **Comment activer ou désactiver l'IA après le premier choix ?**
 Ouvrez **Réglages → Quiz IA** et touchez l'interrupteur **Utiliser l’IA quand c’est possible**.

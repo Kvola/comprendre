@@ -555,6 +555,103 @@ class AppLocalizationsFr extends AppLocalizations {
   String get aiQuotaUnknown => 'Quota IA : connexion nécessaire';
 
   @override
+  String aiRemainingDetail(int free, int codes) {
+    return '$free du quota gratuit + $codes avec vos codes IA';
+  }
+
+  @override
+  String get aiCodeEnter => 'Saisir un code IA';
+
+  @override
+  String get aiCodeEnterHint =>
+      'Un code reçu de votre école, de votre entreprise ou d’un partenaire, pour plus de quiz IA.';
+
+  @override
+  String get aiCodeDialogTitle => 'Code IA';
+
+  @override
+  String get aiCodeDialogBody =>
+      'Saisissez le code tel qu’il vous a été donné (majuscules, espaces et tirets ne comptent pas). Il sera lié à ce téléphone.';
+
+  @override
+  String get aiCodeField => 'Code';
+
+  @override
+  String get aiCodeActivate => 'Activer';
+
+  @override
+  String aiCodeActivated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Code activé : $count quiz IA disponibles.',
+      one: 'Code activé : 1 quiz IA disponible.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiCodeActivatedAiOn => 'L’IA est activée pour vos quiz.';
+
+  @override
+  String aiCodeTitle(String code) {
+    return 'Code $code';
+  }
+
+  @override
+  String aiCodeLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count quiz IA restants',
+      one: '1 quiz IA restant',
+      zero: 'Plus de quiz IA sur ce code',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String aiCodeUntil(String date) {
+    return 'jusqu’au $date';
+  }
+
+  @override
+  String get aiCodeExpired => 'expiré';
+
+  @override
+  String get aiCodeDailyDone => 'plafond du jour atteint';
+
+  @override
+  String get aiCodeErrUnknown => 'Ce code IA n’existe pas. Vérifiez-le.';
+
+  @override
+  String get aiCodeErrDisabled => 'Ce code IA a été désactivé.';
+
+  @override
+  String get aiCodeErrExpired => 'Ce code IA a expiré.';
+
+  @override
+  String get aiCodeErrExhausted =>
+      'Tous les quiz IA de ce code ont déjà été utilisés.';
+
+  @override
+  String get aiCodeErrTaken =>
+      'Ce code IA est déjà utilisé sur un autre téléphone. Pour changer de téléphone, demandez à la personne qui vous l’a donné de libérer le code.';
+
+  @override
+  String aiCodeErrRate(int count) {
+    return 'Trop d’essais : réessayez dans $count min.';
+  }
+
+  @override
+  String get aiCodeErrNetwork =>
+      'Pas de connexion au service : réessayez quand vous serez connecté.';
+
+  @override
+  String get aiCodeErrOther =>
+      'Le code n’a pas pu être activé. Réessayez plus tard.';
+
+  @override
   String get backupSection => 'Sauvegarde';
 
   @override

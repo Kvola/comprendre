@@ -1010,6 +1010,138 @@ abstract class AppLocalizations {
   /// **'Quota IA : connexion nécessaire'**
   String get aiQuotaUnknown;
 
+  /// No description provided for @aiRemainingDetail.
+  ///
+  /// In fr, this message translates to:
+  /// **'{free} du quota gratuit + {codes} avec vos codes IA'**
+  String aiRemainingDetail(int free, int codes);
+
+  /// No description provided for @aiCodeEnter.
+  ///
+  /// In fr, this message translates to:
+  /// **'Saisir un code IA'**
+  String get aiCodeEnter;
+
+  /// No description provided for @aiCodeEnterHint.
+  ///
+  /// In fr, this message translates to:
+  /// **'Un code reçu de votre école, de votre entreprise ou d’un partenaire, pour plus de quiz IA.'**
+  String get aiCodeEnterHint;
+
+  /// No description provided for @aiCodeDialogTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code IA'**
+  String get aiCodeDialogTitle;
+
+  /// No description provided for @aiCodeDialogBody.
+  ///
+  /// In fr, this message translates to:
+  /// **'Saisissez le code tel qu’il vous a été donné (majuscules, espaces et tirets ne comptent pas). Il sera lié à ce téléphone.'**
+  String get aiCodeDialogBody;
+
+  /// No description provided for @aiCodeField.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code'**
+  String get aiCodeField;
+
+  /// No description provided for @aiCodeActivate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Activer'**
+  String get aiCodeActivate;
+
+  /// No description provided for @aiCodeActivated.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =1{Code activé : 1 quiz IA disponible.} other{Code activé : {count} quiz IA disponibles.}}'**
+  String aiCodeActivated(int count);
+
+  /// No description provided for @aiCodeActivatedAiOn.
+  ///
+  /// In fr, this message translates to:
+  /// **'L’IA est activée pour vos quiz.'**
+  String get aiCodeActivatedAiOn;
+
+  /// No description provided for @aiCodeTitle.
+  ///
+  /// In fr, this message translates to:
+  /// **'Code {code}'**
+  String aiCodeTitle(String code);
+
+  /// No description provided for @aiCodeLeft.
+  ///
+  /// In fr, this message translates to:
+  /// **'{count, plural, =0{Plus de quiz IA sur ce code} =1{1 quiz IA restant} other{{count} quiz IA restants}}'**
+  String aiCodeLeft(int count);
+
+  /// No description provided for @aiCodeUntil.
+  ///
+  /// In fr, this message translates to:
+  /// **'jusqu’au {date}'**
+  String aiCodeUntil(String date);
+
+  /// No description provided for @aiCodeExpired.
+  ///
+  /// In fr, this message translates to:
+  /// **'expiré'**
+  String get aiCodeExpired;
+
+  /// No description provided for @aiCodeDailyDone.
+  ///
+  /// In fr, this message translates to:
+  /// **'plafond du jour atteint'**
+  String get aiCodeDailyDone;
+
+  /// No description provided for @aiCodeErrUnknown.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce code IA n’existe pas. Vérifiez-le.'**
+  String get aiCodeErrUnknown;
+
+  /// No description provided for @aiCodeErrDisabled.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce code IA a été désactivé.'**
+  String get aiCodeErrDisabled;
+
+  /// No description provided for @aiCodeErrExpired.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce code IA a expiré.'**
+  String get aiCodeErrExpired;
+
+  /// No description provided for @aiCodeErrExhausted.
+  ///
+  /// In fr, this message translates to:
+  /// **'Tous les quiz IA de ce code ont déjà été utilisés.'**
+  String get aiCodeErrExhausted;
+
+  /// No description provided for @aiCodeErrTaken.
+  ///
+  /// In fr, this message translates to:
+  /// **'Ce code IA est déjà utilisé sur un autre téléphone. Pour changer de téléphone, demandez à la personne qui vous l’a donné de libérer le code.'**
+  String get aiCodeErrTaken;
+
+  /// No description provided for @aiCodeErrRate.
+  ///
+  /// In fr, this message translates to:
+  /// **'Trop d’essais : réessayez dans {count} min.'**
+  String aiCodeErrRate(int count);
+
+  /// No description provided for @aiCodeErrNetwork.
+  ///
+  /// In fr, this message translates to:
+  /// **'Pas de connexion au service : réessayez quand vous serez connecté.'**
+  String get aiCodeErrNetwork;
+
+  /// No description provided for @aiCodeErrOther.
+  ///
+  /// In fr, this message translates to:
+  /// **'Le code n’a pas pu être activé. Réessayez plus tard.'**
+  String get aiCodeErrOther;
+
   /// No description provided for @backupSection.
   ///
   /// In fr, this message translates to:

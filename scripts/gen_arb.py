@@ -204,6 +204,39 @@ S = {
     'aiRemaining': ('{count, plural, =0{Plus de quiz IA aujourd’hui} =1{Encore 1 quiz IA aujourd’hui} other{Encore {count} quiz IA aujourd’hui}}',
                     '{count, plural, =0{No AI quiz left today} =1{1 AI quiz left today} other{{count} AI quizzes left today}}'),
     'aiQuotaUnknown': ('Quota IA : connexion nécessaire', 'AI quota: connection needed'),
+    # Codes IA
+    'aiRemainingDetail': ('{free} du quota gratuit + {codes} avec vos codes IA', '{free} from the free quota + {codes} from your AI codes'),
+    'aiCodeEnter': ('Saisir un code IA', 'Enter an AI code'),
+    'aiCodeEnterHint': ('Un code reçu de votre école, de votre entreprise ou d’un partenaire, pour plus de quiz IA.',
+                        'A code from your school, company or a partner, for more AI quizzes.'),
+    'aiCodeDialogTitle': ('Code IA', 'AI code'),
+    'aiCodeDialogBody': ('Saisissez le code tel qu’il vous a été donné (majuscules, espaces et tirets ne comptent pas). '
+                         'Il sera lié à ce téléphone.',
+                         'Type the code as you received it (capitals, spaces and dashes do not matter). '
+                         'It will be linked to this phone.'),
+    'aiCodeField': ('Code', 'Code'),
+    'aiCodeActivate': ('Activer', 'Activate'),
+    'aiCodeActivated': ('{count, plural, =1{Code activé : 1 quiz IA disponible.} other{Code activé : {count} quiz IA disponibles.}}',
+                        '{count, plural, =1{Code activated: 1 AI quiz available.} other{Code activated: {count} AI quizzes available.}}'),
+    'aiCodeActivatedAiOn': ('L’IA est activée pour vos quiz.', 'The AI is now on for your quizzes.'),
+    'aiCodeTitle': ('Code {code}', 'Code {code}'),
+    'aiCodeLeft': ('{count, plural, =0{Plus de quiz IA sur ce code} =1{1 quiz IA restant} other{{count} quiz IA restants}}',
+                   '{count, plural, =0{No AI quiz left on this code} =1{1 AI quiz left} other{{count} AI quizzes left}}'),
+    'aiCodeUntil': ('jusqu’au {date}', 'until {date}'),
+    'aiCodeExpired': ('expiré', 'expired'),
+    'aiCodeDailyDone': ('plafond du jour atteint', 'daily limit reached'),
+    'aiCodeErrUnknown': ('Ce code IA n’existe pas. Vérifiez-le.', 'This AI code does not exist. Check it.'),
+    'aiCodeErrDisabled': ('Ce code IA a été désactivé.', 'This AI code has been turned off.'),
+    'aiCodeErrExpired': ('Ce code IA a expiré.', 'This AI code has expired.'),
+    'aiCodeErrExhausted': ('Tous les quiz IA de ce code ont déjà été utilisés.', 'All the AI quizzes of this code have been used.'),
+    'aiCodeErrTaken': ('Ce code IA est déjà utilisé sur un autre téléphone. Pour changer de téléphone, demandez à la personne '
+                       'qui vous l’a donné de libérer le code.',
+                       'This AI code is already used on another phone. To change phones, ask the person who gave it to you '
+                       'to release the code.'),
+    'aiCodeErrRate': ('Trop d’essais : réessayez dans {count} min.', 'Too many attempts: try again in {count} min.'),
+    'aiCodeErrNetwork': ('Pas de connexion au service : réessayez quand vous serez connecté.',
+                         'No connection to the service: try again when you are online.'),
+    'aiCodeErrOther': ('Le code n’a pas pu être activé. Réessayez plus tard.', 'The code could not be activated. Try again later.'),
     'backupSection': ('Sauvegarde', 'Backup'),
     'backupExport': ('Sauvegarder ma bibliothèque', 'Back up my library'),
     'backupExportHint': ('Un fichier avec vos textes, quiz et résultats, à garder ou à transférer sur un autre téléphone.',
@@ -256,7 +289,7 @@ def placeholders(text):
     return names
 
 
-INT = ('count', 'done', 'total', 'score', 'index', 'added', 'skipped')
+INT = ('count', 'done', 'total', 'score', 'index', 'added', 'skipped', 'free', 'codes')
 
 
 def build(index):

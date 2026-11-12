@@ -1,2 +1,2 @@
 /// Version affichée dans « À propos » (vérifiée contre pubspec.yaml par un test).
-const appVersion = '1.2.1';
+const appVersion = '1.3.0';

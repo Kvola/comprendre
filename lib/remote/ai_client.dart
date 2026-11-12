@@ -37,6 +37,35 @@ class AiException implements Exception {
   String toString() => 'AiException($code/$reason): $message';
 }
 
+/// Un code IA activé sur ce téléphone (serveur 19.0.1.3.0 et plus).
+class AiCode {
+  const AiCode({required this.code, required this.remaining, required this.credits, this.expires, this.dailyLeft, this.usableToday = true});
+
+  factory AiCode.fromJson(Map<dynamic, dynamic> j) => AiCode(
+    code: '${j['code'] ?? ''}',
+    remaining: (j['remaining'] as num?)?.toInt() ?? 0,
+    credits: (j['credits'] as num?)?.toInt() ?? 0,
+    expires: j['expires'] is String ? DateTime.tryParse(j['expires'] as String) : null,
+    dailyLeft: (j['daily_left'] is num) ? (j['daily_left'] as num).toInt() : null,
+    usableToday: j['usable_today'] != false,
+  );
+
+  final String code;
+
+  /// Quiz IA encore disponibles sur ce code (partagés s'il sert à plusieurs téléphones).
+  final int remaining;
+  final int credits;
+
+  /// Dernier jour de validité (null : sans limite).
+  final DateTime? expires;
+
+  /// Quiz encore possibles aujourd'hui sur ce code (null : pas de plafond par jour).
+  final int? dailyLeft;
+  final bool usableToday;
+
+  bool isExpired(DateTime now) => expires != null && DateTime(now.year, now.month, now.day).isAfter(expires!);
+}
+
 class AiQuota {
   const AiQuota({
     required this.remaining,
@@ -45,9 +74,30 @@ class AiQuota {
     required this.enabled,
     this.limited = '',
     this.languages = const {'fr', 'en'},
-  });
+    int? freeRemaining,
+    this.codeRemaining = 0,
+    this.codes = const [],
+  }) : freeRemaining = freeRemaining ?? remaining;
 
+  factory AiQuota.fromJson(Map<String, dynamic> r) => AiQuota(
+    remaining: (r['remaining'] as num?)?.toInt() ?? 0,
+    daily: (r['daily'] as num?)?.toInt() ?? 0,
+    maxChars: (r['max_chars'] as num?)?.toInt() ?? 30000,
+    enabled: r['enabled'] != false,
+    limited: r['limited'] is String ? r['limited'] as String : '',
+    languages: r['languages'] is List ? {for (final l in r['languages'] as List) '$l'} : const {'fr', 'en'},
+    freeRemaining: (r['free_remaining'] as num?)?.toInt(),
+    codeRemaining: (r['code_remaining'] as num?)?.toInt() ?? 0,
+    codes: [for (final c in (r['codes'] is List ? r['codes'] as List : const [])) if (c is Map) AiCode.fromJson(c)],
+  );
+
+  /// Quiz IA possibles aujourd'hui : gratuits + codes IA.
   final int remaining;
+
+  /// Dont gratuits (quota du jour), et payés par les codes IA.
+  final int freeRemaining;
+  final int codeRemaining;
+  final List<AiCode> codes;
   final int daily;
   final int maxChars;
   final bool enabled;
@@ -85,15 +135,16 @@ class AiClient {
   static const apiPath = '/comprendre/api/v1';
 
   Future<AiQuota> quota() async {
-    final r = await _call('/quota', {'device_id': deviceId}, const Duration(seconds: 12));
-    return AiQuota(
-      remaining: (r['remaining'] as num?)?.toInt() ?? 0,
-      daily: (r['daily'] as num?)?.toInt() ?? 0,
-      maxChars: (r['max_chars'] as num?)?.toInt() ?? 30000,
-      enabled: r['enabled'] != false,
-      limited: r['limited'] is String ? r['limited'] as String : '',
-      languages: r['languages'] is List ? {for (final l in r['languages'] as List) '$l'} : const {'fr', 'en'},
-    );
+    return AiQuota.fromJson(await _call('/quota', {'device_id': deviceId}, const Duration(seconds: 12)));
+  }
+
+  /// Active un code IA sur ce téléphone. Renvoie le code activé et le quota à jour ;
+  /// [AiException] (motif `code_unknown`, `code_taken`, `code_expired`…) sinon.
+  Future<(AiCode, AiQuota)> redeem(String code) async {
+    final r = await _call('/redeem', {'device_id': deviceId, 'code': code.trim()}, const Duration(seconds: 15));
+    final redeemed = r['redeemed'];
+    if (redeemed is! Map) throw AiException('SERVER');
+    return (AiCode.fromJson(redeemed), AiQuota.fromJson(r));
   }
 
   /// Délai d'attente d'un quiz IA. Le serveur borne lui-même ses appels à Claude

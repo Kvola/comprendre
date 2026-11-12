@@ -554,6 +554,103 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aiQuotaUnknown => 'AI quota: connection needed';
 
   @override
+  String aiRemainingDetail(int free, int codes) {
+    return '$free from the free quota + $codes from your AI codes';
+  }
+
+  @override
+  String get aiCodeEnter => 'Enter an AI code';
+
+  @override
+  String get aiCodeEnterHint =>
+      'A code from your school, company or a partner, for more AI quizzes.';
+
+  @override
+  String get aiCodeDialogTitle => 'AI code';
+
+  @override
+  String get aiCodeDialogBody =>
+      'Type the code as you received it (capitals, spaces and dashes do not matter). It will be linked to this phone.';
+
+  @override
+  String get aiCodeField => 'Code';
+
+  @override
+  String get aiCodeActivate => 'Activate';
+
+  @override
+  String aiCodeActivated(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Code activated: $count AI quizzes available.',
+      one: 'Code activated: 1 AI quiz available.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get aiCodeActivatedAiOn => 'The AI is now on for your quizzes.';
+
+  @override
+  String aiCodeTitle(String code) {
+    return 'Code $code';
+  }
+
+  @override
+  String aiCodeLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count AI quizzes left',
+      one: '1 AI quiz left',
+      zero: 'No AI quiz left on this code',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String aiCodeUntil(String date) {
+    return 'until $date';
+  }
+
+  @override
+  String get aiCodeExpired => 'expired';
+
+  @override
+  String get aiCodeDailyDone => 'daily limit reached';
+
+  @override
+  String get aiCodeErrUnknown => 'This AI code does not exist. Check it.';
+
+  @override
+  String get aiCodeErrDisabled => 'This AI code has been turned off.';
+
+  @override
+  String get aiCodeErrExpired => 'This AI code has expired.';
+
+  @override
+  String get aiCodeErrExhausted =>
+      'All the AI quizzes of this code have been used.';
+
+  @override
+  String get aiCodeErrTaken =>
+      'This AI code is already used on another phone. To change phones, ask the person who gave it to you to release the code.';
+
+  @override
+  String aiCodeErrRate(int count) {
+    return 'Too many attempts: try again in $count min.';
+  }
+
+  @override
+  String get aiCodeErrNetwork =>
+      'No connection to the service: try again when you are online.';
+
+  @override
+  String get aiCodeErrOther =>
+      'The code could not be activated. Try again later.';
+
+  @override
   String get backupSection => 'Backup';
 
   @override
