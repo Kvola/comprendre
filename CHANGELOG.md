@@ -1,6 +1,6 @@
 # Journal des versions
 
-## Prochaine version
+## 1.6.1 (build 10) — 15 novembre 2026
 
 - Français : « 0 … » au lieu de « 1 … » quand un nombre vaut zéro (pluriels).
 
