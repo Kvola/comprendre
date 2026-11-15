@@ -167,7 +167,7 @@ abstract class AppLocalizations {
   /// No description provided for @questionsCount.
   ///
   /// In fr, this message translates to:
-  /// **'{count, plural, =1{1 question} other{{count} questions}}'**
+  /// **'{count, plural, =0{0 question} =1{1 question} other{{count} questions}}'**
   String questionsCount(int count);
 
   /// No description provided for @quizzesCount.
@@ -743,7 +743,7 @@ abstract class AppLocalizations {
   /// No description provided for @aiFreePerDay.
   ///
   /// In fr, this message translates to:
-  /// **'{count, plural, =1{1 quiz IA gratuit par jour} other{{count} quiz IA gratuits par jour}}'**
+  /// **'{count, plural, =0{0 quiz IA gratuit par jour} =1{1 quiz IA gratuit par jour} other{{count} quiz IA gratuits par jour}}'**
   String aiFreePerDay(int count);
 
   /// No description provided for @questionOf.
@@ -1055,7 +1055,7 @@ abstract class AppLocalizations {
   /// No description provided for @aiCodeActivated.
   ///
   /// In fr, this message translates to:
-  /// **'{count, plural, =1{Code activé : 1 quiz IA disponible.} other{Code activé : {count} quiz IA disponibles.}}'**
+  /// **'{count, plural, =0{Code activé : 0 quiz IA disponible.} =1{Code activé : 1 quiz IA disponible.} other{Code activé : {count} quiz IA disponibles.}}'**
   String aiCodeActivated(int count);
 
   /// No description provided for @aiCodeActivatedAiOn.
@@ -1211,13 +1211,13 @@ abstract class AppLocalizations {
   /// No description provided for @myCodesSummary.
   ///
   /// In fr, this message translates to:
-  /// **'{codes, plural, =1{1 code} other{{codes} codes}} · {count, plural, =0{plus de quiz IA} =1{1 quiz IA restant} other{{count} quiz IA restants}}'**
+  /// **'{codes, plural, =0{0 code} =1{1 code} other{{codes} codes}} · {count, plural, =0{plus de quiz IA} =1{1 quiz IA restant} other{{count} quiz IA restants}}'**
   String myCodesSummary(int codes, int count);
 
   /// No description provided for @myCodesExpireSoon.
   ///
   /// In fr, this message translates to:
-  /// **'{count, plural, =1{1 quiz IA expire {when}} other{{count} quiz IA expirent {when}}}'**
+  /// **'{count, plural, =0{0 quiz IA expire {when}} =1{1 quiz IA expire {when}} other{{count} quiz IA expirent {when}}}'**
   String myCodesExpireSoon(int count, String when);
 
   /// No description provided for @whenToday.
@@ -1433,13 +1433,13 @@ abstract class AppLocalizations {
   /// No description provided for @shopCredits.
   ///
   /// In fr, this message translates to:
-  /// **'{count, plural, =1{1 quiz IA} other{{count} quiz IA}}'**
+  /// **'{count, plural, =0{0 quiz IA} =1{1 quiz IA} other{{count} quiz IA}}'**
   String shopCredits(int count);
 
   /// No description provided for @shopValidity.
   ///
   /// In fr, this message translates to:
-  /// **'{count, plural, =1{valable 1 jour} other{valables {count} jours}}'**
+  /// **'{count, plural, =0{valable 0 jour} =1{valable 1 jour} other{valables {count} jours}}'**
   String shopValidity(int count);
 
   /// No description provided for @shopNoExpiry.
@@ -1565,7 +1565,7 @@ abstract class AppLocalizations {
   /// No description provided for @shopConfirmed.
   ///
   /// In fr, this message translates to:
-  /// **'{count, plural, =1{Paiement confirmé : 1 quiz IA ajouté.} other{Paiement confirmé : {count} quiz IA ajoutés.}}'**
+  /// **'{count, plural, =0{Paiement confirmé : 0 quiz IA ajouté.} =1{Paiement confirmé : 1 quiz IA ajouté.} other{Paiement confirmé : {count} quiz IA ajoutés.}}'**
   String shopConfirmed(int count);
 
   /// No description provided for @shopPerQuiz.
@@ -1601,7 +1601,7 @@ abstract class AppLocalizations {
   /// No description provided for @shopAdviceNeed.
   ///
   /// In fr, this message translates to:
-  /// **'{count, plural, =1{Ces 30 derniers jours, vous avez voulu 1 quiz IA de plus que le quota gratuit.} other{Ces 30 derniers jours, vous avez voulu {count} quiz IA de plus que le quota gratuit.}} Conseil : {pack}, de quoi tenir environ 3 mois sans quiz perdus.'**
+  /// **'{count, plural, =0{Ces 30 derniers jours, vous avez voulu 0 quiz IA de plus que le quota gratuit.} =1{Ces 30 derniers jours, vous avez voulu 1 quiz IA de plus que le quota gratuit.} other{Ces 30 derniers jours, vous avez voulu {count} quiz IA de plus que le quota gratuit.}} Conseil : {pack}, de quoi tenir environ 3 mois sans quiz perdus.'**
   String shopAdviceNeed(int count, String pack);
 
   /// No description provided for @shopAdviceFree.

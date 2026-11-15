@@ -11,7 +11,7 @@
   "retry": "Réessayer",
   "continueLabel": "Continuer",
   "undo": "Annuler",
-  "questionsCount": "{count, plural, =1{1 question} other{{count} questions}}",
+  "questionsCount": "{count, plural, =0{0 question} =1{1 question} other{{count} questions}}",
   "@questionsCount": {
     "placeholders": {
       "count": {
@@ -214,7 +214,7 @@
   "aiConsentBody": "Avec une connexion Internet, Comprendre peut demander à une IA (Claude, d’Anthropic) des questions plus riches : idée principale, causes et conséquences, sens des mots, déductions.\n\nPour cela, le texte est envoyé à notre serveur puis à l’IA, seulement pour créer le quiz : il n’est pas conservé. Aucun compte, aucune donnée personnelle.\n\nSans IA, le quiz est créé sur votre téléphone, sans rien envoyer.",
   "aiConsentYes": "Utiliser l’IA",
   "aiConsentNo": "Rester hors ligne",
-  "aiFreePerDay": "{count, plural, =1{1 quiz IA gratuit par jour} other{{count} quiz IA gratuits par jour}}",
+  "aiFreePerDay": "{count, plural, =0{0 quiz IA gratuit par jour} =1{1 quiz IA gratuit par jour} other{{count} quiz IA gratuits par jour}}",
   "@aiFreePerDay": {
     "placeholders": {
       "count": {
@@ -344,7 +344,7 @@
   "aiCodeDialogBody": "Saisissez le code tel qu’il vous a été donné (majuscules, espaces et tirets ne comptent pas). Il sera lié à ce téléphone.",
   "aiCodeField": "Code",
   "aiCodeActivate": "Activer",
-  "aiCodeActivated": "{count, plural, =1{Code activé : 1 quiz IA disponible.} other{Code activé : {count} quiz IA disponibles.}}",
+  "aiCodeActivated": "{count, plural, =0{Code activé : 0 quiz IA disponible.} =1{Code activé : 1 quiz IA disponible.} other{Code activé : {count} quiz IA disponibles.}}",
   "@aiCodeActivated": {
     "placeholders": {
       "count": {
@@ -412,7 +412,7 @@
   "myCodes": "Mes codes IA",
   "myCodesBuy": "Acheter",
   "myCodesNone": "Aucun code IA sur ce téléphone",
-  "myCodesSummary": "{codes, plural, =1{1 code} other{{codes} codes}} · {count, plural, =0{plus de quiz IA} =1{1 quiz IA restant} other{{count} quiz IA restants}}",
+  "myCodesSummary": "{codes, plural, =0{0 code} =1{1 code} other{{codes} codes}} · {count, plural, =0{plus de quiz IA} =1{1 quiz IA restant} other{{count} quiz IA restants}}",
   "@myCodesSummary": {
     "placeholders": {
       "codes": {
@@ -423,7 +423,7 @@
       }
     }
   },
-  "myCodesExpireSoon": "{count, plural, =1{1 quiz IA expire {when}} other{{count} quiz IA expirent {when}}}",
+  "myCodesExpireSoon": "{count, plural, =0{0 quiz IA expire {when}} =1{1 quiz IA expire {when}} other{{count} quiz IA expirent {when}}}",
   "@myCodesExpireSoon": {
     "placeholders": {
       "count": {
@@ -545,7 +545,7 @@
   "shopIntro": "Choisissez une offre et payez avec Wave. Dès que le paiement est confirmé, vos quiz IA sont ajoutés à ce téléphone, sans code à saisir.",
   "shopNoOffer": "Aucune offre n’est proposée pour le moment.",
   "shopOffline": "Connexion nécessaire pour voir les offres.",
-  "shopCredits": "{count, plural, =1{1 quiz IA} other{{count} quiz IA}}",
+  "shopCredits": "{count, plural, =0{0 quiz IA} =1{1 quiz IA} other{{count} quiz IA}}",
   "@shopCredits": {
     "placeholders": {
       "count": {
@@ -553,7 +553,7 @@
       }
     }
   },
-  "shopValidity": "{count, plural, =1{valable 1 jour} other{valables {count} jours}}",
+  "shopValidity": "{count, plural, =0{valable 0 jour} =1{valable 1 jour} other{valables {count} jours}}",
   "@shopValidity": {
     "placeholders": {
       "count": {
@@ -615,7 +615,7 @@
   },
   "shopPayAgain": "Ouvrir Wave",
   "shopCheck": "Vérifier",
-  "shopConfirmed": "{count, plural, =1{Paiement confirmé : 1 quiz IA ajouté.} other{Paiement confirmé : {count} quiz IA ajoutés.}}",
+  "shopConfirmed": "{count, plural, =0{Paiement confirmé : 0 quiz IA ajouté.} =1{Paiement confirmé : 1 quiz IA ajouté.} other{Paiement confirmé : {count} quiz IA ajoutés.}}",
   "@shopConfirmed": {
     "placeholders": {
       "count": {
@@ -642,7 +642,7 @@
   "shopBestValue": "Meilleur prix",
   "shopPopular": "Le plus choisi",
   "shopRecommended": "Conseillé pour vous",
-  "shopAdviceNeed": "{count, plural, =1{Ces 30 derniers jours, vous avez voulu 1 quiz IA de plus que le quota gratuit.} other{Ces 30 derniers jours, vous avez voulu {count} quiz IA de plus que le quota gratuit.}} Conseil : {pack}, de quoi tenir environ 3 mois sans quiz perdus.",
+  "shopAdviceNeed": "{count, plural, =0{Ces 30 derniers jours, vous avez voulu 0 quiz IA de plus que le quota gratuit.} =1{Ces 30 derniers jours, vous avez voulu 1 quiz IA de plus que le quota gratuit.} other{Ces 30 derniers jours, vous avez voulu {count} quiz IA de plus que le quota gratuit.}} Conseil : {pack}, de quoi tenir environ 3 mois sans quiz perdus.",
   "@shopAdviceNeed": {
     "placeholders": {
       "count": {

@@ -1,5 +1,9 @@
 # Journal des versions
 
+## Prochaine version
+
+- Français : « 0 … » au lieu de « 1 … » quand un nombre vaut zéro (pluriels).
+
 ## 1.6.0 — 2026-11-12
 
 - **Tarifs plus clairs à l'achat** : prix d'un quiz pour chaque offre (« soit 83 F CFA le quiz »), économie par

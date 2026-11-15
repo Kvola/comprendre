@@ -49,6 +49,7 @@ class AppLocalizationsFr extends AppLocalizations {
       locale: localeName,
       other: '$count questions',
       one: '1 question',
+      zero: '0 question',
     );
     return '$_temp0';
   }
@@ -393,6 +394,7 @@ class AppLocalizationsFr extends AppLocalizations {
       locale: localeName,
       other: '$count quiz IA gratuits par jour',
       one: '1 quiz IA gratuit par jour',
+      zero: '0 quiz IA gratuit par jour',
     );
     return '$_temp0';
   }
@@ -586,6 +588,7 @@ class AppLocalizationsFr extends AppLocalizations {
       locale: localeName,
       other: 'Code activé : $count quiz IA disponibles.',
       one: 'Code activé : 1 quiz IA disponible.',
+      zero: 'Code activé : 0 quiz IA disponible.',
     );
     return '$_temp0';
   }
@@ -701,6 +704,7 @@ class AppLocalizationsFr extends AppLocalizations {
       locale: localeName,
       other: '$codes codes',
       one: '1 code',
+      zero: '0 code',
     );
     String _temp1 = intl.Intl.pluralLogic(
       count,
@@ -719,6 +723,7 @@ class AppLocalizationsFr extends AppLocalizations {
       locale: localeName,
       other: '$count quiz IA expirent $when',
       one: '1 quiz IA expire $when',
+      zero: '0 quiz IA expire $when',
     );
     return '$_temp0';
   }
@@ -876,6 +881,7 @@ class AppLocalizationsFr extends AppLocalizations {
       locale: localeName,
       other: '$count quiz IA',
       one: '1 quiz IA',
+      zero: '0 quiz IA',
     );
     return '$_temp0';
   }
@@ -887,6 +893,7 @@ class AppLocalizationsFr extends AppLocalizations {
       locale: localeName,
       other: 'valables $count jours',
       one: 'valable 1 jour',
+      zero: 'valable 0 jour',
     );
     return '$_temp0';
   }
@@ -970,6 +977,7 @@ class AppLocalizationsFr extends AppLocalizations {
       locale: localeName,
       other: 'Paiement confirmé : $count quiz IA ajoutés.',
       one: 'Paiement confirmé : 1 quiz IA ajouté.',
+      zero: 'Paiement confirmé : 0 quiz IA ajouté.',
     );
     return '$_temp0';
   }
@@ -1001,6 +1009,7 @@ class AppLocalizationsFr extends AppLocalizations {
       other:
           'Ces 30 derniers jours, vous avez voulu $count quiz IA de plus que le quota gratuit.',
       one: 'Ces 30 derniers jours, vous avez voulu 1 quiz IA de plus que le quota gratuit.',
+      zero: 'Ces 30 derniers jours, vous avez voulu 0 quiz IA de plus que le quota gratuit.',
     );
     return '$_temp0 Conseil : $pack, de quoi tenir environ 3 mois sans quiz perdus.';
   }
