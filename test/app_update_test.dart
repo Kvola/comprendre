@@ -133,6 +133,7 @@ void main() {
       currentVersion: () async => installed,
       client: client ?? server.client,
       now: () => now,
+      platform: () => 'android',
       timeout: timeout,
     );
 
@@ -152,7 +153,11 @@ void main() {
       expect(req.headers['content-type'], startsWith('application/json'));
       final body = jsonDecode(req.body) as Map;
       expect(body['jsonrpc'], '2.0');
-      expect(body['params'], {'current_version': '1.4.0+5'});
+      final params = body['params'] as Map;
+      expect(params['current_version'], '1.4.0+5');
+      expect(params['platform'], 'android');
+      expect(params['install_id'], matches(RegExp(r'^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$')));
+      expect(params.keys.toSet(), {'current_version', 'install_id', 'platform'});
       expect(checker().pageUri.toString(), 'https://iyf.ebng.world/apps/demo');
     });
 
@@ -299,6 +304,46 @@ void main() {
       final c = checker();
       await Future.wait([c.check(), c.check(), c.check()]);
       expect(server.calls, 1);
+    });
+
+    test('install_id : tiré une fois, gardé, renvoyé à chaque demande', () async {
+      await checker().check();
+      final first = (jsonDecode(server.last!.body) as Map)['params']['install_id'];
+      expect(store.values[AppUpdateChecker.keyInstallId], first);
+      now = now.add(const Duration(hours: 2));
+      await checker().check(); // nouvelle instance : relu du stockage
+      expect(server.calls, 2);
+      expect((jsonDecode(server.last!.body) as Map)['params']['install_id'], first);
+    });
+
+    test('install_id : une installation par stockage, ancien identifiant illisible remplacé', () async {
+      final a = await checker().installId();
+      store = MemoryAppUpdateStore()..values[AppUpdateChecker.keyInstallId] = 'X';
+      final b = await checker().installId();
+      expect(b, isNot(a));
+      expect(b, hasLength(36));
+      expect(store.values[AppUpdateChecker.keyInstallId], b);
+    });
+
+    test('install_id impossible à garder : pas envoyé, la vérification se fait quand même', () async {
+      store = _NoInstallIdStore();
+      final info = await checker().check();
+      expect(info?.latestVersion, '2.0.0+9');
+      final params = (jsonDecode(server.last!.body) as Map)['params'] as Map;
+      expect(params.containsKey('install_id'), isFalse);
+      expect(params['current_version'], '1.4.0+5');
+    });
+
+    test('plateforme inconnue (web) : pas envoyée', () async {
+      await AppUpdateChecker(
+        server: 'https://iyf.ebng.world',
+        slug: 'demo',
+        store: store,
+        currentVersion: () async => installed,
+        client: server.client,
+        platform: () => null,
+      ).check();
+      expect(((jsonDecode(server.last!.body) as Map)['params'] as Map).containsKey('platform'), isFalse);
     });
 
     test('stockage en panne → null, sans lever', () async {
@@ -462,4 +507,13 @@ String _required(String v) => 'Mise à jour obligatoire : $v';
 class _BrokenStore extends MemoryAppUpdateStore {
   @override
   Future<String?> read(String key) async => throw StateError('disk');
+}
+
+/// Le reste se garde, l'identifiant d'installation non.
+class _NoInstallIdStore extends MemoryAppUpdateStore {
+  @override
+  Future<void> write(String key, String? value) async {
+    if (key == AppUpdateChecker.keyInstallId) throw StateError('disk');
+    return super.write(key, value);
+  }
 }

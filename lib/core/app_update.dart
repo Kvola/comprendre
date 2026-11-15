@@ -3,7 +3,7 @@
 /// bandeau en haut de l'application.
 ///
 /// Fichier AUTONOME, identique dans chaque application (Quiz biblique,
-/// Comprendre, Kavola Pro, Kavola) : rien n'y dépend de l'application, les
+/// Comprendre, Kavola Pro, Kavola, Génie en herbe) : rien n'y dépend de l'application, les
 /// textes traduits arrivent par [AppUpdateStrings]. Le corriger ici, puis le
 /// recopier tel quel dans les autres.
 ///
@@ -33,10 +33,22 @@
 /// Contrat serveur : `POST {server}/apps/{slug}/latest` (Odoo `jsonrpc`),
 /// paramètre `current_version` au format `1.4.0+5` — le serveur compare les
 /// numéros de build (après le `+`).
+///
+/// Installation : chaque demande porte aussi `install_id`, identifiant tiré au
+/// hasard au premier lancement et gardé dans les préférences
+/// ([AppUpdateChecker.keyInstallId]), et `platform` (`android`…). Le serveur
+/// (`mobile.app.install`, mobile_app_release 19.0.2) en tire le nombre
+/// d'installations actives et leur version ; il n'en garde qu'une empreinte
+/// salée. L'identifiant ne dit rien de la personne ni de l'appareil, et
+/// disparaît avec l'application (désinstallation, données effacées). S'il ne
+/// peut pas être gardé, il n'est pas envoyé : un identifiant neuf à chaque
+/// ouverture compterait une installation par ouverture. Un serveur plus ancien
+/// ignore ces paramètres.
 library;
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -81,6 +93,33 @@ int? buildNumberOf(String? version) {
   final m = RegExp(r'\+(\d+)\s*$').firstMatch(version ?? '');
   return m == null ? null : int.tryParse(m.group(1)!);
 }
+
+/// Plateforme au sens du serveur (`android`, `ios`, `windows`, `macos`,
+/// `linux`), ou null sur le web et ailleurs.
+String? appPlatformName() {
+  if (kIsWeb) return null;
+  return switch (defaultTargetPlatform) {
+    TargetPlatform.android => 'android',
+    TargetPlatform.iOS => 'ios',
+    TargetPlatform.windows => 'windows',
+    TargetPlatform.macOS => 'macos',
+    TargetPlatform.linux => 'linux',
+    _ => null,
+  };
+}
+
+/// Identifiant d'installation : UUID v4 aléatoire (générateur sûr).
+String newInstallId([Random? random]) {
+  final r = random ?? Random.secure();
+  final b = List<int>.generate(16, (_) => r.nextInt(256));
+  b[6] = (b[6] & 0x0f) | 0x40; // version 4
+  b[8] = (b[8] & 0x3f) | 0x80; // variante RFC 4122
+  final h = b.map((x) => x.toRadixString(16).padLeft(2, '0')).join();
+  return '${h.substring(0, 8)}-${h.substring(8, 12)}-${h.substring(12, 16)}-${h.substring(16, 20)}-${h.substring(20)}';
+}
+
+/// Un identifiant d'installation lisible (le serveur exige 8 caractères au moins).
+bool _validInstallId(String? id) => id != null && RegExp(r'^[0-9a-f-]{8,64}$').hasMatch(id);
 
 /// Une version plus récente à proposer.
 @immutable
@@ -245,12 +284,14 @@ class AppUpdateChecker {
     Future<String?> Function()? currentVersion,
     this.client,
     DateTime Function()? now,
+    String? Function()? platform,
     this.interval = const Duration(hours: 1),
     this.startupInterval = const Duration(minutes: 5),
     this.timeout = const Duration(seconds: 8),
   }) : server = server.trim().replaceAll(RegExp(r'/+$'), ''),
        _currentVersion = currentVersion ?? installedAppVersion,
-       _now = now ?? DateTime.now;
+       _now = now ?? DateTime.now,
+       _platform = platform ?? appPlatformName;
 
   final String server;
   final String slug;
@@ -269,6 +310,7 @@ class AppUpdateChecker {
   /// Client HTTP injecté (tests) ; sinon un client par requête.
   final http.Client? client;
   final DateTime Function() _now;
+  final String? Function() _platform;
   Future<AppUpdateInfo?>? _running;
 
   static const keyLastCheck = 'app_update.last_check';
@@ -276,6 +318,7 @@ class AppUpdateChecker {
   static const keyDismissed = 'app_update.dismissed';
   static const keyWebInstallDismissed = 'app_update.web_install_dismissed';
   static const keyHomeScreenDismissed = 'app_update.home_screen_dismissed';
+  static const keyInstallId = 'app_update.install_id';
 
   Uri get endpoint => Uri.parse('$server/apps/${Uri.encodeComponent(slug)}/latest');
 
@@ -335,6 +378,20 @@ class AppUpdateChecker {
     return _toShow(info, current);
   }
 
+  /// L'identifiant de cette installation, tiré au premier appel ; null s'il
+  /// ne peut pas être gardé (il ne serait alors jamais le même). Ne lève jamais.
+  Future<String?> installId() async {
+    try {
+      final known = await store.read(keyInstallId);
+      if (_validInstallId(known)) return known;
+      await store.write(keyInstallId, newInstallId());
+      final kept = await store.read(keyInstallId);
+      return _validInstallId(kept) ? kept : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<AppUpdateInfo?> _cached() async {
     final cached = await store.read(keyCache);
     return cached == null ? null : AppUpdateInfo.fromJson(_tryDecode(cached));
@@ -353,6 +410,8 @@ class AppUpdateChecker {
   /// Lève [_NoAnswer] (ou une erreur réseau) si le serveur n'a pas vraiment
   /// répondu.
   Future<AppUpdateInfo?> _fetch(String current) async {
+    final installId = await this.installId();
+    final platform = _platform();
     final c = client ?? http.Client();
     try {
       final res = await c
@@ -362,7 +421,11 @@ class AppUpdateChecker {
             body: jsonEncode({
               'jsonrpc': '2.0',
               'method': 'call',
-              'params': {'current_version': current},
+              'params': {
+                'current_version': current,
+                'install_id': ?installId,
+                'platform': ?platform,
+              },
             }),
           )
           .timeout(timeout);

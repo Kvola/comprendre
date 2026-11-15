@@ -1,5 +1,9 @@
 # Journal des versions
 
+## 1.6.2 (build 11) — 15 novembre 2026
+
+- **Mises à jour** : l'application se déclare au serveur par un identifiant tiré au hasard à l'installation (rien sur la personne ni le téléphone ; le serveur n'en garde qu'une empreinte), pour compter les installations actives et savoir quelles versions tournent encore avant d'en rendre une obligatoire.
+
 ## 1.6.1 (build 10) — 15 novembre 2026
 
 - Français : « 0 … » au lieu de « 1 … » quand un nombre vaut zéro (pluriels).
