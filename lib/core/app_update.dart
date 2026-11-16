@@ -121,6 +121,16 @@ String newInstallId([Random? random]) {
 /// Un identifiant d'installation lisible (le serveur exige 8 caractères au moins).
 bool _validInstallId(String? id) => id != null && RegExp(r'^[0-9a-f-]{8,64}$').hasMatch(id);
 
+/// Build annoncé par le serveur, ramené au build du pubspec (`2007` → `7`).
+///
+/// Un serveur peut annoncer le versionCode brut d'un APK « par architecture »
+/// (`1.3.1+2007`, module mobile_app_release avant 19.0.2.1.0). L'application,
+/// elle, se déclare en `+7` ([serverVersionOf]) : comparer 7 à 2007 afficherait
+/// le bandeau même juste après la mise à jour, et pour toujours. On applique
+/// donc la même règle des deux côtés, mais seulement quand le millier est un
+/// code d'architecture Flutter (1 à 4) — le seul cas où le décalage existe.
+int comparableBuild(int build) => build >= 1000 && build < 5000 && build % 1000 > 0 ? build % 1000 : build;
+
 /// Une version plus récente à proposer.
 @immutable
 class AppUpdateInfo {
@@ -401,7 +411,10 @@ class AppUpdateChecker {
     if (info == null) return null;
     // Réponse en cache, mais l'application a été mise à jour depuis.
     final currentBuild = buildNumberOf(current);
-    if (currentBuild != null && info.latestBuild != null && info.latestBuild! <= currentBuild) return null;
+    final latestBuild = info.latestBuild;
+    if (currentBuild != null && latestBuild != null && comparableBuild(latestBuild) <= comparableBuild(currentBuild)) {
+      return null;
+    }
     if (!info.mandatory && await store.read(keyDismissed) == info.id) return null;
     return info;
   }

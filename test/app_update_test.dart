@@ -346,6 +346,29 @@ void main() {
       expect(((jsonDecode(server.last!.body) as Map)['params'] as Map).containsKey('platform'), isFalse);
     });
 
+    test('LE SYMPTÔME : serveur annonçant le versionCode brut (2007) — pas de bandeau une fois à jour', () async {
+      // mobile_app_release < 19.0.2.1.0 : `1.3.1+2007` pour l'APK arm64 de 1.3.1+7.
+      server = FakeUpdateServer(() => rpc(payload(version: '1.3.1+2007')));
+      installed = '1.3.1+7';
+      expect(await checker().check(), isNull);
+      // Pas encore à jour : le bandeau paraît.
+      installed = '1.3.0+6';
+      now = now.add(const Duration(hours: 2));
+      expect((await checker().check())?.displayVersion, '1.3.1');
+      // Réponse en cache de l'ancienne version, application mise à jour depuis.
+      installed = '1.3.1+7';
+      expect(await checker().check(startup: true), isNull);
+    });
+
+    test('build comparable : seul le décalage par architecture est retiré', () {
+      expect(comparableBuild(2007), 7);
+      expect(comparableBuild(1007), 7);
+      expect(comparableBuild(4011), 11);
+      expect(comparableBuild(7), 7);
+      expect(comparableBuild(2000), 2000);
+      expect(comparableBuild(7007), 7007);
+    });
+
     test('stockage en panne → null, sans lever', () async {
       store = _BrokenStore();
       expect(await checker().check(), isNull);
